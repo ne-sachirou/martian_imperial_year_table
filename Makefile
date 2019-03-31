@@ -4,6 +4,7 @@ help:
 
 .PHONY: test
 test: ## Test.
+	pipenv check
+	pipenv run flake8
+	pipenv run mypy *.py tests/*.py
 	python -m unittest discover -s tests
-
-# vim:set noet:
