@@ -1,9 +1,9 @@
 """Test main."""
 
-from martian_date_time import MartianDateTime
-from sol_number import SolNumber
-from main import (
+from martian_calendar import (
+    MartianDateTime,
     martian_date_time_to_sol_number,
+    SolNumber,
     sol_number_to_martian_date_time
 )
 import unittest

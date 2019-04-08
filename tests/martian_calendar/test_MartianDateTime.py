@@ -1,6 +1,6 @@
 """Test MartianDateTime."""
 
-from martian_date_time import MartianDateTime
+from martian_calendar.MartianDateTime import MartianDateTime
 import unittest
 
 

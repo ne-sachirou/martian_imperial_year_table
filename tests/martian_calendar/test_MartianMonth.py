@@ -1,6 +1,6 @@
 """Test MartianMonth."""
 
-from martian_month import MartianMonth
+from martian_calendar import MartianMonth
 import unittest
 
 

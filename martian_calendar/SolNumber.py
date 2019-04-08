@@ -6,13 +6,11 @@ import math
 class SolNumber(object):
     """帝國火星暦の通算日."""
 
-    sol_number: float
-
     def __init__(self, sol_number: float) -> None:
         """Init."""
         if isinstance(sol_number, SolNumber):
             sol_number = sol_number.sol_number
-        self.sol_number = sol_number
+        self.sol_number: float = sol_number
 
     def __eq__(self, other) -> bool:
         """Eq."""
