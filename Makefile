@@ -5,10 +5,11 @@ help:
 .PHONY: build
 build: ## Build.
 	pipenv run transcrypt -b -k -m -n main.py
+	mv __target__ docs/__target__
 
 .PHONY: clean
 clean: ## Clean built.
-	rm -rf __target__
+	rm -rf __target__ docs/__target__
 
 .PHONY: setup
 setup: ## Install deps.
@@ -17,7 +18,7 @@ setup: ## Install deps.
 
 .PHONY: start
 start: ## Start dev server.
-	ruby -run -e httpd .
+	ruby -run -e httpd docs
 
 .PHONY: test
 test: ## Test.

@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "martian_calendar.MartianMonth.js",
+	"sources": [
+		"martian_calendar.MartianMonth.py"
+	],
+	"mappings": "AAAA;AAeA;AAfA;AAGA;AAAA;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AAAA;AAEA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AAAA;AACA;AACA;AAAA;AAAA;AAAA;AAAA"
+}
