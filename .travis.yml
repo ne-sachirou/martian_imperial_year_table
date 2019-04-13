@@ -1,0 +1,6 @@
+language: python
+install:
+  - pip install --user pipenv
+  - make setup
+script:
+  - make test

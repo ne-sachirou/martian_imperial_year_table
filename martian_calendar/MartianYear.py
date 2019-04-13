@@ -4,11 +4,9 @@
 class MartianYear(object):
     """帝國火星暦の年."""
 
-    year: int
-
     def __init__(self, year: int) -> None:
         """Init."""
-        self.year = year
+        self.year: int = year
 
     def is_leap_year(self) -> bool:
         """閏年か否か."""

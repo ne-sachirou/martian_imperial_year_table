@@ -1,0 +1,25 @@
+{
+  "name": "martian_imperial_year_table",
+  "version": "1.0.0",
+  "description": "帝國火星暦テーブル",
+  "main": "main.py",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ne-sachirou/martian_imperial_year_table.git"
+  },
+  "author": "ne_Sachirou <utakata.c4se@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/ne-sachirou/martian_imperial_year_table/issues"
+  },
+  "homepage": "https://github.com/ne-sachirou/martian_imperial_year_table#readme",
+  "dependencies": {
+    "hyperapp": "^1.2.9"
+  }
+}
