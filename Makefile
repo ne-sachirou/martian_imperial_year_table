@@ -5,11 +5,11 @@ help:
 .PHONY: build
 build: ## Build.
 	pipenv run transcrypt -b -k -m -n main.py
-	mv __target__ docs/__target__
+	mv __target__ docs/js
 
 .PHONY: clean
 clean: ## Clean built.
-	rm -rf __target__ docs/__target__
+	rm -rf __target__ docs/js
 
 .PHONY: setup
 setup: ## Install deps.
