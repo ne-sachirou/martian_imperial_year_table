@@ -18,7 +18,7 @@ setup: ## Install deps.
 
 .PHONY: start
 start: ## Start dev server.
-	ruby -run -e httpd docs
+	python -m http.server --directory docs
 
 .PHONY: test
 test: ## Test.
