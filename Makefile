@@ -5,7 +5,7 @@ help:
 .PHONY: build
 build: ## Build.
 	pipenv run transcrypt -b -k -m -n main.py
-	mv __target__ docs/js
+	mv __target__/* docs/js/
 
 .PHONY: clean
 clean: ## Clean built.
