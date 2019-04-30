@@ -29,7 +29,7 @@ def view(state, actions):
             ]),
             h("button", {"onclick": lambda event: actions["sol_number_to_martian_date_time"](event)}, "to MartianDateTime")
         ]),
-        h("div", {}, f"MartianDateTime: {martian_date_time.year}-{martian_date_time.month}-{martian_date_time.day}T{martian_date_time.hour}:{martian_date_time.hour}:{martian_date_time.second}")
+        h("div", {}, f"MartianDateTime: {martian_date_time.year}-{martian_date_time.month}-{martian_date_time.day}T{martian_date_time.hour}:{martian_date_time.minute}:{martian_date_time.second}")
     ])
 
 
