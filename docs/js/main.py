@@ -15,7 +15,8 @@ def action_sync_by_sol_number(state, event):
     "Action sync_by_sol_number."
     event.stopPropagation()
     event.preventDefault()
-    sol_number = SolNumber(float(document.getElementById(state["sol_number_ref"]).value))
+    ref = state["sol_number_ref"]
+    sol_number = SolNumber(float(document.getElementById(ref).value))
     imperial_date_time = sol_number_to_imperial_date_time(state.sol_number)
     return {"sol_number": sol_number, "imperial_date_time": imperial_date_time}
 
@@ -24,69 +25,79 @@ def action_sync_by_imperial_date_time(state, event):
     "Action sync_by_imperial_date_time."
     event.stopPropagation()
     event.preventDefault()
-    imperial_date_time = ImperialDateTime(int(document.getElementById(state["imperial_date_time_year_ref"]).value),
-                                          int(document.getElementById(state["imperial_date_time_month_ref"]).value),
-                                          int(document.getElementById(state["imperial_date_time_day_ref"]).value),
-                                          int(document.getElementById(state["imperial_date_time_hour_ref"]).value),
-                                          int(document.getElementById(state["imperial_date_time_minute_ref"]).value),
-                                          int(document.getElementById(state["imperial_date_time_second_ref"]).value))
+    ref = state["imperial_date_time_ref"]
+    imperial_date_time = ImperialDateTime(int(document.getElementById(ref + "year").value),
+                                          int(document.getElementById(ref + "month").value),
+                                          int(document.getElementById(ref + "day").value),
+                                          int(document.getElementById(ref + "hour").value),
+                                          int(document.getElementById(ref + "minute").value),
+                                          int(document.getElementById(ref + "second").value))
     sol_number = imperial_date_time_to_sol_number(imperial_date_time)
     return {"sol_number": sol_number, "imperial_date_time": imperial_date_time}
 
 
+def view_sol_number(state, actions):
+    "View SolNumber."
+    return h("div", {}, [
+        h("label", {"for": state["sol_number_ref"]}, "SolNumber: "),
+        h("input", {
+            "id": state["sol_number_ref"],
+            "step": "0.00001",
+            "type": "number",
+            "value": state["sol_number"].sol_number
+        }, ""),
+        h("button", {"onclick": lambda event: actions["sync_by_sol_number"](event)}, "Sync"),
+    ])
+
+
+def view_imperial_date_time(state, actions):
+    "View ImperialDateTime."
+    imperial_date_time = state["imperial_date_time"]
+    ref = state["imperial_date_time_ref"]
+    return h("div", {}, [
+        h("label", {"for": ref + "year"}, "ImperialDateTime: "),
+        h("input", {
+            "id": ref + "year",
+            "type": "number",
+            "value": imperial_date_time.year
+        }, ""),
+        "-",
+        h("input", {
+            "id": ref + "month",
+            "type": "number",
+            "value": imperial_date_time.month
+        }, ""),
+        "-",
+        h("input", {
+            "id": ref + "day",
+            "type": "number",
+            "value": imperial_date_time.day
+        }, ""),
+        "T",
+        h("input", {
+            "id": ref + "hour",
+            "type": "number",
+            "value": imperial_date_time.hour
+        }, ""),
+        ":",
+        h("input", {
+            "id": ref + "minute",
+            "type": "number",
+            "value": imperial_date_time.minute
+        }, ""),
+        ":",
+        h("input", {
+            "id": ref + "second",
+            "type": "number",
+            "value": imperial_date_time.second
+        }, ""),
+        h("button", {"onclick": lambda event: actions["sync_by_imperial_date_time"](event)}, "Sync"),
+    ])
+
+
 def view(state, actions):
     """View."""
-    return h("div", {}, [
-        h("div", {}, [
-            h("label", {"for": state["sol_number_ref"]}, "SolNumber: "),
-            h("input", {
-                "id": state["sol_number_ref"],
-                "step": "0.00001",
-                "type": "number",
-                "value": state["sol_number"].sol_number
-            }, ""),
-            h("button", {"onclick": lambda event: actions["sync_by_sol_number"](event)}, "Sync"),
-        ]),
-        h("div", {}, [
-            h("label", {"for": state["imperial_date_time_year_ref"]}, "ImperialDateTime: "),
-            h("input", {
-                "id": state["imperial_date_time_year_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].year
-            }, ""),
-            h("span", {}, "-"),
-            h("input", {
-                "id": state["imperial_date_time_month_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].month
-            }, ""),
-            h("span", {}, "-"),
-            h("input", {
-                "id": state["imperial_date_time_day_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].day
-            }, ""),
-            h("span", {}, "T"),
-            h("input", {
-                "id": state["imperial_date_time_hour_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].hour
-            }, ""),
-            h("span", {}, ":"),
-            h("input", {
-                "id": state["imperial_date_time_minute_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].minute
-            }, ""),
-            h("span", {}, ":"),
-            h("input", {
-                "id": state["imperial_date_time_second_ref"],
-                "type": "number",
-                "value": state["imperial_date_time"].second
-            }, ""),
-            h("button", {"onclick": lambda event: actions["sync_by_imperial_date_time"](event)}, "Sync"),
-        ])
-    ])
+    return h("div", {}, [view_sol_number, view_imperial_date_time])
 
 
 def main():
@@ -94,14 +105,9 @@ def main():
     sol_number = SolNumber(0)
     state = {
         "sol_number": sol_number,
-        "sol_number_ref": "sol_number" + Math.random(),
+        "sol_number_ref": "sol_number" + Math.random().toString(36),
         "imperial_date_time": sol_number_to_imperial_date_time(sol_number),
-        "imperial_date_time_year_ref": "imperial_date_time_year" + Math.random(),
-        "imperial_date_time_month_ref": "imperial_date_time_month" + Math.random(),
-        "imperial_date_time_day_ref": "imperial_date_time_day" + Math.random(),
-        "imperial_date_time_hour_ref": "imperial_date_time_hour" + Math.random(),
-        "imperial_date_time_minute_ref": "imperial_date_time_minute" + Math.random(),
-        "imperial_date_time_second_ref": "imperial_date_time_second" + Math.random(),
+        "imperial_date_time_ref": "imperial_date_time" + Math.random().toString(36),
     }
     actions = {
         "sync_by_sol_number": lambda event: lambda state: action_sync_by_sol_number(state, event),
