@@ -1,11 +1,7 @@
 """Test main."""
 
-from imperial_calendar import (
-    ImperialDateTime,
-    imperial_date_time_to_sol_number,
-    SolNumber,
-    sol_number_to_imperial_date_time
-)
+from imperial_calendar import (ImperialDateTime, imperial_date_time_to_sol_number, SolNumber,
+                               sol_number_to_imperial_date_time)
 import unittest
 
 

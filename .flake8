@@ -1,4 +1,0 @@
-[flake8]
-ignore = D203
-exclude = __target__
-max-line-length = 160

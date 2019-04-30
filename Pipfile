@@ -11,6 +11,7 @@ name = "pypi"
 "mypy" = "*"
 "pep8" = "*"
 "transcrypt" = "*"
+"yapf" = "*"
 
 [requires]
 python_version = "3.7"

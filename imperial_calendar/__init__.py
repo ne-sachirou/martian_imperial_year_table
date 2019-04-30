@@ -36,13 +36,10 @@ def sol_number_to_imperial_date_time(sol_number: SolNumber) -> ImperialDateTime:
     days_in_year = days_in_millennium - days_before_new_years_day
     month = len(list(filter(lambda x: x <= days_in_year, imperial_month_to_sol_number_table)))
     days_before_first_day_of_the_month = imperial_month_to_sol_number_table[month - 1]
-    return ImperialDateTime(
-        millennium * 1000 + years_in_millennium,
-        month,
-        days_in_year - days_before_first_day_of_the_month + 1,
-        math.floor(sol_number.time * 24),
-        math.floor((sol_number.time * 24 * 60) % 60),
-        math.floor((sol_number.time * 24 * 60 * 60) % 60))
+    return ImperialDateTime(millennium * 1000 + years_in_millennium, month,
+                            days_in_year - days_before_first_day_of_the_month + 1, math.floor(sol_number.time * 24),
+                            math.floor((sol_number.time * 24 * 60) % 60),
+                            math.floor((sol_number.time * 24 * 60 * 60) % 60))
 
 
 def imperial_date_time_to_sol_number(imperial_date_time: ImperialDateTime) -> SolNumber:
@@ -53,12 +50,11 @@ def imperial_date_time_to_sol_number(imperial_date_time: ImperialDateTime) -> So
     decimal_time = imperial_date_time.hour / 24 + \
         imperial_date_time.minute / (24 * 60) + \
         imperial_date_time.second / (24 * 60 * 60)
-    return SolNumber(days_of_millennium + days_in_millennium + days_in_year + (imperial_date_time.day - 1) + decimal_time)
+    return SolNumber(days_of_millennium + days_in_millennium + days_in_year + (imperial_date_time.day - 1) +
+                     decimal_time)
 
 
-__all__ = ["ImperialDateTime",
-           "ImperialMonth",
-           "ImperialYear",
-           "imperial_date_time_to_sol_number",
-           "SolNumber",
-           "sol_number_to_imperial_date_time"]
+__all__ = [
+    "ImperialDateTime", "ImperialMonth", "ImperialYear", "imperial_date_time_to_sol_number", "SolNumber",
+    "sol_number_to_imperial_date_time"
+]

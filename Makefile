@@ -12,6 +12,10 @@ build: ## Build.
 clean: ## Clean built.
 	rm -rf __target__ docs/js
 
+.PHONY: format
+format: ## Format code.
+	pipenv run yapf -i -r main.py imperial_calendar tests
+
 .PHONY: setup
 setup: ## Install deps.
 	pipenv install --dev
