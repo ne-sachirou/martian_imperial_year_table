@@ -1,7 +1,7 @@
 """Test SolNumber."""
 
 import math
-from martian_calendar import SolNumber
+from imperial_calendar import SolNumber
 import unittest
 
 

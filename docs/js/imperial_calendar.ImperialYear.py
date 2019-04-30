@@ -1,7 +1,7 @@
 """帝國火星暦の年."""
 
 
-class MartianYear(object):
+class ImperialYear(object):
     """帝國火星暦の年."""
 
     def __init__(self, year: int) -> None:

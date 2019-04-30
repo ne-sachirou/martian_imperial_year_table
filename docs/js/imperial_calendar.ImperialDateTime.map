@@ -1,8 +1,8 @@
 {
 	"version": 3,
-	"file": "martian_calendar.MartianDateTime.js",
+	"file": "imperial_calendar.ImperialDateTime.js",
 	"sources": [
-		"martian_calendar.MartianDateTime.py"
+		"imperial_calendar.ImperialDateTime.py"
 	],
 	"mappings": "AAAA;AAmBA;AAnBA;AAGA;AAAA;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AACA;AACA;AACA;AACA;AAAA;AAEA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AAAA;AACA;AAAA;AAAA;AAAA"
 }

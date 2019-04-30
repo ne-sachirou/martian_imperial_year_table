@@ -5,6 +5,7 @@ help:
 .PHONY: build
 build: ## Build.
 	pipenv run transcrypt -b -k -m -n main.py
+	mkdir -p docs/js
 	mv __target__/* docs/js/
 
 .PHONY: clean
@@ -23,7 +24,7 @@ start: ## Start dev server.
 .PHONY: test
 test: ## Test.
 	pipenv check
-	pipenv run flake8 martian_calendar tests
-	pipenv run mypy martian_calendar
+	pipenv run flake8 imperial_calendar tests
+	pipenv run mypy imperial_calendar
 	pipenv run python -m unittest discover -s tests
-	pipenv run python -m unittest discover -s tests/martian_calendar
+	pipenv run python -m unittest discover -s tests/imperial_calendar

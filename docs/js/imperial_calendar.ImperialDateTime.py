@@ -1,7 +1,7 @@
 """帝國火星暦の日時."""
 
 
-class MartianDateTime(object):
+class ImperialDateTime(object):
     """帝國火星暦の日時."""
 
     def __init__(self, year: int, month: int, day: int, hour: int, minute: int, second: int) -> None:
@@ -15,6 +15,6 @@ class MartianDateTime(object):
 
     def __eq__(self, other) -> bool:
         """Eq."""
-        if not isinstance(other, MartianDateTime):
+        if not isinstance(other, ImperialDateTime):
             return False
         return self.__dict__ == other.__dict__
