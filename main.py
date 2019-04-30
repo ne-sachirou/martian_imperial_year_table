@@ -38,15 +38,24 @@ def action_sync_by_imperial_date_time(state, event):
 
 def view_sol_number(state, actions):
     "View SolNumber."
-    return h("div", {}, [
-        h("label", {"for": state["sol_number_ref"]}, "SolNumber: "),
+    sol_number = state["sol_number"]
+    ref = state["sol_number_ref"]
+    return h("div", {"class": "field is-grouped"}, [
+        h("label", {
+            "class": "label",
+            "for": ref
+        }, "SolNumber"),
         h("input", {
-            "id": state["sol_number_ref"],
-            "step": "0.00001",
+            "id": ref,
+            "class": "input",
+            "step": 0.00001,
             "type": "number",
-            "value": state["sol_number"].sol_number
+            "value": sol_number.sol_number
         }, ""),
-        h("button", {"onclick": lambda event: actions["sync_by_sol_number"](event)}, "Sync"),
+        h("button", {
+            "class": "button",
+            "onclick": lambda event: actions["sync_by_sol_number"](event)
+        }, "Sync"),
     ])
 
 
@@ -54,44 +63,84 @@ def view_imperial_date_time(state, actions):
     "View ImperialDateTime."
     imperial_date_time = state["imperial_date_time"]
     ref = state["imperial_date_time_ref"]
-    return h("div", {}, [
-        h("label", {"for": ref + "year"}, "ImperialDateTime: "),
-        h("input", {
-            "id": ref + "year",
-            "type": "number",
-            "value": imperial_date_time.year
-        }, ""),
+    return h("div", {"class": "field is-grouped is-grouped-multiline"}, [
+        h("label", {
+            "class": "label",
+            "for": ref + "year"
+        }, "ImperialDateTime"),
+        h(
+            "input", {
+                "id": ref + "year",
+                "class": "input",
+                "style": {
+                    "width": "8em"
+                },
+                "type": "number",
+                "value": imperial_date_time.year
+            }, ""),
         "-",
-        h("input", {
-            "id": ref + "month",
-            "type": "number",
-            "value": imperial_date_time.month
-        }, ""),
+        h(
+            "input", {
+                "id": ref + "month",
+                "class": "input",
+                "max": 24,
+                "min": 1,
+                "style": {
+                    "width": "4em"
+                },
+                "type": "number",
+                "value": imperial_date_time.month
+            }, ""),
         "-",
-        h("input", {
-            "id": ref + "day",
-            "type": "number",
-            "value": imperial_date_time.day
-        }, ""),
+        h(
+            "input", {
+                "id": ref + "day",
+                "class": "input",
+                "max": 28,
+                "min": 1,
+                "style": {
+                    "width": "4em"
+                },
+                "type": "number",
+                "value": imperial_date_time.day
+            }, ""),
         "T",
-        h("input", {
-            "id": ref + "hour",
-            "type": "number",
-            "value": imperial_date_time.hour
-        }, ""),
+        h(
+            "input", {
+                "id": ref + "hour",
+                "class": "input",
+                "style": {
+                    "width": "4em"
+                },
+                "type": "number",
+                "value": imperial_date_time.hour
+            }, ""),
         ":",
-        h("input", {
-            "id": ref + "minute",
-            "type": "number",
-            "value": imperial_date_time.minute
-        }, ""),
+        h(
+            "input", {
+                "id": ref + "minute",
+                "class": "input",
+                "style": {
+                    "width": "4em"
+                },
+                "type": "number",
+                "value": imperial_date_time.minute
+            }, ""),
         ":",
-        h("input", {
-            "id": ref + "second",
-            "type": "number",
-            "value": imperial_date_time.second
-        }, ""),
-        h("button", {"onclick": lambda event: actions["sync_by_imperial_date_time"](event)}, "Sync"),
+        h(
+            "input", {
+                "id": ref + "second",
+                "class": "input",
+                "style": {
+                    "width": "4em"
+                },
+                "type": "number",
+                "value": imperial_date_time.second
+            }, ""),
+        h("button", {
+            "class": "button",
+            "onclick": lambda event: actions["sync_by_imperial_date_time"](event)
+        }, "Sync"),
     ])
 
 

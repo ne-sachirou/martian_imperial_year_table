@@ -4,13 +4,15 @@ help:
 
 .PHONY: build
 build: ## Build.
+	mkdir -p docs/css
+	cp node_modules/bulma/css/* docs/css/
 	pipenv run transcrypt -b -k -m -n main.py
 	mkdir -p docs/js
 	mv __target__/* docs/js/
 
 .PHONY: clean
 clean: ## Clean built.
-	rm -rf __target__ docs/js
+	rm -rf __target__ docs/css docs/js
 
 .PHONY: format
 format: ## Format code.
