@@ -131,7 +131,8 @@ def julian_day_to_gregorian_year(julian_day):
     julian_day_of_january_1st = gregorian_date_time_to_julian_day(january_1st) 
     julian_day_of_next_january_1st = gregorian_date_time_to_julian_day(next_january_1st)
  # 年内日數の小數表示
-    annual_day = (julian_day.julian_day - julian_day_of_january_1st.julian_day) / (julian_day_of_next_january_1st.julian_day - julian_day_of_january_1st.julian_day)
+    annual_day = (julian_day.julian_day - julian_day_of_january_1st.julian_day) \
+    / (julian_day_of_next_january_1st.julian_day - julian_day_of_january_1st.julian_day)
     gregorian_year = gregorian_date_time.year + annual_day
     return gregorian_year
 
@@ -220,7 +221,7 @@ def year_number_to_delta_t(year_number):
         delta_t = 29.07 \
                 + 0.407 * delta_u \
                 - delta_u ** 2 / 233 \
-                * delta_u ** 3 / 2547
+                + delta_u ** 3 / 2547
     elif year_number < 1986:
         delta_u = year_number - 1975
         delta_t = 45.45 \
@@ -237,9 +238,16 @@ def year_number_to_delta_t(year_number):
                 + 0.00002373599 * delta_u ** 5
     elif year_number < 2050:
         delta_u = year_number - 2000
-        delta_t = 62.92 \
-                + 0.32217 * delta_u \
-                + 0.005589 * delta_u ** 2
+        delta_t = 63.795 \
+                + 0.1287 * delta_u \
+                + 0.0091 * delta_u ** 2
+ # 2005-2050の近似式は自作。參考文獻に準拠した式をコメントアウトして置く。
+ # 參考文獻: https://eclipse.gsfc.nasa.gov/SEhelp/deltatpoly2004.html
+ #   elif year_number < 2050:
+ #       delta_u = year_number - 2000
+ #       delta_t = 62.92 \
+ #               + 0.32217 * delta_u \
+ #               + 0.005589 * delta_u ** 2
     elif year_number < 2150:
         delta_t = -20 \
         + 32 * ((year_number - 1820)/100) ** 2 \
@@ -258,47 +266,93 @@ def julian_day_to_delta_t(julian_day):
     return delta_t
 
 
-def gregorian_date_time_to_terrestrial_time(gregorian_date_time):
-    """グレゴリオ暦の日時を地球時に變換する"""
-    
-    julian_day = gregorian_date_time_to_julian_day(gregorian_date_time)
+def julian_day_to_terrestrial_time(julian_day):
+    """ユリウス通日を地球時に變換する"""
+
     delta_t = julian_day_to_delta_t(julian_day)
     terrestrial_time = TerrestrialTime(julian_day.julian_day + delta_t / (24 * 60 * 60))
     return terrestrial_time
 
 
+def gregorian_date_time_to_terrestrial_time(gregorian_date_time):
+    """グレゴリオ暦の日時を地球時に變換する"""
+    
+    julian_day = gregorian_date_time_to_julian_day(gregorian_date_time)
+    terrestrial_time = julian_day_to_terrestrial_time(julian_day)
+    return terrestrial_time
+
+
+def terrestrial_time_to_julian_day(terrestrial_time):
+    """地球時をユリウス通日に變換する"""
+
+    delta_t = julian_day_to_delta_t(JulianDay(terrestrial_time.terrestrial_time))
+    julian_day_prime = JulianDay(terrestrial_time.terrestrial_time - delta_t / (24 * 60 *60))
+    terrestrial_time_prime = julian_day_to_terrestrial_time(julian_day_prime)
+    julian_day = JulianDay(julian_day_prime.julian_day \
+               + terrestrial_time.terrestrial_time - terrestrial_time_prime.terrestrial_time)
+    return julian_day
+
+
+def terrestrial_time_to_msd(terrestrial_time):
+    """地球時からMSDを算出する"""
+    msd = (terrestrial_time.terrestrial_time - 2451545 - 4.5) / 1.027491252 + 44796 - 0.00096
+    return msd
+
+
+def gregorian_date_time_to_msd(gregorian_date_time):
+    """グレゴリオ暦の日時からMSDを算出する"""
+    msd = terrestrial_time_to_msd(gregorian_date_time_to_terrestrial_time(gregorian_date_time))
+    return msd
+
+
+def gregorian_date_time_to_imperial_sol_number(gregorian_date_time):
+    """グレゴリオ暦の日時から帝國火星日を算出する"""
+    isn = gregorian_date_time_to_msd(gregorian_date_time) - 0.375 + 901193
+    return isn
+
+
+def imperial_sol_number_to_msd(imperial_sol_number):
+    """帝國火星日からMSDを算出する"""
+    msd = imperial_sol_number + 0.375 - 901193
+    return msd
+
+
+def msd_to_terrestrial_time(msd):
+    """MSDから地球時を算出する"""
+    terrestrial_time = 1.027491252 * (msd - 44796 + 0.00096) + 2451545 + 4.5
+    return TerrestrialTime(terrestrial_time)
+
+def imperial_sol_number_to_gregorian_date_time(imperial_sol_number,timezone):
+    """帝國火星日をグレゴリオ暦の日時に變換する"""
+    gregorian_date_time = julian_day_to_gregorian_date_time(
+    	terrestrial_time_to_julian_day(
+    		msd_to_terrestrial_time(
+    			imperial_sol_number_to_msd(
+    				imperial_sol_number))),timezone)
+    return gregorian_date_time
+
+
 # 以下テスト用函數。
 
 
-def g2tt(y,m,d,h,min,sec,tz):
+def g2tt(y,m,d,h,minute,sec,tz):
     """test""" 
     
-    gdt = GregorianDateTime(y,m,d,h,min,sec,tz)
+    gdt = GregorianDateTime(y,m,d,h,minute,sec,tz)
     tt = gregorian_date_time_to_terrestrial_time(gdt)
     print(tt.__dict__)
 
 
-def g2dt(Gyear):
-    '''
-    Gyear = float(input('年:'))
-    Gmonth = float(input('月:'))
-    Gday = float(input('日:'))
-    Ghour = float(input('時:'))
-    Gminute = float(input('分:'))
-    Gsecond = float(input('秒:'))
-    Gtzone = float(input('時差:'))
-    gdt = GregorianDateTime(Gyear, Gmonth, Gday, Ghour, Gminute, Gsecond, Gtzone)
-    '''
-    gdt = GregorianDateTime(Gyear,0,0,0,0,0,0)
+def g2dt(y,m,d,h,minute,sec,tz):
+    """test"""
+    
+    gdt = GregorianDateTime(y,m,d,h,minute,sec,tz)
     dt = year_number_to_delta_t(
     	julian_day_to_year_number(
     		gregorian_date_time_to_julian_day(gdt)))
     print(dt)
 
 
-
-
-    
 def g2jd():
     """test"""
 
@@ -313,6 +367,7 @@ def g2jd():
     jd = gregorian_date_time_to_julian_day(gdt)
     print('ユリウス通日は:' + str(jd.julian_day))
     
+
 def jd2g():
     """test2"""
     Jday = float(input('ユリウス通日:'))
@@ -327,3 +382,12 @@ def jd2g():
         str(gdt.minute) + '分' + \
         str(gdt.second) + '秒, 時差' + \
         str(gdt.timezone) + '時間')
+
+
+def decimal2time(days):
+    """小數表示を時分秒に"""
+    decimal = days % 1
+    hour = math.floor(decimal * 24)
+    minute = math.floor((decimal * 1440) % 60)
+    second = math.floor((decimal * 86400) % 60)
+    print(str(hour) + ':' + str(minute) + ':' + str(second))
