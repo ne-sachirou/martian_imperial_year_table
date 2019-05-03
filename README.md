@@ -8,3 +8,14 @@ make start
 ```
 
 https://ne-sachirou.github.io/martian_imperial_year_table/
+
+略語集
+--
+* grdt : Gregorian Date Time
+* juld : Julian Day
+* delta_t : ⊿t
+* tert : Terrestrial Time
+* mrls : Mars Ls (Areocentric Solar Longitude)
+* mrsd : Mars Sol Date
+* imsn : Imperial Sol Number
+* imdt : Imperial Date Time

@@ -29,7 +29,8 @@ start: ## Start dev server.
 
 .PHONY: test
 test: ## Test.
-	pipenv check
+	# pipenv check
+	# npm audit
 	pipenv run flake8 imperial_calendar tests
 	pipenv run mypy imperial_calendar
 	pipenv run python -m unittest discover -s tests

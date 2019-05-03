@@ -1,8 +1,10 @@
-"""帝國火星暦の日時."""
+"""グレゴリオ暦の日時."""
 
 
-class ImperialDateTime(object):
-    """帝國火星暦の日時."""
+class GregorianDateTime(object):
+    """グレゴリオ暦の日時."""
+
+    intercept = 1721088.5
 
     def __init__(self, year: int, month: int, day: int, hour: int, minute: int, second: int, timezone: float) -> None:
         """Init."""
@@ -16,6 +18,6 @@ class ImperialDateTime(object):
 
     def __eq__(self, other) -> bool:
         """Eq."""
-        if not isinstance(other, ImperialDateTime):
+        if not isinstance(other, GregorianDateTime):
             return False
         return self.__dict__ == other.__dict__
