@@ -66,7 +66,7 @@ def gregorian_date_time_to_areocentric_solar_longitude(gregorian_date_time):
 def tt2ls(terrestrial_time):
 
     j2000 = terrestrial_time_to_offset_t_j2000(terrestrial_time)
-    ls = areocentric_solar_longitude(j2000)
+    ls = offset_t_j2000_to_areocentric_solar_longitude(j2000)
     return ls
     
     
