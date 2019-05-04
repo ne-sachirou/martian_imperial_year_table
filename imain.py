@@ -209,7 +209,7 @@ def year_number_to_delta_t(year_number):
                 + 1.494119 * delta_u \
                 - 0.0598939 * delta_u ** 2 \
                 + 0.0061966 * delta_u ** 3 \
-                - 0.000197 * delta_t ** 4
+                - 0.000197 * delta_u ** 4
     elif year_number < 1941:
         delta_u = year_number - 1920
         delta_t = 21.20 \
