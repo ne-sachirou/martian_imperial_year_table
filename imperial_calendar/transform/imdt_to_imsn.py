@@ -10,5 +10,5 @@ def imdt_to_imsn(imdt: ImperialDateTime) -> ImperialSolNumber:
     days_of_millennium = imdt.year // 1000 * imperial_millennium_days
     days_in_millennium = imperial_year_to_imsn_table[imdt.year % 1000]
     days_in_year = imperial_month_to_imsn_table[imdt.month - 1]
-    decimal_time = imdt.hour / 24 + imdt.minute / (24 * 60) + imdt.second / (24 * 60 * 60) + imdt.timezone / 24
-    return ImperialSolNumber(days_of_millennium + days_in_millennium + days_in_year + (imdt.day - 1) + decimal_time)
+    decimal_time = imdt.hour / 24 + imdt.minute / (24 * 60) + imdt.second / (24 * 60 * 60)
+    return ImperialSolNumber(days_of_millennium + days_in_millennium + days_in_year + (imdt.day - 1) + decimal_time - (imdt.timezone / 24))
