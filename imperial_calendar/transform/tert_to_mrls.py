@@ -49,3 +49,13 @@ def offset_t_j2000_to_areocentric_solar_longitude(offset_t_j2000):
 def tert_to_mrls(tert: TerrestrialTime) -> float:
     """地球時からMars Ls (Areocentric Solar Longitude; 火星中心太陽黃經) を算出する."""
     return offset_t_j2000_to_areocentric_solar_longitude(tert_to_offset_t_j2000(tert))
+
+'''
+參考ページ
+https://www.giss.nasa.gov/tools/mars24/help/algorithm.html
+上記ページの計算式は下記の文獻の式(15)-式(19)に基づくが、Allison(2015)(未公開論文)により更新されてゐる。
+Allison M, McEwen M. (2000) 
+"A post-Pathfinder evaluation of areocentric solar coordinates 
+with improved timing recipes for Mars seasonal/diurnal climate studies"
+Planetary and Space Science, 48: pp.215-235
+'''

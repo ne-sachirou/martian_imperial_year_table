@@ -135,7 +135,8 @@ class JulianDay(object):
             delta_u = year_number - 1950
             return 29.07 + \
                 0.407 * delta_u - \
-                delta_u**2 / 233 * delta_u**3 / 2547
+                delta_u**2 / 233 + \
+                delta_u**3 / 2547
         elif year_number < 1986:
             delta_u = year_number - 1975
             return 45.45 + \

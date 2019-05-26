@@ -27,6 +27,9 @@ def imperial_date_time_to_sol_number(imdt: ImperialDateTime) -> ImperialSolNumbe
 
 
 __all__ = [
-    "ImperialDateTime", "ImperialMonth", "ImperialYear", "imperial_date_time_to_sol_number", "ImperialSolNumber",
-    "sol_number_to_imperial_date_time"
+    "GregorianDateTime", "ImperialDateTime", 
+    "ImperialMonth", "ImperialYear", 
+    "ImperialSolNumber", "JulianDay", "MarsSolDate", 
+    "TerrestrialTime", 
+    "imperial_date_time_to_sol_number", "sol_number_to_imperial_date_time"
 ]
