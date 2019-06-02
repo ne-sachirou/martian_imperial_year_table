@@ -16,7 +16,7 @@ clean: ## Clean built.
 
 .PHONY: format
 format: ## Format code.
-	pipenv run yapf -i -r main.py imperial_calendar tests
+	pipenv run yapf -i -r *.py imperial_calendar tests
 
 .PHONY: setup
 setup: ## Install deps.
@@ -29,7 +29,8 @@ start: ## Start dev server.
 
 .PHONY: test
 test: ## Test.
-	pipenv check
+	pipenv check || true
+	npm audit
 	pipenv run flake8 imperial_calendar tests
 	pipenv run mypy imperial_calendar
 	pipenv run python -m unittest discover -s tests

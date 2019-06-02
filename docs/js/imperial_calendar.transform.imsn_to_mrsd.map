@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "imperial_calendar.transform.imsn_to_mrsd.js",
+	"sources": [
+		"imperial_calendar.transform.imsn_to_mrsd.py"
+	],
+	"mappings": "AAAA;AACA;AACA;AADA;AADA;AAKA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AAAA;AANA"
+}

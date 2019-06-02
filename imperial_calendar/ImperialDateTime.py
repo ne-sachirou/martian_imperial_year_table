@@ -4,7 +4,12 @@
 class ImperialDateTime(object):
     """帝國火星暦の日時."""
 
-    def __init__(self, year: int, month: int, day: int, hour: int, minute: int, second: int) -> None:
+    @classmethod
+    def parse_timezone_str(cls, timezone_str: str) -> float:
+        """Parse timezone_str to timezone."""
+        return 0.0
+
+    def __init__(self, year: int, month: int, day: int, hour: int, minute: int, second: int, timezone: float) -> None:
         """Init."""
         self.year: int = year
         self.month: int = month
@@ -12,9 +17,15 @@ class ImperialDateTime(object):
         self.hour: int = hour
         self.minute: int = minute
         self.second: int = second
+        self.timezone: float = timezone
 
     def __eq__(self, other) -> bool:
         """Eq."""
         if not isinstance(other, ImperialDateTime):
             return False
         return self.__dict__ == other.__dict__
+
+    @property
+    def timezone_str(self) -> str:
+        """Express timezone as a str."""
+        return "+00:00"
