@@ -9,5 +9,9 @@ class TestImperialDateTime(unittest.TestCase):
 
     def test_eq(self):
         """等値性."""
-        self.assertEqual(ImperialDateTime(1, 2, 3, 4, 5, 6), ImperialDateTime(1, 2, 3, 4, 5, 6))
-        self.assertNotEqual(ImperialDateTime(1, 2, 3, 4, 5, 6), ImperialDateTime(1, 2, 3, 4, 5, 7))
+        self.assertEqual(
+            ImperialDateTime(1, 2, 3, 4, 5, 6), ImperialDateTime(1, 2, 3, 4, 5, 6)
+        )
+        self.assertNotEqual(
+            ImperialDateTime(1, 2, 3, 4, 5, 6), ImperialDateTime(1, 2, 3, 4, 5, 7)
+        )

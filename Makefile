@@ -16,7 +16,8 @@ clean: ## Clean built.
 
 .PHONY: format
 format: ## Format code.
-	pipenv run yapf -i -r *.py imperial_calendar tests
+	pipenv run black *.py imperial_calendar/**/*.py tests/**/*.py
+	node_modules/.bin/prettier --write docs/index.html
 
 .PHONY: setup
 setup: ## Install deps.
@@ -31,6 +32,7 @@ start: ## Start dev server.
 test: ## Test.
 	pipenv check || true
 	npm audit
+	pipenv run black --check *.py imperial_calendar/**/*.py tests/**/*.py
 	pipenv run flake8 imperial_calendar tests
 	pipenv run mypy imperial_calendar
 	pipenv run python -m unittest discover -s tests

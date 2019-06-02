@@ -16,5 +16,12 @@ class TestImperialYear(unittest.TestCase):
 
     def test_days(self):
         """この年の日數."""
-        for (year, days) in [(0, 668), (1, 669), (10, 669), (100, 668), (200, 669), (1000, 668)]:
+        for (year, days) in [
+            (0, 668),
+            (1, 669),
+            (10, 669),
+            (100, 668),
+            (200, 669),
+            (1000, 668),
+        ]:
             self.assertEqual(days, ImperialYear(year).days())

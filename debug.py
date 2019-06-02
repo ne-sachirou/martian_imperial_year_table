@@ -11,13 +11,58 @@ def grdt_all(year, month, day, hour, minute, second, tze, tzm):
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
     imdt = imsn_to_imdt(imsn, tzm)
-    back = juld_to_grdt(tert_to_juld(mrsd_to_tert(imsn_to_mrsd(imdt_to_imsn(imdt)))), tze)
-    print('juld:' + str(juld.julian_day) + '\n' + 'dltt:' + str(juld.delta_t()) + '\n' + 'tert:' +
-          str(tert.terrestrial_time) + '\n' + 'mrls:' + str(mrls) + '\n' + 'mrsd:' + str(mrsd.mars_sol_date) + '\n' +
-          'imsn:' + str(imsn.imperial_sol_number) + '\n' + 'imdt:' + str(imdt.year) + '-' + str(imdt.month) + '-' +
-          str(imdt.day) + 'T' + str(imdt.hour) + ':' + str(imdt.minute) + ':' + str(imdt.second) + 'tz' +
-          str(imdt.timezone) + '\n' + 'back:' + str(back.year) + '-' + str(back.month) + '-' + str(back.day) + 'T' +
-          str(back.hour) + ':' + str(back.minute) + ':' + str(back.second) + 'tz' + str(back.timezone))
+    back = juld_to_grdt(
+        tert_to_juld(mrsd_to_tert(imsn_to_mrsd(imdt_to_imsn(imdt)))), tze
+    )
+    print(
+        "juld:"
+        + str(juld.julian_day)
+        + "\n"
+        + "dltt:"
+        + str(juld.delta_t())
+        + "\n"
+        + "tert:"
+        + str(tert.terrestrial_time)
+        + "\n"
+        + "mrls:"
+        + str(mrls)
+        + "\n"
+        + "mrsd:"
+        + str(mrsd.mars_sol_date)
+        + "\n"
+        + "imsn:"
+        + str(imsn.imperial_sol_number)
+        + "\n"
+        + "imdt:"
+        + str(imdt.year)
+        + "-"
+        + str(imdt.month)
+        + "-"
+        + str(imdt.day)
+        + "T"
+        + str(imdt.hour)
+        + ":"
+        + str(imdt.minute)
+        + ":"
+        + str(imdt.second)
+        + "tz"
+        + str(imdt.timezone)
+        + "\n"
+        + "back:"
+        + str(back.year)
+        + "-"
+        + str(back.month)
+        + "-"
+        + str(back.day)
+        + "T"
+        + str(back.hour)
+        + ":"
+        + str(back.minute)
+        + ":"
+        + str(back.second)
+        + "tz"
+        + str(back.timezone)
+    )
 
 
 def imdt_all(year, month, day, hour, minute, second, tzm, tze):
@@ -29,13 +74,58 @@ def imdt_all(year, month, day, hour, minute, second, tzm, tze):
     mrls = tert_to_mrls(tert)
     juld = tert_to_juld(tert)
     grdt = juld_to_grdt(juld, tze)
-    back = imsn_to_imdt(mrsd_to_imsn(tert_to_mrsd(juld_to_tert(grdt_to_juld(grdt)))), tzm)
-    print('imsn:' + str(imsn.imperial_sol_number) + '\n' + 'mrsd:' + str(mrsd.mars_sol_date) + '\n' + 'mrls:' +
-          str(mrls) + '\n' + 'tert:' + str(tert.terrestrial_time) + '\n' + 'dltt:' + str(juld.delta_t()) + '\n' +
-          'juld:' + str(juld.julian_day) + '\n' + 'grdt:' + str(grdt.year) + '-' + str(grdt.month) + '-' +
-          str(grdt.day) + 'T' + str(grdt.hour) + ':' + str(grdt.minute) + ':' + str(grdt.second) + 'tz' +
-          str(grdt.timezone) + '\n' + 'back:' + str(back.year) + '-' + str(back.month) + '-' + str(back.day) + 'T' +
-          str(back.hour) + ':' + str(back.minute) + ':' + str(back.second) + 'tz' + str(back.timezone))
+    back = imsn_to_imdt(
+        mrsd_to_imsn(tert_to_mrsd(juld_to_tert(grdt_to_juld(grdt)))), tzm
+    )
+    print(
+        "imsn:"
+        + str(imsn.imperial_sol_number)
+        + "\n"
+        + "mrsd:"
+        + str(mrsd.mars_sol_date)
+        + "\n"
+        + "mrls:"
+        + str(mrls)
+        + "\n"
+        + "tert:"
+        + str(tert.terrestrial_time)
+        + "\n"
+        + "dltt:"
+        + str(juld.delta_t())
+        + "\n"
+        + "juld:"
+        + str(juld.julian_day)
+        + "\n"
+        + "grdt:"
+        + str(grdt.year)
+        + "-"
+        + str(grdt.month)
+        + "-"
+        + str(grdt.day)
+        + "T"
+        + str(grdt.hour)
+        + ":"
+        + str(grdt.minute)
+        + ":"
+        + str(grdt.second)
+        + "tz"
+        + str(grdt.timezone)
+        + "\n"
+        + "back:"
+        + str(back.year)
+        + "-"
+        + str(back.month)
+        + "-"
+        + str(back.day)
+        + "T"
+        + str(back.hour)
+        + ":"
+        + str(back.minute)
+        + ":"
+        + str(back.second)
+        + "tz"
+        + str(back.timezone)
+    )
 
 
 def year_to_ls270(year):
@@ -50,7 +140,7 @@ def year_to_ls270(year):
             return imsn_to_imdt(check_sol, 0)
             break
     else:
-        print('error')
+        print("error")
 
 
 def touji_zure(year):
@@ -63,7 +153,7 @@ def touji_zure(year):
         letter = str(int(dif_sol % 10))
         text += letter
         if i % 40 == 39 and i != 1000:
-            text += str('\n')
+            text += str("\n")
     print(text)
 
 

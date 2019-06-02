@@ -24,4 +24,6 @@ def juld_to_grdt(juld: JulianDay, timezone: float) -> GregorianDateTime:
     x = (w % 1) * 24
     y = (x % 1) * 60
     z = (y % 1) * 60
-    return GregorianDateTime(u, v, math.floor(w), math.floor(x), math.floor(y), math.floor(z), timezone)
+    return GregorianDateTime(
+        u, v, math.floor(w), math.floor(x), math.floor(y), math.floor(z), timezone
+    )
