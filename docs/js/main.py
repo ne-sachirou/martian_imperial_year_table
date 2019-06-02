@@ -428,6 +428,8 @@ def main():
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
+    print(mrsd.mars_sol_date)
+    print(imsn.imperial_sol_number)
     imdt = imsn_to_imdt(imsn)
     state = {
         "grdt": grdt,

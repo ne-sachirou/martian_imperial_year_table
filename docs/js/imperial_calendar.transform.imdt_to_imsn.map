@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "imperial_calendar.transform.imdt_to_imsn.js",
+	"sources": [
+		"imperial_calendar.transform.imdt_to_imsn.py"
+	],
+	"mappings": "AAAA;AACA;AAEA;AADA;AADA;AADA;AAOA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AACA;AACA;AACA;AAAA;AAZA"
+}

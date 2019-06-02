@@ -16,7 +16,7 @@ clean: ## Clean built.
 
 .PHONY: format
 format: ## Format code.
-	pipenv run yapf -i -r main.py imperial_calendar tests
+	pipenv run yapf -i -r *.py imperial_calendar tests
 
 .PHONY: setup
 setup: ## Install deps.

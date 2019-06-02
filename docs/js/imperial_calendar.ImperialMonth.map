@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "imperial_calendar.ImperialMonth.js",
+	"sources": [
+		"imperial_calendar.ImperialMonth.py"
+	],
+	"mappings": "AAAA;AAeA;AAfA;AAGA;AAAA;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AAAA;AAEA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AAAA;AACA;AACA;AAAA;AAAA;AAAA;AAAA"
+}

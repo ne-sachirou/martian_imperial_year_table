@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "imperial_calendar.TerrestrialTime.js",
+	"sources": [
+		"imperial_calendar.TerrestrialTime.py"
+	],
+	"mappings": "AAAA;AACA;AAAA;AAAA;AAAA;AADA;AAIA;AAAA;AAGA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AAAA;AAEA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AAAA;AACA;AAAA;AAAA;AAdA"
+}
