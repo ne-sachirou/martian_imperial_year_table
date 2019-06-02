@@ -48,7 +48,7 @@ def action_sync_by_grdt(state, event):
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
-    imdt = imsn_to_imdt(imsn)
+    imdt = imsn_to_imdt(imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -58,11 +58,11 @@ def action_sync_by_juld(state, event):
     event.preventDefault()
     ref = state["juld_ref"]
     juld = JulianDay(float(document.getElementById(ref).value))
-    grdt = juld_to_grdt(juld)
+    grdt = juld_to_grdt(juld, 0.0)
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
-    imdt = imsn_to_imdt(imsn)
+    imdt = imsn_to_imdt(imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -73,10 +73,10 @@ def action_sync_by_tert(state, event):
     ref = state["tert_ref"]
     tert = TerrestrialTime(float(document.getElementById(ref).value))
     juld = tert_to_juld(tert)
-    grdt = juld_to_grdt(juld)
+    grdt = juld_to_grdt(juld, 0.0)
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
-    imdt = imsn_to_imdt(imsn)
+    imdt = imsn_to_imdt(imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -88,9 +88,9 @@ def action_sync_by_mrsd(state, event):
     mrsd = MarsSolDate(float(document.getElementById(ref).value))
     tert = mrsd_to_tert(mrsd)
     juld = tert_to_juld(tert)
-    grdt = juld_to_grdt(juld)
+    grdt = juld_to_grdt(juld, 0.0)
     imsn = mrsd_to_imsn(mrsd)
-    imdt = imsn_to_imdt(imsn)
+    imdt = imsn_to_imdt(imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -103,8 +103,8 @@ def action_sync_by_imsn(state, event):
     mrsd = imsn_to_mrsd(imsn)
     tert = mrsd_to_tert(mrsd)
     juld = tert_to_juld(tert)
-    grdt = juld_to_grdt(juld)
-    imdt = imsn_to_imdt(state.imperial_imsn)
+    grdt = juld_to_grdt(juld, 0.0)
+    imdt = imsn_to_imdt(state.imperial_imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -124,7 +124,7 @@ def action_sync_by_imdt(state, event):
     mrsd = imsn_to_mrsd(imsn)
     tert = mrsd_to_tert(mrsd)
     juld = tert_to_juld(tert)
-    grdt = juld_to_grdt(juld)
+    grdt = juld_to_grdt(juld, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -154,7 +154,7 @@ def view_grdt(state, actions):
                 "max": 12,
                 "min": 1,
                 "style": {
-                    "width": "3em"
+                    "width": "3.5em"
                 },
                 "type": "number",
                 "value": grdt.month,
@@ -167,7 +167,7 @@ def view_grdt(state, actions):
                 "max": 31,
                 "min": 1,
                 "style": {
-                    "width": "3em"
+                    "width": "3.5em"
                 },
                 "type": "number",
                 "value": grdt.day,
@@ -177,7 +177,7 @@ def view_grdt(state, actions):
             "id": ref + "hour",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": grdt.hour,
@@ -187,7 +187,7 @@ def view_grdt(state, actions):
             "id": ref + "minute",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": grdt.minute,
@@ -197,7 +197,7 @@ def view_grdt(state, actions):
             "id": ref + "second",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": grdt.second,
@@ -352,7 +352,7 @@ def view_imdt(state, actions):
                 "max": 24,
                 "min": 1,
                 "style": {
-                    "width": "3em"
+                    "width": "3.5em"
                 },
                 "type": "number",
                 "value": imdt.month
@@ -365,7 +365,7 @@ def view_imdt(state, actions):
                 "max": 28,
                 "min": 1,
                 "style": {
-                    "width": "3em"
+                    "width": "3.5em"
                 },
                 "type": "number",
                 "value": imdt.day
@@ -375,7 +375,7 @@ def view_imdt(state, actions):
             "id": ref + "hour",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": imdt.hour
@@ -385,7 +385,7 @@ def view_imdt(state, actions):
             "id": ref + "minute",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": imdt.minute
@@ -395,7 +395,7 @@ def view_imdt(state, actions):
             "id": ref + "second",
             "class": "input",
             "style": {
-                "width": "3em"
+                "width": "3.5em"
             },
             "type": "number",
             "value": imdt.second
@@ -428,9 +428,7 @@ def main():
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
     imsn = mrsd_to_imsn(mrsd)
-    print(mrsd.mars_sol_date)
-    print(imsn.imperial_sol_number)
-    imdt = imsn_to_imdt(imsn)
+    imdt = imsn_to_imdt(imsn, 0.0)
     state = {
         "grdt": grdt,
         "grdt_ref": new_ref("grdt"),

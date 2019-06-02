@@ -8,7 +8,7 @@ import math
 
 def imsn_to_imdt(imsn: ImperialSolNumber, timezone: float) -> ImperialDateTime:
     """帝國火星暦の通算日を日時に變換する."""
-    imsn.imperial_sol_number += timezone / 24
+    imsn = ImperialSolNumber(imsn.imperial_sol_number + timezone / 24)
     (millennium, days_in_millennium) = divmod(imsn.date, imperial_millennium_days)
     years_in_millennium = len(list(filter(lambda x: x <= days_in_millennium, imperial_year_to_imsn_table))) - 1
     days_before_new_years_day = imperial_year_to_imsn_table[years_in_millennium]
