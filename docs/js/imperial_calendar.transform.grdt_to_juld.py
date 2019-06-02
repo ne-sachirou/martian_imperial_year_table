@@ -13,6 +13,14 @@ def grdt_to_juld(grdt: GregorianDateTime) -> JulianDay:
         tweaked_year = grdt.year
         tweaked_month = grdt.month
     return JulianDay(
-        math.floor(tweaked_year * 365.25) + math.floor(tweaked_year / 400) - math.floor(tweaked_year / 100) +
-        math.floor((tweaked_month - 2) * 30.59) + grdt.day + grdt.hour / 24 + grdt.minute / (24 * 60) + grdt.second /
-        (24 * 60 * 60) - grdt.timezone / 24 + grdt.intercept)
+        math.floor(tweaked_year * 365.25)
+        + math.floor(tweaked_year / 400)
+        - math.floor(tweaked_year / 100)
+        + math.floor((tweaked_month - 2) * 30.59)
+        + grdt.day
+        + grdt.hour / 24
+        + grdt.minute / (24 * 60)
+        + grdt.second / (24 * 60 * 60)
+        - grdt.timezone / 24
+        + grdt.intercept
+    )

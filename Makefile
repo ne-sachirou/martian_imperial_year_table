@@ -34,6 +34,6 @@ test: ## Test.
 	npm audit
 	pipenv run black --check *.py imperial_calendar/**/*.py tests/**/*.py
 	pipenv run flake8 imperial_calendar tests
-	pipenv run mypy imperial_calendar
-	pipenv run python -m unittest discover -s tests
+	pipenv run mypy main.py imperial_calendar
 	pipenv run python -m unittest discover -s tests/imperial_calendar
+	pipenv run python -m unittest discover -s tests/imperial_calendar/transform

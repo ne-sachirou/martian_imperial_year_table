@@ -45,15 +45,22 @@ def offset_t_j2000_to_equation_of_center(offset_t_j2000):
     m_m_a = offset_t_j2000_to_mars_mean_anomaly(offset_t_j2000)
     angle_m = math.radians(m_m_a)
     pbs = offset_t_j2000_to_perturbers(offset_t_j2000)
-    return (10.691 +
-            (3.0 * 10**-7) * offset_t_j2000) * math.sin(angle_m) + 0.623 * math.sin(2 * angle_m) + 0.050 * math.sin(
-                3 * angle_m) + 0.005 * math.sin(4 * angle_m) + 0.0005 * math.sin(5 * angle_m) + pbs
+    return (
+        (10.691 + (3.0 * 10 ** -7) * offset_t_j2000) * math.sin(angle_m)
+        + 0.623 * math.sin(2 * angle_m)
+        + 0.050 * math.sin(3 * angle_m)
+        + 0.005 * math.sin(4 * angle_m)
+        + 0.0005 * math.sin(5 * angle_m)
+        + pbs
+    )
 
 
 def offset_t_j2000_to_areocentric_solar_longitude(offset_t_j2000):
     """Ls=火星中心太陽黃經を求める."""
-    return (offset_t_j2000_to_angle_of_fictitious_mean_sun(offset_t_j2000) +
-            offset_t_j2000_to_equation_of_center(offset_t_j2000)) % 360
+    return (
+        offset_t_j2000_to_angle_of_fictitious_mean_sun(offset_t_j2000)
+        + offset_t_j2000_to_equation_of_center(offset_t_j2000)
+    ) % 360
 
 
 def tert_to_mrls(tert: TerrestrialTime) -> float:

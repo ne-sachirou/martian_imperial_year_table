@@ -9,4 +9,6 @@ def tert_to_juld(tert: TerrestrialTime) -> JulianDay:
     delta_t = JulianDay(tert.terrestrial_time).delta_t
     juld_prime = JulianDay(tert.terrestrial_time - delta_t / (24 * 60 * 60))
     tert_prime = juld_to_tert(juld_prime)
-    return JulianDay(juld_prime.julian_day + tert.terrestrial_time - tert_prime.terrestrial_time)
+    return JulianDay(
+        juld_prime.julian_day + tert.terrestrial_time - tert_prime.terrestrial_time
+    )

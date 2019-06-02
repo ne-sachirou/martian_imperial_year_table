@@ -1,25 +1,8 @@
-// Transcrypt'ed from Python, 2019-06-03 00:40:53
+// Transcrypt'ed from Python, 2019-06-03 01:38:32
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, abs, all, any, assert, bool, bytearray, bytes, callable, chr, copy, deepcopy, delattr, dict, dir, divmod, enumerate, filter, float, getattr, hasattr, input, int, isinstance, issubclass, len, list, map, max, min, object, ord, pow, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, round, set, setattr, sorted, str, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
 import {app, h} from './node_modules.hyperapp.src.index.js';
-import {tert_to_mrsd} from './imperial_calendar.transform.tert_to_mrsd.js';
-import {tert_to_mrls} from './imperial_calendar.transform.tert_to_mrls.js';
-import {tert_to_juld} from './imperial_calendar.transform.tert_to_juld.js';
-import {mrsd_to_tert} from './imperial_calendar.transform.mrsd_to_tert.js';
-import {mrsd_to_imsn} from './imperial_calendar.transform.mrsd_to_imsn.js';
-import {juld_to_tert} from './imperial_calendar.transform.juld_to_tert.js';
-import {juld_to_grdt} from './imperial_calendar.transform.juld_to_grdt.js';
-import {imsn_to_mrsd} from './imperial_calendar.transform.imsn_to_mrsd.js';
-import {imsn_to_imdt} from './imperial_calendar.transform.imsn_to_imdt.js';
-import {imdt_to_imsn} from './imperial_calendar.transform.imdt_to_imsn.js';
-import {grdt_to_juld} from './imperial_calendar.transform.grdt_to_juld.js';
-import {TerrestrialTime} from './imperial_calendar.TerrestrialTime.js';
-import {MarsSolDate} from './imperial_calendar.MarsSolDate.js';
-import {JulianDay} from './imperial_calendar.JulianDay.js';
-import {ImperialYear} from './imperial_calendar.ImperialYear.js';
-import {ImperialSolNumber} from './imperial_calendar.ImperialSolNumber.js';
-import {ImperialMonth} from './imperial_calendar.ImperialMonth.js';
-import {ImperialDateTime} from './imperial_calendar.ImperialDateTime.js';
-import {GregorianDateTime} from './imperial_calendar.GregorianDateTime.js';
+import {__all__, grdt_to_juld, imdt_to_imsn, imsn_to_imdt, imsn_to_mrsd, juld_to_grdt, juld_to_tert, mrsd_to_imsn, mrsd_to_tert, tert_to_juld, tert_to_mrls, tert_to_mrsd} from './imperial_calendar.transform.js';
+import {GregorianDateTime, ImperialDateTime, ImperialMonth, ImperialSolNumber, ImperialYear, JulianDay, MarsSolDate, TerrestrialTime} from './imperial_calendar.js';
 var __name__ = '__main__';
 export var new_ref = function (prefix) {
 	if (arguments.length) {
@@ -35,7 +18,8 @@ export var new_ref = function (prefix) {
 	}
 	else {
 	}
-	return '{}.{}{}'.format (prefix, Date.now ().toString (36), Math.random ().toString (36).substr (1));
+	var ref = '{}.{}{}'.format (prefix, Date.now ().toString (36), Math.random ().toString (36).substr (1));
+	return ref;
 };
 export var action_sync_by_grdt = function (state, event) {
 	if (arguments.length) {

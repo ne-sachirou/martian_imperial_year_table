@@ -16,7 +16,9 @@ def sums(lst):
 imperial_year_to_imsn_table = [0]
 for year in range(0, 999):
     imperial_year_to_imsn_table.insert(year + 1, ImperialYear(year).days())
-imperial_millennium_days = sum(imperial_year_to_imsn_table) + ImperialYear(999).days()  # type: int
+imperial_millennium_days = (
+    sum(imperial_year_to_imsn_table) + ImperialYear(999).days()
+)  # type: int
 imperial_year_to_imsn_table = sums(imperial_year_to_imsn_table)
 
 imperial_month_to_imsn_table = [0]

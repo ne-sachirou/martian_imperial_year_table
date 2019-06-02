@@ -1,36 +1,22 @@
 """Main."""
 
-from imperial_calendar.GregorianDateTime import GregorianDateTime
-from imperial_calendar.ImperialDateTime import ImperialDateTime
-from imperial_calendar.ImperialMonth import ImperialMonth
-from imperial_calendar.ImperialSolNumber import ImperialSolNumber
-from imperial_calendar.ImperialYear import ImperialYear
-from imperial_calendar.JulianDay import JulianDay
-from imperial_calendar.MarsSolDate import MarsSolDate
-from imperial_calendar.TerrestrialTime import TerrestrialTime
-from imperial_calendar.transform.grdt_to_juld import grdt_to_juld
-from imperial_calendar.transform.imdt_to_imsn import imdt_to_imsn
-from imperial_calendar.transform.imsn_to_imdt import imsn_to_imdt
-from imperial_calendar.transform.imsn_to_mrsd import imsn_to_mrsd
-from imperial_calendar.transform.juld_to_grdt import juld_to_grdt
-from imperial_calendar.transform.juld_to_tert import juld_to_tert
-from imperial_calendar.transform.mrsd_to_imsn import mrsd_to_imsn
-from imperial_calendar.transform.mrsd_to_tert import mrsd_to_tert
-from imperial_calendar.transform.tert_to_juld import tert_to_juld
-from imperial_calendar.transform.tert_to_mrls import tert_to_mrls
-from imperial_calendar.transform.tert_to_mrsd import tert_to_mrsd
+from imperial_calendar import *
+from imperial_calendar.transform import *
 
-__pragma__("noalias", "clear")
-from node_modules.hyperapp.src.index import h, app
+__pragma__("noalias", "clear")  # type: ignore
+from node_modules.hyperapp.src.index import h, app  # type: ignore
 
-__pragma__("skip")
+__pragma__("skip")  # type: ignore
 Date = document = Math = 0
-__pragma__("noskip")
+__pragma__("noskip")  # type: ignore
 
 
 def new_ref(prefix: str) -> str:
     """Create a React style reference."""
-    return f"{prefix}.{Date.now().toString(36)}{Math.random().toString(36).substr(1)}"
+    # fmt: off
+    ref = f"{prefix}.{Date.now().toString(36)}{Math.random().toString(36).substr(1)}" # type: ignore
+    # fmt: on
+    return ref
 
 
 def action_sync_by_grdt(state, event):
