@@ -36,7 +36,7 @@ def action_sync_by_grdt(state, event):
     """Action sync_by_grdt."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["grtd_ref"]
+    ref = state["grdt_ref"]
     grdt = GregorianDateTime(int(document.getElementById(ref + "year").value),
                              int(document.getElementById(ref + "month").value),
                              int(document.getElementById(ref + "day").value),
@@ -104,7 +104,7 @@ def action_sync_by_imsn(state, event):
     tert = mrsd_to_tert(mrsd)
     juld = tert_to_juld(tert)
     grdt = juld_to_grdt(juld, 0.0)
-    imdt = imsn_to_imdt(state.imperial_imsn, 0.0)
+    imdt = imsn_to_imdt(imsn, 0.0)
     return {"grdt": grdt, "juld": juld, "tert": tert, "mrsd": mrsd, "imsn": imsn, "imdt": imdt}
 
 
@@ -203,6 +203,7 @@ def view_grdt(state, actions):
             "value": grdt.second,
         }, ""),
         h("input", {
+            "id": ref + "timezone",
             "class": "input",
             "style": {
                 "width": "6em"
@@ -401,12 +402,13 @@ def view_imdt(state, actions):
             "value": imdt.second
         }, ""),
         h("input", {
+            "id": ref + "timezone",
             "class": "input",
             "style": {
                 "width": "6em"
             },
             "type": "text",
-            "value": "+00:00"
+            "value": imdt.timezone_str,
         }, ""),
         h("button", {
             "class": "button is-dark",
