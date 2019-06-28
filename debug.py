@@ -46,7 +46,7 @@ def grdt_all(year, month, day, hour, minute, second, tze, tzm):
         + ":"
         + str(imdt.second)
         + "tz"
-        + str(imdt.timezone)
+        + str(imdt.offset)
         + "\n"
         + "back:"
         + str(back.year)
@@ -61,7 +61,7 @@ def grdt_all(year, month, day, hour, minute, second, tze, tzm):
         + ":"
         + str(back.second)
         + "tz"
-        + str(back.timezone)
+        + str(back.offset)
     )
 
 
@@ -109,7 +109,7 @@ def imdt_all(year, month, day, hour, minute, second, tzm, tze):
         + ":"
         + str(grdt.second)
         + "tz"
-        + str(grdt.timezone)
+        + str(grdt.offset)
         + "\n"
         + "back:"
         + str(back.year)
@@ -124,13 +124,13 @@ def imdt_all(year, month, day, hour, minute, second, tzm, tze):
         + ":"
         + str(back.second)
         + "tz"
-        + str(back.timezone)
+        + str(back.offset)
     )
 
 
 def year_to_ls270(year):
     """火星年->其の年の天文學上の冬至の日"""
-    last_sol_imsn = imdt_to_imsn(ImperialDateTime(year, 24, 27, 0, 0, 0, 0))
+    last_sol_imsn = imdt_to_imsn(ImperialDateTime(year, 24, 27, 0, 0, 0, "+00:00"))
     for i in range(0, 668):
         check_sol = ImperialSolNumber(last_sol_imsn.imperial_sol_number - i)
         after_sol = ImperialSolNumber(last_sol_imsn.imperial_sol_number - i + 1)
@@ -148,7 +148,7 @@ def touji_zure(year):
     text = str()
     for i in range(0, 1000):
         check_sol = imdt_to_imsn(year_to_ls270(year + i))
-        ref_sol = imdt_to_imsn(ImperialDateTime(year + i, 22, 1, 0, 0, 0, 0))
+        ref_sol = imdt_to_imsn(ImperialDateTime(year + i, 22, 1, 0, 0, 0, "+00:00"))
         dif_sol = (check_sol.imperial_sol_number - ref_sol.imperial_sol_number) // 1
         letter = str(int(dif_sol % 10))
         text += letter

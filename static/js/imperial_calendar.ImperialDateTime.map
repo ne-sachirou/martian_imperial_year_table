@@ -1,0 +1,8 @@
+{
+	"version": 3,
+	"file": "imperial_calendar.ImperialDateTime.js",
+	"sources": [
+		"imperial_calendar.ImperialDateTime.py"
+	],
+	"mappings": "AAAA;AAEA;AAAA;AAFA;AAuBA;AAAA;AAiCA;AAEA;AAWA;AACA;AACA;AACA;AACA;AACA;AACA;AAAA;AAEA;AAEA;AACA;AAAA;AACA;AAAA;AAEA;AAEA;AA+CA;AAAA;AAlIA"
+}

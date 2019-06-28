@@ -1,0 +1,27 @@
+FROM python:3-alpine
+
+SHELL ["/bin/ash", "-ex", "-o", "pipefail", "-c"]
+
+ENV FLASK_APP=web_main.py \
+    FLASK_ENV=development \
+    PIPENV_VENV_IN_PROJECT=1
+
+WORKDIR /data
+VOLUME /data
+
+COPY package.json package-lock.json Pipfile Pipfile.lock ./
+RUN apk add --no-cache -t .install-deps \
+    build-base \
+    linux-headers \
+    npm \
+    pcre-dev \
+    python3-dev \
+ && apk add --no-cache -t .build-deps \
+    make \
+    nodejs \
+ && pip install pipenv \
+ && rm -rf /var/cache/apk/*
+
+EXPOSE 5000
+
+CMD ["pipenv", "run", "flask", "run", "-h", "0.0.0.0"]
