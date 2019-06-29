@@ -19,7 +19,7 @@ def grdt_all(year, month, day, hour, minute, second, tze, tzm):
         + str(juld.julian_day)
         + "\n"
         + "dltt:"
-        + str(juld.delta_t())
+        + str(juld.delta_t)
         + "\n"
         + "tert:"
         + str(tert.terrestrial_time)
@@ -153,6 +153,21 @@ def touji_zure(year):
         letter = str(int(dif_sol % 10))
         text += letter
         if i % 40 == 39 and i != 1000:
+            text += str("\n")
+    print(text)
+
+
+def leap1000(year):
+    """1000年の閏年を一覽する"""
+    text = str()
+    for i in range(0, 1000):
+        check_bool = ImperialYear(year + i).is_leap_year()
+        if check_bool == True:
+            letter = "1"
+        else:
+            letter = "0"
+        text += letter
+        if i % 50 == 49 and i != 1000:
             text += str("\n")
     print(text)
 
