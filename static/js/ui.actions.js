@@ -1,4 +1,4 @@
-// Transcrypt'ed from Python, 2019-06-29 15:02:04
+// Transcrypt'ed from Python, 2019-06-29 15:51:33
 import {AssertionError, AttributeError, BaseException, DeprecationWarning, Exception, IndexError, IterableError, KeyError, NotImplementedError, RuntimeWarning, StopIteration, UserWarning, ValueError, Warning, __JsIterator__, __PyIterator__, __Terminal__, __add__, __and__, __call__, __class__, __envir__, __eq__, __floordiv__, __ge__, __get__, __getcm__, __getitem__, __getslice__, __getsm__, __gt__, __i__, __iadd__, __iand__, __idiv__, __ijsmod__, __ilshift__, __imatmul__, __imod__, __imul__, __in__, __init__, __ior__, __ipow__, __irshift__, __isub__, __ixor__, __jsUsePyNext__, __jsmod__, __k__, __kwargtrans__, __le__, __lshift__, __lt__, __matmul__, __mergefields__, __mergekwargtrans__, __mod__, __mul__, __ne__, __neg__, __nest__, __or__, __pow__, __pragma__, __proxy__, __pyUseJsNext__, __rshift__, __setitem__, __setproperty__, __setslice__, __sort__, __specialattrib__, __sub__, __super__, __t__, __terminal__, __truediv__, __withblock__, __xor__, abs, all, any, assert, bool, bytearray, bytes, callable, chr, copy, deepcopy, delattr, dict, dir, divmod, enumerate, filter, float, getattr, hasattr, input, int, isinstance, issubclass, len, list, map, max, min, object, ord, pow, print, property, py_TypeError, py_iter, py_metatype, py_next, py_reversed, py_typeof, range, repr, round, set, setattr, sorted, str, sum, tuple, zip} from './org.transcrypt.__runtime__.js';
 import * as t from './typing.js';
 import {TerrestrialTime} from './imperial_calendar.TerrestrialTime.js';
@@ -55,7 +55,7 @@ export var sync_by_grdt = async function (state, actions, event) {
 	var datetimes = await Api ().get_datetimes (params);
 	actions ['draw_datetimes'] (datetimes);
 };
-export var sync_by_juld = async function (state, event) {
+export var sync_by_juld = async function (state, actions, event) {
 	event.stopPropagation ();
 	event.preventDefault ();
 	var ref = state ['juld_ref'];
@@ -63,7 +63,7 @@ export var sync_by_juld = async function (state, event) {
 	var datetimes = await Api ().get_datetimes (params);
 	actions ['draw_datetimes'] (datetimes);
 };
-export var sync_by_tert = async function (state, event) {
+export var sync_by_tert = async function (state, actions, event) {
 	event.stopPropagation ();
 	event.preventDefault ();
 	var ref = state ['tert_ref'];
@@ -71,7 +71,7 @@ export var sync_by_tert = async function (state, event) {
 	var datetimes = await Api ().get_datetimes (params);
 	actions ['draw_datetimes'] (datetimes);
 };
-export var sync_by_mrsd = async function (state, event) {
+export var sync_by_mrsd = async function (state, actions, event) {
 	event.stopPropagation ();
 	event.preventDefault ();
 	var ref = state ['mrsd_ref'];
@@ -79,7 +79,7 @@ export var sync_by_mrsd = async function (state, event) {
 	var datetimes = await Api ().get_datetimes (params);
 	actions ['draw_datetimes'] (datetimes);
 };
-export var sync_by_imsn = async function (state, event) {
+export var sync_by_imsn = async function (state, actions, event) {
 	event.stopPropagation ();
 	event.preventDefault ();
 	var ref = state ['imsn_ref'];
@@ -87,7 +87,7 @@ export var sync_by_imsn = async function (state, event) {
 	var datetimes = await Api ().get_datetimes (params);
 	actions ['draw_datetimes'] (datetimes);
 };
-export var sync_by_imdt = async function (state, event) {
+export var sync_by_imdt = async function (state, actions, event) {
 	event.stopPropagation ();
 	event.preventDefault ();
 	var ref = state ['imdt_ref'];
@@ -113,24 +113,24 @@ export var actions = function () {
 			return sync_by_grdt (state, actions, event);
 		});
 	}), 'sync_by_juld': (function __lambda__ (event) {
-		return (function __lambda__ (state) {
-			return sync_by_juld (state, event);
+		return (function __lambda__ (state, actions) {
+			return sync_by_juld (state, actions, event);
 		});
 	}), 'sync_by_tert': (function __lambda__ (event) {
-		return (function __lambda__ (state) {
-			return sync_by_tert (state, event);
+		return (function __lambda__ (state, actions) {
+			return sync_by_tert (state, actions, event);
 		});
 	}), 'sync_by_mrsd': (function __lambda__ (event) {
-		return (function __lambda__ (state) {
-			return sync_by_mrsd (state, event);
+		return (function __lambda__ (state, actions) {
+			return sync_by_mrsd (state, actions, event);
 		});
 	}), 'sync_by_imsn': (function __lambda__ (event) {
-		return (function __lambda__ (state) {
-			return sync_by_imsn (state, event);
+		return (function __lambda__ (state, actions) {
+			return sync_by_imsn (state, actions, event);
 		});
 	}), 'sync_by_imdt': (function __lambda__ (event) {
-		return (function __lambda__ (state) {
-			return sync_by_imdt (state, event);
+		return (function __lambda__ (state, actions) {
+			return sync_by_imdt (state, actions, event);
 		});
 	})});
 };

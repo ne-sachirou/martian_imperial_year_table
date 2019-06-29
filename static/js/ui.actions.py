@@ -108,7 +108,7 @@ async def sync_by_grdt(state, actions, event):
     actions["draw_datetimes"](datetimes)
 
 
-async def sync_by_juld(state, event):
+async def sync_by_juld(state, actions, event):
     """Sync by juld."""
     event.stopPropagation()
     event.preventDefault()
@@ -124,7 +124,7 @@ async def sync_by_juld(state, event):
     actions["draw_datetimes"](datetimes)
 
 
-async def sync_by_tert(state, event):
+async def sync_by_tert(state, actions, event):
     """Sync by tert."""
     event.stopPropagation()
     event.preventDefault()
@@ -140,7 +140,7 @@ async def sync_by_tert(state, event):
     actions["draw_datetimes"](datetimes)
 
 
-async def sync_by_mrsd(state, event):
+async def sync_by_mrsd(state, actions, event):
     """Sync by mrsd."""
     event.stopPropagation()
     event.preventDefault()
@@ -156,7 +156,7 @@ async def sync_by_mrsd(state, event):
     actions["draw_datetimes"](datetimes)
 
 
-async def sync_by_imsn(state, event):
+async def sync_by_imsn(state, actions, event):
     """Sync by imsn."""
     event.stopPropagation()
     event.preventDefault()
@@ -172,7 +172,7 @@ async def sync_by_imsn(state, event):
     actions["draw_datetimes"](datetimes)
 
 
-async def sync_by_imdt(state, event):
+async def sync_by_imdt(state, actions, event):
     """Sync by imdt."""
     event.stopPropagation()
     event.preventDefault()
@@ -210,9 +210,19 @@ def actions() -> t.Dict[str, t.Callable]:
         "sync_by_grdt": lambda event: lambda state, actions: sync_by_grdt(
             state, actions, event
         ),
-        "sync_by_juld": lambda event: lambda state: sync_by_juld(state, event),
-        "sync_by_tert": lambda event: lambda state: sync_by_tert(state, event),
-        "sync_by_mrsd": lambda event: lambda state: sync_by_mrsd(state, event),
-        "sync_by_imsn": lambda event: lambda state: sync_by_imsn(state, event),
-        "sync_by_imdt": lambda event: lambda state: sync_by_imdt(state, event),
+        "sync_by_juld": lambda event: lambda state, actions: sync_by_juld(
+            state, actions, event
+        ),
+        "sync_by_tert": lambda event: lambda state, actions: sync_by_tert(
+            state, actions, event
+        ),
+        "sync_by_mrsd": lambda event: lambda state, actions: sync_by_mrsd(
+            state, actions, event
+        ),
+        "sync_by_imsn": lambda event: lambda state, actions: sync_by_imsn(
+            state, actions, event
+        ),
+        "sync_by_imdt": lambda event: lambda state, actions: sync_by_imdt(
+            state, actions, event
+        ),
     }

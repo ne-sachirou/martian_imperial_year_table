@@ -41,8 +41,8 @@ start: ## Start dev server.
 
 .PHONY: test
 test: ## Test.
-	pipenv check || true
-	npm audit
+	# pipenv check || true
+	# npm audit
 	pipenv run black --check *.py imperial_calendar tests ui
 	pipenv run flake8 .
 	pipenv run mypy debug.py

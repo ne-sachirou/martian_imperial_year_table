@@ -73,7 +73,7 @@ def index() -> str:
 def datetimes() -> str:
     """Get datetimes."""
     params = json.loads(t.cast(str, request.args.get("params")))
-    if params["grdt"]:
+    if "grdt" in params:
         grdt = params["grdt"]
         grdt = GregorianDateTime(
             grdt["year"],
@@ -91,7 +91,7 @@ def datetimes() -> str:
         imdt = ImperialDateTime.from_standard_naive(
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
-    elif params["juld"]:
+    elif "juld" in params:
         juld = JulianDay(params["juld"]["julian_day"])
         grdt = GregorianDateTime.from_utc_naive(
             juld_to_grdt(juld), params["grdt_timezone"]
@@ -102,7 +102,7 @@ def datetimes() -> str:
         imdt = ImperialDateTime.from_standard_naive(
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
-    elif params["tert"]:
+    elif "tert" in params:
         tert = TerrestrialTime(params["tert"]["terrestrial_time"])
         juld = tert_to_juld(tert)
         grdt = GregorianDateTime.from_utc_naive(
@@ -113,7 +113,7 @@ def datetimes() -> str:
         imdt = ImperialDateTime.from_standard_naive(
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
-    elif params["mrsd"]:
+    elif "mrsd" in params:
         mrsd = MarsSolDate(params["mrsd"]["mars_sol_date"])
         tert = mrsd_to_tert(mrsd)
         juld = tert_to_juld(tert)
@@ -124,7 +124,7 @@ def datetimes() -> str:
         imdt = ImperialDateTime.from_standard_naive(
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
-    elif params["imsn"]:
+    elif "imsn" in params:
         imsn = ImperialSolNumber(params["imsn"]["imperial_sol_number"])
         mrsd = imsn_to_mrsd(imsn)
         tert = mrsd_to_tert(mrsd)
@@ -135,7 +135,7 @@ def datetimes() -> str:
         imdt = ImperialDateTime.from_standard_naive(
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
-    elif params["imdt"]:
+    elif "imdt" in params:
         imdt = params["imdt"]
         imdt = ImperialDateTime(
             imdt["year"],

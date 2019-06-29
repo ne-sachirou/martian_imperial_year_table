@@ -32,27 +32,15 @@ class ImperialDateTime(object):
         cls, imdt: "ImperialDateTime", timezone=str
     ) -> "ImperialDateTime":
         """From standard timezone naive ImperialDateTime."""
-        from imperial_calendar.internal.NaiveImperialDateTime import (
-            NaiveImperialDateTime,
-        )
-        from imperial_calendar.internal.naive_imdt_to_imsn import naive_imdt_to_imsn
-        from imperial_calendar.internal.imsn_to_naive_imdt import imsn_to_naive_imdt
+        from imperial_calendar.transform import imdt_to_imsn, imsn_to_imdt
 
-        naive_imdt = NaiveImperialDateTime(
-            imdt.year, imdt.month, imdt.day, imdt.hour, imdt.minute, imdt.second
-        )
-        imsn = naive_imdt_to_imsn(naive_imdt)
+        if not (imdt.timezone is None):
+            raise Exception(f"This is not naive: {imdt.__dict__}")
+        imsn = imdt_to_imsn(imdt)
         imsn.imperial_sol_number += parse_timezone(timezone) / 24.0
-        naive_imdt = imsn_to_naive_imdt(imsn)
-        return cls(
-            naive_imdt.year,
-            naive_imdt.month,
-            naive_imdt.day,
-            naive_imdt.hour,
-            naive_imdt.minute,
-            naive_imdt.second,
-            None,
-        )
+        imdt = imsn_to_imdt(imsn)
+        imdt.timezone = timezone
+        return imdt
 
     # __pragma__("noskip")
 
@@ -106,28 +94,14 @@ class ImperialDateTime(object):
     # __pragma__("skip")
     def to_standard_naive(self) -> "ImperialDateTime":
         """Convert to naive ImperialDateTime as standard timezone."""
-        from imperial_calendar.internal.NaiveImperialDateTime import (
-            NaiveImperialDateTime,
-        )
-        from imperial_calendar.internal.naive_imdt_to_imsn import naive_imdt_to_imsn
-        from imperial_calendar.internal.imsn_to_naive_imdt import imsn_to_naive_imdt
+        from imperial_calendar.transform import imdt_to_imsn, imsn_to_imdt
 
         if self.timezone is None:
             raise Exception(f"This is naive: {self.__dict__}")
-        naive_imdt = NaiveImperialDateTime(
-            self.year, self.month, self.day, self.hour, self.minute, self.second
-        )
-        imsn = naive_imdt_to_imsn(naive_imdt)
+        imdt = self.copy()
+        imdt.timezone = None
+        imsn = imdt_to_imsn(imdt)
         imsn.imperial_sol_number -= self.offset / 24.0
-        naive_imdt = imsn_to_naive_imdt(imsn)
-        return self.__class__(
-            naive_imdt.year,
-            naive_imdt.month,
-            naive_imdt.day,
-            naive_imdt.hour,
-            naive_imdt.minute,
-            naive_imdt.second,
-            None,
-        )
+        return imsn_to_imdt(imsn)
 
     # __pragma__("noskip")

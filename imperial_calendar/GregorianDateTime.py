@@ -102,43 +102,43 @@ class GregorianDateTime(object):
         """Offset hours from UTC."""
         if self.timezone is None:
             raise Exception(f"This is naive: {self.__dict__}")
-        return (
-            parse_timezone(self.timezone).utcoffset(
+        timezone = parse_timezone(self.timezone)
+        if hasattr(timezone, "localize") and callable(t.cast(t.Any, timezone).localize):
+            td = timezone.utcoffset(
                 datetime(
                     self.year, self.month, self.day, self.hour, self.minute, self.second
                 )
-            )
-            or timedelta(0)
-        ).total_seconds() / (60.0 * 60.0)
+            ) or timedelta(0)
+        else:
+            td = timezone.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
+        return td.total_seconds() / (60.0 * 60.0)
 
     # __pragma__("noskip")
 
     # __pragma__("skip")
     def to_utc_naive(self) -> "GregorianDateTime":
         """Convert to naive GregorianDateTime as UTC."""
+        from imperial_calendar.transform import grdt_to_juld, juld_to_grdt
+
         if self.timezone is None:
             raise Exception(f"This is naive: {self.__dict__}")
         timezone = parse_timezone(self.timezone)
-        dt: datetime
-        try:
-            dt = t.cast(t.Any, timezone).localize(
+        if hasattr(timezone, "localize") and callable(t.cast(t.Any, timezone).localize):
+            dt: datetime = t.cast(t.Any, timezone).localize(
                 datetime(
                     self.year, self.month, self.day, self.hour, self.minute, self.second
                 )
             )
-        except AttributeError:
-            dt = datetime(
-                self.year,
-                self.month,
-                self.day,
-                self.hour,
-                self.minute,
-                self.second,
-                tzinfo=timezone,
+            dt = dt.astimezone(utc)
+            return self.__class__(
+                dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, None
             )
-        dt = dt.astimezone(utc)
-        return GregorianDateTime(
-            dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, None
-        )
+        grdt = self.copy()
+        grdt.timezone = None
+        juld = grdt_to_juld(grdt)
+        juld.julian_day -= (
+            timezone.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
+        ).total_seconds() / (60.0 * 60.0)
+        return juld_to_grdt(juld)
 
     # __pragma__("noskip")
