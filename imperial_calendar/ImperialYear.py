@@ -11,8 +11,7 @@ class ImperialYear(object):
     def is_leap_year(self) -> bool:
         """閏年か否か."""
         year = self.year
-        return year % 2 == 1 or year % 10 == 0 and year % 250 != 0 #year % 100 != 0 or year % 200 == 0 and year % 1000 != 0
-        #return year % 2 == 1 or year % 10 == 0 and year % 100 != 0 or year % 200 == 0 and year % 1000 != 0
+        return year % 2 == 1 or year % 10 == 0 and year % 250 != 0
 
     def days(self) -> int:
         """この年の日數."""
