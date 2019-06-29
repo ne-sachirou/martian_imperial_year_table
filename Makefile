@@ -22,8 +22,9 @@ clean: ## Clean built files.
 
 .PHONY: format
 format: ## Format code.
+	git grep -l $$'\r' | xargs -t sed -i -e 's/\r//'
 	pipenv run black *.py imperial_calendar tests ui
-	# node_modules/.bin/prettier --write templates/index.html
+	node_modules/.bin/prettier --write README.md
 
 .PHONY: setup
 setup: ## Install deps.

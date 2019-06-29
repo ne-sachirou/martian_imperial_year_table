@@ -17,6 +17,7 @@ RUN apk add --no-cache -t .install-deps \
     pcre-dev \
     python3-dev \
  && apk add --no-cache -t .build-deps \
+    git \
     make \
     nodejs \
  && pip install pipenv \
