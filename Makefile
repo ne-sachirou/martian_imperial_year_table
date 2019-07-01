@@ -7,8 +7,9 @@ within_docker := $(shell sh -c 'stat /.dockerenv 2> /dev/null')
 .PHONY: build
 build: ## Build.
 ifeq ($(within_docker),)
-	docker build -f Dockerfiles/Dockerfile.dev -t martian_imperial_year_table:latest --force-rm --pull .
-	docker run -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data:cached --rm martian_imperial_year_table:latest make setup build
+	docker build -f deployments/development/Dockerfile -t martian_imperial_year_table:development --force-rm --pull .
+	docker run -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data:cached --rm martian_imperial_year_table:development make setup build
+	docker build -f deployments/production/Dockerfile -t martian_imperial_year_table:latest --force-rm .
 else
 	mkdir -p static/css static/js
 	cp node_modules/bulma/css/* static/css/
@@ -22,7 +23,7 @@ clean: ## Clean built files.
 
 .PHONY: format
 format: ## Format code.
-	git grep -l $$'\r' | xargs -t sed -i -e 's/\r//'
+	git grep -l $$'\r' | xargs -r -t sed -i -e 's/\r//'
 	pipenv run black *.py imperial_calendar tests ui
 	node_modules/.bin/prettier --write README.md
 
@@ -33,16 +34,17 @@ setup: ## Install deps.
 
 .PHONY: sh
 sh: ## Run shell in docker.
-	docker run -it -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data:cached --rm martian_imperial_year_table:latest sh
+	docker run -it -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data:cached --rm martian_imperial_year_table:development sh
 
 .PHONY: start
 start: ## Start dev server.
-	docker run -p 0.0.0.0:5000:5000 -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data --rm martian_imperial_year_table:latest
+	docker run -p 0.0.0.0:5000:5000 -v $(shell pwd | sed -e 's/^\/mnt\/c/\/c/'):/data --rm martian_imperial_year_table:development
+	# docker run -p 0.0.0.0:5000:5000 -p 0.0.0.0:9191:9191 --rm martian_imperial_year_table:latest
 
 .PHONY: test
 test: ## Test.
-	# pipenv check || true
-	# npm audit
+	pipenv check || true
+	npm audit
 	pipenv run black --check *.py imperial_calendar tests ui
 	pipenv run flake8 .
 	pipenv run mypy debug.py

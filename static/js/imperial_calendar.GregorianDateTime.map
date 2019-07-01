@@ -1,8 +1,0 @@
-{
-	"version": 3,
-	"file": "imperial_calendar.GregorianDateTime.js",
-	"sources": [
-		"imperial_calendar.GregorianDateTime.py"
-	],
-	"mappings": "AAAA;AACA;AAAA;AADA;AAkCA;AAAA;AAyBA;AAEA;AAWA;AACA;AACA;AACA;AACA;AACA;AACA;AAAA;AAEA;AAEA;AACA;AAAA;AACA;AAAA;AAEA;AAEA;AAuDA;AAAA;AA9IA"
-}

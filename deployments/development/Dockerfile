@@ -10,16 +10,16 @@ WORKDIR /data
 VOLUME /data
 
 COPY package.json package-lock.json Pipfile Pipfile.lock ./
-RUN apk add --no-cache -t .install-deps \
+RUN apk add --no-cache -t .build-deps \
     build-base \
     linux-headers \
+    nodejs \
     npm \
     pcre-dev \
     python3-dev \
- && apk add --no-cache -t .build-deps \
+ && apk add --no-cache -t .runtime-deps \
     git \
     make \
-    nodejs \
  && pip install pipenv \
  && rm -rf /var/cache/apk/*
 

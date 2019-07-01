@@ -1,22 +1,22 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
 
 [packages]
 flasgger = "~=0.9"
 Flask = "~=1.0"
-pytz = "*"
+pytz = "~=2019.1"
 uwsgi = "~=2.0"
 
 [dev-packages]
-"black" = "*"
-"flake8" = "*"
-"flake8-docstrings" = "*"
-"flake8-mypy" = "*"
-"mypy" = "*"
-"pep8" = "*"
-"transcrypt" = "*"
+black = "*"
+flake8 = "*"
+flake8-docstrings = "*"
+flake8-mypy = "*"
+mypy = "*"
+pep8 = "*"
+transcrypt = "*"
 
 [pipenv]
 allow_prereleases = true

@@ -12,7 +12,7 @@ class Test_grdt_to_mrls(unittest.TestCase):
         """
         Test conversions GregorianDateTime to Mars LS.
 
-        cf.  天文年鑑編集委員会 (2018) "天文年鑑 2019年版" ISBN:978-4-416-71802-5
+        cf.  天文年鑑編集委員会 (2018) "天文年鑑 2019年版" ISBN:978-4-416-71802-5 p.133
         """
         for ((year, month, day), mrls) in [
             ((2018, 12, 28), 314.1),
