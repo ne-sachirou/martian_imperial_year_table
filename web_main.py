@@ -61,6 +61,12 @@ else:
 Swagger(app)
 
 
+@app.route("/ops/heartbeat")
+def heartbeat() -> str:
+    """Komachi heartbeat."""
+    return "heartbeat:ok"
+
+
 @app.route("/")
 def index() -> str:
     """Index."""

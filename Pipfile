@@ -17,6 +17,7 @@ flake8-mypy = "*"
 mypy = "*"
 pep8 = "*"
 transcrypt = "*"
+yamllint = "*"
 
 [pipenv]
 allow_prereleases = true

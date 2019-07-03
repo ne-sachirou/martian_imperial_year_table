@@ -3,8 +3,8 @@
 # 帝國火星暦テーブル
 
 ```sh
-make setup test build
-make start
+./tasks.py build
+./tasks.py start
 ```
 
 https://ne-sachirou.github.io/martian_imperial_year_table/

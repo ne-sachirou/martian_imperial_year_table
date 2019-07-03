@@ -20,7 +20,12 @@ RUN apk add --no-cache -t .build-deps \
  && apk add --no-cache -t .runtime-deps \
     git \
     make \
+    the_silver_searcher \
  && pip install pipenv \
+ && wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \
+ && chmod +x /usr/local/bin/container-structure-test \
+ && wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 \
+ && chmod +x /usr/local/bin/hadolint \
  && rm -rf /var/cache/apk/*
 
 EXPOSE 5000

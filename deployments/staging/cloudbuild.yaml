@@ -1,0 +1,31 @@
+---
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - deployments/staging/Dockerfile
+      - -t
+      - "gcr.io/${PROJECT_ID}/martian_imperial_year_table:${SHORT_SHA}"
+      - -t
+      - "gcr.io/${PROJECT_ID}/martian_imperial_year_table:latest"
+      - .
+    timeout: 300s
+  - name: gcr.io/cloud-builders/docker
+    args: [push, "gcr.io/${PROJECT_ID}/martian_imperial_year_table:${SHORT_SHA}"]
+  - name: gcr.io/cloud-builders/docker
+    args: [push, "gcr.io/${PROJECT_ID}/martian_imperial_year_table:latest"]
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - -n
+      - ${_NAMESPACE_NAME}
+      - set
+      - image
+      - deploy/martian-imperial-year-table
+      - "web=gcr.io/${PROJECT_ID}/martian_imperial_year_table:${SHORT_SHA}"
+    env:
+      - CLOUDSDK_COMPUTE_REGION=asia-northeast1
+      - CLOUDSDK_CONTAINER_CLUSTER=c4se
+substitutions:
+  _NAMESPACE_NAME: staging
+timeout: 360s

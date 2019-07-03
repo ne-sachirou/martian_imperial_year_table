@@ -66,6 +66,6 @@ ENTRYPOINT ["pipenv", "run", "uwsgi", \
 CMD ["--callable", "app", \
      "--http", ":5000", \
      "--processes", "2", \
-     "--stats", "0.0.0.0:9191", \
+     "--stats", ":9191", \
      "--threads", "2", \
      "--wsgi-file", "web_main.py"]
