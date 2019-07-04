@@ -160,7 +160,7 @@ def view_tert(state, actions):
         "div",
         {"class": "field is-grouped"},
         [
-            h("label", {"class": "label", "for": ref}, "Terrestrual Time"),
+            h("label", {"class": "label", "for": ref}, "Terrestrial Time"),
             h(
                 "input",
                 {
