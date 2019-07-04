@@ -41,7 +41,7 @@ WORKDIR /data
 
 RUN apk add --no-cache -t .build-deps \
     shadow \
- && apk add --no-cache -t .runtime-deps \
+ && apk add --no-cache \
     pcre \
  && pip install pipenv \
  && useradd uwsgi --no-create-home --user-group \

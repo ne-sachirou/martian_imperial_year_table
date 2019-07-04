@@ -1,5 +1,4 @@
 """Test ImperialDateTime."""
-
 from imperial_calendar.ImperialDateTime import ImperialDateTime
 import math
 import unittest
@@ -19,7 +18,7 @@ class TestImperialDateTime(unittest.TestCase):
             ImperialDateTime(1, 2, 3, 4, 5, 7, "+00:00"),
         )
 
-    def test_timezone(self):
+    def test_offset(self):
         """Timezoneの文字列表現を内部表現にする."""
         for (expected, timezone) in [
             (0.0, "+00:00"),

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 """
 Tasks.
 
@@ -34,21 +34,25 @@ def powershell():
         yield run
 
 
-def run(command: str):
+def run(command: str, capture_output=False, text=None) -> subprocess.CompletedProcess:
     """Run command."""
     command = command.strip()
     print(command)
-    subprocess.run(command, check=True, shell=True)
+    return subprocess.run(
+        command, capture_output=capture_output, check=True, shell=True, text=text
+    )
 
 
-def run_in_docker(command: str, docker_options=""):
+def run_in_docker(
+    command: str, docker_options="", capture_output=False, text=None
+) -> subprocess.CompletedProcess:
     """Run command in Docker."""
     command = command.strip()
     print(command)
     cwd = os.getcwd()
     if cwd.startswith("/mnt/c"):
         cwd = re.sub("^/mnt", "", cwd)
-    subprocess.run(
+    return subprocess.run(
         fr"""
         docker run \
             -v {quote(cwd)}:/data:cached \
@@ -56,16 +60,26 @@ def run_in_docker(command: str, docker_options=""):
             {docker_options} \
             martian_imperial_year_table:development {command}
         """,
+        capture_output=capture_output,
         check=True,
         shell=True,
+        text=text,
     )
 
 
-def run_in_powershell(command: str):
+def run_in_powershell(
+    command: str, capture_output=False, text=None
+) -> subprocess.CompletedProcess:
     """Run command in PowerShell if it's present."""
     command = re.sub(r"\\\n", r"`\n", command.strip())
     print(command)
-    subprocess.run(f"powershell.exe -Command {quote(command)}", check=True, shell=True)
+    return subprocess.run(
+        f"powershell.exe -Command {quote(command)}",
+        capture_output=capture_output,
+        check=True,
+        shell=True,
+        text=text,
+    )
 
 
 def task(function):
@@ -92,16 +106,17 @@ def within_wsl() -> bool:
 @task
 def build():
     """Build."""
-    run(
-        r"""
-        docker build \
-            -f deployments/development/Dockerfile \
-            -t martian_imperial_year_table:development \
-            --force-rm \
-            --pull \
-            .
-        """
-    )
+    if not within_docker():
+        run(
+            r"""
+            docker build \
+                -f deployments/development/Dockerfile \
+                -t martian_imperial_year_table:development \
+                --force-rm \
+                --pull \
+                .
+            """
+        )
     setup()
     run("mkdir -p static/css static/js")
     run("cp node_modules/bulma/css/* static/css/")
@@ -133,7 +148,20 @@ def deploy_staging():
     run("git push -f origin staging")
     with powershell() as _run:
         time.sleep(10)
-        _run("gcloud builds list")
+        builds_filter = r"""
+        source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
+        source.repoSource.tagName = staging
+        """.strip().replace(
+            "\n", " "
+        )
+        process = _run(
+            f"gcloud builds list --filter {quote(builds_filter)} --limit 1",
+            capture_output=True,
+            text=True,
+        )
+        build = process.stdout.split("\n")[1].split(" ")[0]
+        _run(f"gcloud builds log --stream {quote(build)}")
+        _run("kubectl -n staging get ev -w --sort-by '.metadata.creationTimestamp'")
 
 
 @task
@@ -153,7 +181,20 @@ def deploy_production():
     run("git push -f origin production")
     with powershell() as _run:
         time.sleep(10)
-        _run("gcloud builds list")
+        builds_filter = r"""
+        source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
+        source.repoSource.tagName = production
+        """.strip().replace(
+            "\n", " "
+        )
+        process = _run(
+            f"gcloud builds list --filter {quote(builds_filter)} --limit 1",
+            capture_output=True,
+            text=True,
+        )
+        build = process.stdout.split("\n")[1].split(" ")[0]
+        _run(f"gcloud builds log --stream {quote(build)}")
+        _run("kubectl -n default get ev -w --sort-by '.metadata.creationTimestamp'")
 
 
 @task
@@ -192,7 +233,7 @@ def test():
     with docker() as _run:
         _run("pipenv check || true")
         _run("npm audit")
-        _run(r"ag --hidden -g '\.ya?ml$' | xargs -r -t yamllint")
+        _run(r"ag --hidden -g '\.ya?ml$' | xargs -r -t pipenv run yamllint")
         _run("hadolint deployments/*/Dockerfile")
         _run("pipenv run black --check *.py imperial_calendar tests ui")
         _run("pipenv run flake8 .")

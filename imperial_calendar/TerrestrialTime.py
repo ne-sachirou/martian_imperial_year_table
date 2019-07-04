@@ -16,3 +16,7 @@ class TerrestrialTime(object):
         return math.isclose(
             self.terrestrial_time, other.terrestrial_time, abs_tol=0.00001
         )
+
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"TerrestrialTime({self.terrestrial_time})"

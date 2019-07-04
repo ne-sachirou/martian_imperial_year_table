@@ -71,6 +71,10 @@ class JulianDay(object):
             return False
         return math.isclose(self.julian_day, other.julian_day, abs_tol=0.00001)
 
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"JulianDay({self.julian_day})"
+
     # __pragma__("skip")
     @property
     def delta_t(self) -> float:

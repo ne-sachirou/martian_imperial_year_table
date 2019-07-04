@@ -17,6 +17,10 @@ class ImperialSolNumber(object):
             self.imperial_sol_number, other.imperial_sol_number, abs_tol=0.00001
         )
 
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"ImperialSolNumber({self.imperial_sol_number})"
+
     @property
     def date(self) -> int:
         """年月日を表はす整數部分."""

@@ -69,6 +69,18 @@ class ImperialDateTime(object):
             return False
         return self.__dict__ == other.__dict__
 
+    def __repr__(self) -> str:
+        """Representation."""
+        return "ImperialDateTime({0},{1},{2},{3},{4},{5},{6})".format(
+            self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
+            repr(self.timezone),
+        )
+
     def copy(self) -> "ImperialDateTime":
         """Shallow copy."""
         return self.__class__(

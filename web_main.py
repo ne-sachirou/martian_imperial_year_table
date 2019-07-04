@@ -1,4 +1,5 @@
 """App."""
+from datetime import timedelta
 from flasgger import swag_from, Swagger
 from flask import Flask, jsonify, request
 from flask import render_template
@@ -42,7 +43,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production config."""
 
-    pass
+    SEND_FILE_MAX_AGE_DEFAULT = timedelta(minutes=1)
 
 
 class TestingConfig(Config):

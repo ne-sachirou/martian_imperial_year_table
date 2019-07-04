@@ -93,7 +93,7 @@ class GregorianDateTime(object):
             self.hour,
             self.minute,
             self.second,
-            self.timezone,
+            repr(self.timezone),
         )
 
     def copy(self) -> "GregorianDateTime":
