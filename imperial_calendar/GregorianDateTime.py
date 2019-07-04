@@ -84,6 +84,18 @@ class GregorianDateTime(object):
             return False
         return self.__dict__ == other.__dict__
 
+    def __repr__(self) -> str:
+        """Representation."""
+        return "GregorianDateTime({0},{1},{2},{3},{4},{5},{6})".format(
+            self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
+            self.timezone,
+        )
+
     def copy(self) -> "GregorianDateTime":
         """Shallow copy."""
         return self.__class__(
@@ -138,7 +150,7 @@ class GregorianDateTime(object):
         juld = grdt_to_juld(grdt)
         juld.julian_day -= (
             timezone.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
-        ).total_seconds() / (60.0 * 60.0)
+        ).total_seconds() / (60.0 * 60.0 * 24.0)
         return juld_to_grdt(juld)
 
     # __pragma__("noskip")
