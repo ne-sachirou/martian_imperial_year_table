@@ -1,0 +1,16 @@
+---
+steps:
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - -n
+      - ${_NAMESPACE_NAME}
+      - set
+      - image
+      - deploy/martian-imperial-year-table
+      - "web=gcr.io/${PROJECT_ID}/martian_imperial_year_table:${SHORT_SHA}"
+    env:
+      - CLOUDSDK_COMPUTE_REGION=asia-northeast1
+      - CLOUDSDK_CONTAINER_CLUSTER=c4se
+substitutions:
+  _NAMESPACE_NAME: default
+timeout: 60s

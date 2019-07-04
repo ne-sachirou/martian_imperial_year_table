@@ -13,7 +13,9 @@ class ImperialSolNumber(object):
         """Eq."""
         if not isinstance(other, ImperialSolNumber):
             return False
-        return math.isclose(self.imperial_sol_number, other.imperial_sol_number, abs_tol=0.00001)
+        return math.isclose(
+            self.imperial_sol_number, other.imperial_sol_number, abs_tol=0.00001
+        )
 
     @property
     def date(self) -> int:

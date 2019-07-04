@@ -1,0 +1,119 @@
+---
+openapi: "3.0.0"
+info:
+  title: 帝國火星暦
+  version: "0.0.1"
+paths:
+  /api/datetimes:
+    get:
+      parameters:
+        - in: query
+          name: params
+          type: string
+          required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                required:
+                  - grdt
+                properties:
+                  grdt: {$ref: "#/components/schemas/grdt"}
+                  juld: {$ref: "#/components/schemas/juld"}
+                  delta_t: {type: number}
+                  tert: {$ref: "#/components/schemas/tert"}
+                  mrls: {type: number}
+                  mrsd: {$ref: "#/components/schemas/mrsd"}
+                  imsn: {$ref: "#/components/schemas/imsn"}
+                  imdt: {$ref: "#/components/schemas/imdt"}
+        400:
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/error"}
+components:
+  schemas:
+    datetimes_params:
+      description: /api/datetimesのparameters
+      required:
+        - grdt_timezone
+        - imdt_timezone
+      properties:
+        grdt_timezone:
+          description:
+          type: string
+          example: "Asia/Tokyo"
+        imdt_timezone:
+          description:
+          type: string
+          example: "+00:00"
+        grdt:
+          $ref: "#/components/schemas/grdt"
+    error:
+      description: Error response
+      required: [errors]
+      properties:
+        errors:
+          type: array
+          items: {type: string}
+    grdt:
+      description: grdt
+      required: [year, month, day, hour, minute, second]
+      properties:
+        year: {type: integer}
+        month: {type: integer}
+        day: {type: integer}
+        hour: {type: integer}
+        minute: {type: integer}
+        second: {type: integer}
+      example:
+        year: 1970
+        month: 1
+        day: 1
+        hour: 0
+        minute: 0
+        second: 0
+    juld:
+      description: juld
+      required: [julian_day]
+      properties:
+        julian_day: {type: number}
+      example:
+    tert:
+      description: tert
+      required: [terrestrial_time]
+      properties:
+        terrestrial_time: {type: number}
+      example:
+        terrestrial_time: 0.0
+    mrsd:
+      description: mrsd
+      required: [mars_sol_date]
+      properties:
+        mars_sol_date: {type: number}
+      example:
+        mars_sol_date: 0.0
+    imsn:
+      description: imsn
+      required: [imperial_sol_number]
+      properties:
+        imperial_sol_number: {type: number}
+      example:
+        imperial_sol_number: 0.0
+    imdt:
+      description: imdt
+      required: [year, month, day, hour, minute, second]
+      properties:
+        year: {type: integer}
+        month: {type: integer}
+        day: {type: integer}
+        hour: {type: integer}
+        minute: {type: integer}
+        second: {type: integer}
+      example:
+        year: 0
+        month: 1
+        day: 1
+        hour: 0
+        minute: 0
+        second: 0

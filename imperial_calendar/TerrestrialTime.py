@@ -13,4 +13,6 @@ class TerrestrialTime(object):
         """Eq."""
         if not isinstance(other, TerrestrialTime):
             return False
-        return math.isclose(self.terrestrial_time, other.terrestrial_time, abs_tol=0.00001)
+        return math.isclose(
+            self.terrestrial_time, other.terrestrial_time, abs_tol=0.00001
+        )

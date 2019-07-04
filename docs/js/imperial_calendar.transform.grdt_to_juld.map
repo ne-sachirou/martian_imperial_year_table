@@ -1,8 +1,0 @@
-{
-	"version": 3,
-	"file": "imperial_calendar.transform.grdt_to_juld.js",
-	"sources": [
-		"imperial_calendar.transform.grdt_to_juld.py"
-	],
-	"mappings": "AAAA;AACA;AAAA;AAEA;AAAA;AADA;AADA;AADA;AAMA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AACA;AAAA;AACA;AACA;AACA;AAAA;AAKA;AAAA;AAjBA"
-}

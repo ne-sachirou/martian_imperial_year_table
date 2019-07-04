@@ -1,0 +1,16 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: martian-imperial-year-table
+  annotations:
+    ingress.gcp.kubernetes.io/pre-shared-cert: martian-imperial-year-table-staging
+spec:
+  rules:
+    - host: martian-imperial-year-table.staging.c4se.jp
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: martian-imperial-year-table
+              servicePort: 80

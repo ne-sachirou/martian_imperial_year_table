@@ -1,8 +1,0 @@
-{
-	"version": 3,
-	"file": "imperial_calendar.transform.consts.js",
-	"sources": [
-		"imperial_calendar.transform.consts.py"
-	],
-	"mappings": "AAAA;AACA;AACA;AADA;AADA;AAKA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAEA;AACA;AACA;AAAA;AAEA;AAAA;AACA;AAAA;AAGA;AACA;AACA;AAAA;AAEA;AAEA;AAEA;AACA;AACA;AAAA;AACA;AAzBA"
-}

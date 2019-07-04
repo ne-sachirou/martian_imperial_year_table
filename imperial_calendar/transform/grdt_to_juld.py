@@ -21,6 +21,5 @@ def grdt_to_juld(grdt: GregorianDateTime) -> JulianDay:
         + grdt.hour / 24
         + grdt.minute / (24 * 60)
         + grdt.second / (24 * 60 * 60)
-        - grdt.timezone / 24
         + grdt.intercept
     )
