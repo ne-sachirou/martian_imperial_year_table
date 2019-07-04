@@ -152,7 +152,7 @@ def datetimes() -> str:
             imdt["second"],
             params["imdt_timezone"],
         )
-        imsn = imdt_to_imsn(imdt)
+        imsn = imdt_to_imsn(imdt.to_standard_naive())
         mrsd = imsn_to_mrsd(imsn)
         tert = mrsd_to_tert(mrsd)
         juld = tert_to_juld(tert)
