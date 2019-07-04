@@ -126,7 +126,7 @@ def view_juld(state, actions):
                     "class": "input",
                     "step": 0.00001,
                     "type": "number",
-                    "value": juld.julian_day,
+                    "value": round(juld.julian_day, 5),
                 },
                 "",
             ),
@@ -148,7 +148,7 @@ def view_delta_t(state, actions):
     return h(
         "div",
         {"class": "field is-grouped"},
-        [h("div", {"class": "label"}, "⊿t"), str(delta_t)],
+        [h("div", {"class": "label"}, "⊿t"), str(round(delta_t, 5))],
     )
 
 
@@ -168,7 +168,7 @@ def view_tert(state, actions):
                     "class": "input",
                     "step": 0.00001,
                     "type": "number",
-                    "value": tert.terrestrial_time,
+                    "value": round(tert.terrestrial_time, 5),
                 },
                 "",
             ),
@@ -192,7 +192,7 @@ def view_mrls(state, actions):
         {"class": "field is-grouped"},
         [
             h("label", {"class": "label"}, "Areocentric Solar Longitude (Mars Ls)"),
-            str(mrls),
+            str(round(mrls, 5)),
         ],
     )
 
@@ -213,7 +213,7 @@ def view_mrsd(state, actions):
                     "class": "input",
                     "step": 0.00001,
                     "type": "number",
-                    "value": mrsd.mars_sol_date,
+                    "value": round(mrsd.mars_sol_date, 5),
                 },
                 "",
             ),
@@ -245,7 +245,7 @@ def view_imsn(state, actions):
                     "class": "input",
                     "step": 0.00001,
                     "type": "number",
-                    "value": imsn.imperial_sol_number,
+                    "value": round(imsn.imperial_sol_number, 5),
                 },
                 "",
             ),
