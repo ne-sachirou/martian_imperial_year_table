@@ -239,12 +239,6 @@ def test():
         _run("pipenv run flake8 .")
         _run("pipenv run mypy debug.py")
         _run("pipenv run python -m unittest discover -s tests/imperial_calendar")
-        _run(
-            "pipenv run python -m unittest discover -s tests/imperial_calendar/internal"
-        )
-        _run(
-            "pipenv run python -m unittest discover -s tests/imperial_calendar/transform"
-        )
 
 
 if len(sys.argv) == 1 or sys.argv[1] == "help":
