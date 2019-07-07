@@ -58,7 +58,8 @@ def draw_datetimes(state, datetimes):
         grdt["second"],
         state["grdt_timezone"],
     )
-    juld = JulianDay(datetimes["juld"]["julian_day"])
+    juld = datetimes["juld"]
+    juld = JulianDay(juld["day"], juld["second"])
     tert = TerrestrialTime(datetimes["tert"]["terrestrial_time"])
     mrsd = MarsSolDate(datetimes["mrsd"]["mars_sol_date"])
     imsn = ImperialSolNumber(datetimes["imsn"]["imperial_sol_number"])

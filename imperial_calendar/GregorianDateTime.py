@@ -35,7 +35,7 @@ def parse_timezone(timezone: str) -> tzinfo:
 class GregorianDateTime(object):
     """グレゴリオ暦の日時."""
 
-    intercept = 1721088.5
+    dummy = 42
 
     # __pragma__("skip")
     @classmethod
@@ -148,9 +148,15 @@ class GregorianDateTime(object):
         grdt = self.copy()
         grdt.timezone = None
         juld = grdt_to_juld(grdt)
-        juld.julian_day -= (
+        juld.second -= (
             timezone.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
-        ).total_seconds() / (60.0 * 60.0 * 24.0)
+        ).total_seconds()
+        if juld.second < 0.0:
+            juld.day -= 1
+            juld.second += 24.0 * 60.0 * 60.0
+        elif juld.second >= 24.0 * 60.0 * 60.0:
+            juld.day += 1
+            juld.second -= 24.0 * 60.0 * 60.0
         return juld_to_grdt(juld)
 
     # __pragma__("noskip")

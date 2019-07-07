@@ -1,5 +1,6 @@
 """ユリウス通日."""
 import math
+import typing as t
 
 
 # __pragma__("skip")
@@ -61,19 +62,37 @@ class JulianDay(object):
 
     calendar_reform = 2299160.5
 
-    def __init__(self, julian_day: float) -> None:
+    def __init__(self, day: t.Union[float, int], second=0.0) -> None:
         """Init."""
-        self.julian_day: float = julian_day
+        if isinstance(day, float):
+            if second != 0.0:
+                raise Exception(
+                    "When you give the julian_day directly you cannot give second."
+                )
+            self.day: int = math.floor(day)
+            self.second: float = (day % 1) * 60.0 * 60.0 * 24.0
+        else:
+            if second < 0.0 or 60.0 * 60.0 * 24.0 <= second:
+                raise Exception(f"second is out of range: {second}")
+            self.day = day
+            self.second = second
+
+    @property
+    def julian_day(self) -> float:
+        """秒を考慮したJulian Dayを計算する."""
+        return self.day + (self.second / (60.0 * 60.0 * 24.0))
 
     def __eq__(self, other) -> bool:
         """Eq."""
         if not isinstance(other, JulianDay):
             return False
-        return math.isclose(self.julian_day, other.julian_day, abs_tol=0.00001)
+        return self.day == self.day and math.isclose(
+            self.second, self.second, abs_tol=0.5
+        )
 
     def __repr__(self) -> str:
         """Representation."""
-        return f"JulianDay({self.julian_day})"
+        return f"JulianDay({self.day, self.second})"
 
     # __pragma__("skip")
     @property
