@@ -53,7 +53,8 @@ class Test_grdt_to_mrls(unittest.TestCase):
             ((2019, 12, 23), 124.5),
             ((2020, 1, 2), 129.3),
         ]:
-            grdt = GregorianDateTime(year, month, day, 0, 0, 0, "UTC")
-            actual = tert_to_mrls(juld_to_tert(grdt_to_juld(grdt)))
-            actual = round(actual - 0.01, 1)  # NOTE: 五捨六入
-            self.assertEqual(mrls, actual)
+            with self.subTest(year=year, month=month, day=day):
+                grdt = GregorianDateTime(year, month, day, 0, 0, 0, "UTC")
+                actual = tert_to_mrls(juld_to_tert(grdt_to_juld(grdt)))
+                actual = round(actual - 0.01, 1)  # NOTE: 五捨六入
+                self.assertEqual(mrls, actual)

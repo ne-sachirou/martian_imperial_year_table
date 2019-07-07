@@ -20,4 +20,5 @@ class Test_imsn_to_imdt(unittest.TestCase):
             (ImperialDateTime(3, 4, 5, 6, 7, 8, None), ImperialSolNumber(2093.25496)),
             (ImperialDateTime(-1, 24, 28, 0, 0, 0, None), ImperialSolNumber(-1.0)),
         ]:
-            self.assertEqual(imdt, imsn_to_imdt(imsn))
+            with self.subTest(imsn=imsn):
+                self.assertEqual(imdt, imsn_to_imdt(imsn))

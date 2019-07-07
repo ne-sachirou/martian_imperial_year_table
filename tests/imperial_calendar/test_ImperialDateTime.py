@@ -29,13 +29,14 @@ class TestImperialDateTime(unittest.TestCase):
             (-0.25, "-00:15"),
             (-23.75, "-23:45"),
         ]:
-            self.assertTrue(
-                math.isclose(
-                    expected,
-                    ImperialDateTime(0, 1, 1, 1, 1, 1, timezone).offset,
-                    abs_tol=0.00001,
+            with self.subTest(timezone=timezone):
+                self.assertTrue(
+                    math.isclose(
+                        expected,
+                        ImperialDateTime(0, 1, 1, 1, 1, 1, timezone).offset,
+                        abs_tol=0.00001,
+                    )
                 )
-            )
         for timezone in ["+00"]:
-            with self.assertRaises(Exception):
+            with self.subTest(timezone=timezone), self.assertRaises(Exception):
                 ImperialDateTime(0, 1, 1, 1, 1, 1, timezone).offset
