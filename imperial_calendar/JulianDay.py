@@ -77,11 +77,6 @@ class JulianDay(object):
             self.day = day
             self.second = second
 
-    @property
-    def julian_day(self) -> float:
-        """秒を考慮したJulian Dayを計算する."""
-        return self.day + (self.second / (60.0 * 60.0 * 24.0))
-
     def __eq__(self, other) -> bool:
         """Eq."""
         if not isinstance(other, JulianDay):
@@ -213,3 +208,8 @@ class JulianDay(object):
             return -20 + 32 * delta_u ** 2
 
     # __pragma__("noskip")
+
+    @property
+    def julian_day(self) -> float:
+        """秒を考慮したJulian Dayを計算する."""
+        return self.day + (self.second / (60.0 * 60.0 * 24.0))

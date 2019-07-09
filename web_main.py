@@ -99,7 +99,7 @@ def datetimes() -> str:
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
     elif "juld" in params:
-        juld = JulianDay(params["juld"]["julian_day"])
+        juld = JulianDay(params["juld"]["day"])
         grdt = GregorianDateTime.from_utc_naive(
             juld_to_grdt(juld), params["grdt_timezone"]
         )
@@ -132,7 +132,7 @@ def datetimes() -> str:
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
     elif "imsn" in params:
-        imsn = ImperialSolNumber(params["imsn"]["imperial_sol_number"])
+        imsn = ImperialSolNumber(params["imsn"]["day"])
         mrsd = imsn_to_mrsd(imsn)
         tert = mrsd_to_tert(mrsd)
         juld = tert_to_juld(tert)
