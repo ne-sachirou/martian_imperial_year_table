@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  title: 帝國火星暦
+  title: 帝國火星暦テーブル
   version: "0.0.1"
 paths:
   /api/datetimes:
@@ -9,111 +9,98 @@ paths:
       parameters:
         - in: query
           name: params
-          type: string
           required: true
+          description: JSON encoded partial datetimes.
+          schema:
+            type: string
       responses:
         200:
-          content:
-            application/json:
-              schema:
-                required:
-                  - grdt
-                properties:
-                  grdt: {$ref: "#/components/schemas/grdt"}
-                  juld: {$ref: "#/components/schemas/juld"}
-                  delta_t: {type: number}
-                  tert: {$ref: "#/components/schemas/tert"}
-                  mrls: {type: number}
-                  mrsd: {$ref: "#/components/schemas/mrsd"}
-                  imsn: {$ref: "#/components/schemas/imsn"}
-                  imdt: {$ref: "#/components/schemas/imdt"}
+          schema:
+            required:
+              - grdt
+              - juld
+              - delta_t
+              - tert
+              - mrls
+              - imsn
+              - imdt
+            properties:
+              grdt: {$ref: "#/definitions/grdt"}
+              juld: {$ref: "#/definitions/juld"}
+              delta_t: {type: number}
+              tert: {$ref: "#/definitions/tert"}
+              mrls: {type: number}
+              mrsd: {$ref: "#/definitions/mrsd"}
+              imsn: {$ref: "#/definitions/imsn"}
+              imdt: {$ref: "#/definitions/imdt"}
         400:
-          content:
-            application/json:
-              schema: {$ref: "#/components/schemas/error"}
-components:
-  schemas:
-    datetimes_params:
-      description: /api/datetimesのparameters
-      required:
-        - grdt_timezone
-        - imdt_timezone
-      properties:
-        grdt_timezone:
-          description:
-          type: string
-          example: "Asia/Tokyo"
-        imdt_timezone:
-          description:
-          type: string
-          example: "+00:00"
-        grdt:
-          $ref: "#/components/schemas/grdt"
-    error:
-      description: Error response
-      required: [errors]
-      properties:
-        errors:
-          type: array
-          items: {type: string}
-    grdt:
-      description: grdt
-      required: [year, month, day, hour, minute, second]
-      properties:
-        year: {type: integer}
-        month: {type: integer}
-        day: {type: integer}
-        hour: {type: integer}
-        minute: {type: integer}
-        second: {type: integer}
-      example:
-        year: 1970
-        month: 1
-        day: 1
-        hour: 0
-        minute: 0
-        second: 0
-    juld:
-      description: juld
-      required: [julian_day]
-      properties:
-        julian_day: {type: number}
-      example:
-    tert:
-      description: tert
-      required: [terrestrial_time]
-      properties:
-        terrestrial_time: {type: number}
-      example:
-        terrestrial_time: 0.0
-    mrsd:
-      description: mrsd
-      required: [mars_sol_date]
-      properties:
-        mars_sol_date: {type: number}
-      example:
-        mars_sol_date: 0.0
-    imsn:
-      description: imsn
-      required: [imperial_sol_number]
-      properties:
-        imperial_sol_number: {type: number}
-      example:
-        imperial_sol_number: 0.0
-    imdt:
-      description: imdt
-      required: [year, month, day, hour, minute, second]
-      properties:
-        year: {type: integer}
-        month: {type: integer}
-        day: {type: integer}
-        hour: {type: integer}
-        minute: {type: integer}
-        second: {type: integer}
-      example:
-        year: 0
-        month: 1
-        day: 1
-        hour: 0
-        minute: 0
-        second: 0
+          schema: {$ref: "#/definitions/error"}
+definitions:
+  datetimes_params:
+    description: /api/datetimesのparameters
+    required:
+      - grdt_timezone
+      - imdt_timezone
+    properties:
+      grdt_timezone:
+        description:
+        type: string
+        examples: "Asia/Tokyo"
+      imdt_timezone:
+        description:
+        type: string
+        examples: "+00:00"
+      grdt: {$ref: "#/definitions/grdt"}
+      juld: {$ref: "#/definitions/juld"}
+      tert: {$ref: "#/definitions/tert"}
+      mrsd: {$ref: "#/definitions/mrsd"}
+      imsn: {$ref: "#/definitions/imsn"}
+      imdt: {$ref: "#/definitions/imdt"}
+  error:
+    description: Error response
+    required: [errors]
+    properties:
+      errors:
+        type: array
+        items: {type: string}
+  grdt:
+    description: grdt
+    required: [year, month, day, hour, minute, second]
+    properties:
+      year: {type: integer, examples: 1970}
+      month: {type: integer, examples: 1}
+      day: {type: integer, examples: 1}
+      hour: {type: integer, examples: 0}
+      minute: {type: integer, examples: 0}
+      second: {type: integer, examples: 0}
+  juld:
+    description: juld
+    required: [day]
+    properties:
+      day: {type: number, examples: 2440587.5}
+      second: {type: number}
+  tert:
+    description: tert
+    required: [terrestrial_time]
+    properties:
+      terrestrial_time: {type: number, examples: 2440587.50047}
+  mrsd:
+    description: mrsd
+    required: [mars_sol_date]
+    properties:
+      mars_sol_date: {type: number, examples: 34127.29552}
+  imsn:
+    description: imsn
+    required: [imperial_sol_number]
+    properties:
+      imperial_sol_number: {type: number, examples: 935321.92052}
+  imdt:
+    description: imdt
+    required: [year, month, day, hour, minute, second]
+    properties:
+      year: {type: integer, examples: 1398}
+      month: {type: integer, examples: 23}
+      day: {type: integer, examples: 12}
+      hour: {type: integer, examples: 22}
+      minute: {type: integer, examples: 5}
+      second: {type: integer, examples: 31}

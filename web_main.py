@@ -43,13 +43,14 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production config."""
 
-    SEND_FILE_MAX_AGE_DEFAULT = timedelta(minutes=1)
+    SEND_FILE_MAX_AGE_DEFAULT = timedelta(minutes=5)
 
 
 class TestingConfig(Config):
     """Testing config."""
 
-    pass
+    SEND_FILE_MAX_AGE_DEFAULT = 0
+    TESTING = True
 
 
 app = Flask(__name__)
@@ -57,6 +58,8 @@ if app.env == "development":
     app.config.from_object(DevelopmentConfig)
 elif app.env == "production":
     app.config.from_object(ProductionConfig)
+elif app.env == "testing":
+    app.config.from_object(TestingConfig)
 else:
     raise Exception(f"Unknown FLASK_ENV: {app.env}")
 Swagger(app)
@@ -74,9 +77,8 @@ def index() -> str:
     return render_template("index.html")
 
 
-@app.route("/api/datetimes")
-# @swag_from("web.yml", validation=True)
-@swag_from("web.yml")
+@app.route("/api/datetimes", methods=["GET"])
+@swag_from("web.yml", validation=False)
 def datetimes() -> str:
     """Get datetimes."""
     params = json.loads(t.cast(str, request.args.get("params")))

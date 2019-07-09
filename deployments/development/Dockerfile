@@ -19,7 +19,6 @@ RUN apk add --no-cache -t .build-deps \
     python3-dev \
  && apk add --no-cache -t .runtime-deps \
     git \
-    make \
     the_silver_searcher \
  && pip install pipenv \
  && wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \

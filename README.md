@@ -2,14 +2,9 @@
 
 # 帝國火星暦テーブル
 
-```sh
-./tasks.py build
-./tasks.py start
-```
+https://martian-imperial-year-table.c4se.jp/
 
-https://ne-sachirou.github.io/martian_imperial_year_table/
-
-## 略語集
+## Abbreviation
 
 - grdt : `GregorianDateTime`
 - juld : `JulianDay`
@@ -19,3 +14,29 @@ https://ne-sachirou.github.io/martian_imperial_year_table/
 - mrsd : `MarsSolDate`
 - imsn : `ImperialSolNumber`
 - imdt : `ImperialDateTime`
+
+## CONTRIBUTING
+
+Requirements :
+
+- Python 3
+- Docker
+- gcloud, kubectl (only for deploy)
+
+See `./tasks.py help`.
+
+Start development.
+
+```sh
+./tasks.py build start
+./tasks.py sh
+```
+
+Dev server : http://localhost:5000/
+API spec : http://localhost:5000/apidocs/
+
+When the file changed you may need to build UI files by `./tasks.py build`.
+
+Before deploy & merge you shuld pass `./tasks.py format test`.
+
+Staging is https://martian-imperial-year-table.staging.c4se.jp/ (may be broken).

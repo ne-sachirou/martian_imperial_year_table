@@ -239,6 +239,7 @@ def test():
         _run("pipenv run flake8 .")
         _run("pipenv run mypy debug.py")
         _run("pipenv run python -m unittest discover -s tests/imperial_calendar")
+        _run("FLASK_ENV=testing pipenv run python -m unittest discover -s tests/web")
 
 
 if len(sys.argv) == 1 or sys.argv[1] == "help":
