@@ -13,6 +13,12 @@ class TerrestrialTime(object):
         """Eq."""
         if not isinstance(other, TerrestrialTime):
             return False
-        return math.isclose(
-            self.terrestrial_time, other.terrestrial_time, abs_tol=0.00001
+        return math.floor(self.terrestrial_time) == math.floor(
+            other.terrestrial_time
+        ) and math.isclose(
+            self.terrestrial_time % 1, other.terrestrial_time % 1, abs_tol=0.000005
         )
+
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"TerrestrialTime({self.terrestrial_time})"

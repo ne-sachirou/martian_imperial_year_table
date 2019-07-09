@@ -1,4 +1,5 @@
 """App."""
+from datetime import timedelta
 from flasgger import swag_from, Swagger
 from flask import Flask, jsonify, request
 from flask import render_template
@@ -42,13 +43,14 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production config."""
 
-    pass
+    SEND_FILE_MAX_AGE_DEFAULT = timedelta(minutes=5)
 
 
 class TestingConfig(Config):
     """Testing config."""
 
-    pass
+    SEND_FILE_MAX_AGE_DEFAULT = 0
+    TESTING = True
 
 
 app = Flask(__name__)
@@ -56,6 +58,8 @@ if app.env == "development":
     app.config.from_object(DevelopmentConfig)
 elif app.env == "production":
     app.config.from_object(ProductionConfig)
+elif app.env == "testing":
+    app.config.from_object(TestingConfig)
 else:
     raise Exception(f"Unknown FLASK_ENV: {app.env}")
 Swagger(app)
@@ -73,9 +77,8 @@ def index() -> str:
     return render_template("index.html")
 
 
-@app.route("/api/datetimes")
-# @swag_from("web.yml", validation=True)
-@swag_from("web.yml")
+@app.route("/api/datetimes", methods=["GET"])
+@swag_from("web.yml", validation=False)
 def datetimes() -> str:
     """Get datetimes."""
     params = json.loads(t.cast(str, request.args.get("params")))
@@ -98,7 +101,7 @@ def datetimes() -> str:
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
     elif "juld" in params:
-        juld = JulianDay(params["juld"]["julian_day"])
+        juld = JulianDay(params["juld"]["day"])
         grdt = GregorianDateTime.from_utc_naive(
             juld_to_grdt(juld), params["grdt_timezone"]
         )
@@ -131,7 +134,7 @@ def datetimes() -> str:
             imsn_to_imdt(imsn), params["imdt_timezone"]
         )
     elif "imsn" in params:
-        imsn = ImperialSolNumber(params["imsn"]["imperial_sol_number"])
+        imsn = ImperialSolNumber(params["imsn"]["day"])
         mrsd = imsn_to_mrsd(imsn)
         tert = mrsd_to_tert(mrsd)
         juld = tert_to_juld(tert)
@@ -152,7 +155,7 @@ def datetimes() -> str:
             imdt["second"],
             params["imdt_timezone"],
         )
-        imsn = imdt_to_imsn(imdt)
+        imsn = imdt_to_imsn(imdt.to_standard_naive())
         mrsd = imsn_to_mrsd(imsn)
         tert = mrsd_to_tert(mrsd)
         juld = tert_to_juld(tert)

@@ -13,4 +13,12 @@ class MarsSolDate(object):
         """Eq."""
         if not isinstance(other, MarsSolDate):
             return False
-        return math.isclose(self.mars_sol_date, other.mars_sol_date, abs_tol=0.00001)
+        return math.floor(self.mars_sol_date) == math.floor(
+            other.mars_sol_date
+        ) and math.isclose(
+            self.mars_sol_date % 1, other.mars_sol_date % 1, abs_tol=0.000005
+        )
+
+    def __repr__(self) -> str:
+        """Representation."""
+        return f"MarsSolDate({self.mars_sol_date})"

@@ -37,7 +37,13 @@ class ImperialDateTime(object):
         if not (imdt.timezone is None):
             raise Exception(f"This is not naive: {imdt.__dict__}")
         imsn = imdt_to_imsn(imdt)
-        imsn.imperial_sol_number += parse_timezone(timezone) / 24.0
+        imsn.second += parse_timezone(timezone) * 60.0 * 60.0
+        if imsn.second < 0:
+            imsn.day -= 1
+            imsn.second += 24.0 * 60.0 * 60.0
+        elif imsn.second >= 24.0 * 60.0 * 60.0:
+            imsn.day += 1
+            imsn.second -= 24.0 * 60.0 * 60.0
         imdt = imsn_to_imdt(imsn)
         imdt.timezone = timezone
         return imdt
@@ -68,6 +74,18 @@ class ImperialDateTime(object):
         if not isinstance(other, ImperialDateTime):
             return False
         return self.__dict__ == other.__dict__
+
+    def __repr__(self) -> str:
+        """Representation."""
+        return "ImperialDateTime({0},{1},{2},{3},{4},{5},{6})".format(
+            self.year,
+            self.month,
+            self.day,
+            self.hour,
+            self.minute,
+            self.second,
+            repr(self.timezone),
+        )
 
     def copy(self) -> "ImperialDateTime":
         """Shallow copy."""
@@ -101,7 +119,13 @@ class ImperialDateTime(object):
         imdt = self.copy()
         imdt.timezone = None
         imsn = imdt_to_imsn(imdt)
-        imsn.imperial_sol_number -= self.offset / 24.0
+        imsn.second -= self.offset * 60.0 * 60.0
+        if imsn.second < 0:
+            imsn.day -= 1
+            imsn.second += 24.0 * 60.0 * 60.0
+        elif imsn.second >= 24.0 * 60.0 * 60.0:
+            imsn.day += 1
+            imsn.second -= 24.0 * 60.0 * 60.0
         return imsn_to_imdt(imsn)
 
     # __pragma__("noskip")

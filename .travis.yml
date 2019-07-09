@@ -1,5 +1,8 @@
 ---
+dist: bionic
 language: python
+python:
+  - "3.7"
 install:
   - sudo apt-get update
   - sudo apt-get install -y silversearcher-ag
@@ -12,4 +15,4 @@ install:
   - npm i -g npm
   - npm ci
 script:
-  - python3 tasks.py test
+  - python3.7 tasks.py test

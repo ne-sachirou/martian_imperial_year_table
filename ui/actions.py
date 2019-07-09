@@ -58,10 +58,12 @@ def draw_datetimes(state, datetimes):
         grdt["second"],
         state["grdt_timezone"],
     )
-    juld = JulianDay(datetimes["juld"]["julian_day"])
+    juld = datetimes["juld"]
+    juld = JulianDay(juld["day"], juld["second"])
     tert = TerrestrialTime(datetimes["tert"]["terrestrial_time"])
     mrsd = MarsSolDate(datetimes["mrsd"]["mars_sol_date"])
-    imsn = ImperialSolNumber(datetimes["imsn"]["imperial_sol_number"])
+    imsn = datetimes["imsn"]
+    imsn = ImperialSolNumber(imsn["day"], imsn["second"])
     imdt = datetimes["imdt"]
     imdt = ImperialDateTime(
         imdt["year"],
@@ -117,7 +119,7 @@ async def sync_by_juld(state, actions, event):
         {
             "grdt_timezone": state["grdt_timezone"],
             "imdt_timezone": state["imdt_timezone"],
-            "juld": {"julian_day": float(document.getElementById(ref).value)},
+            "juld": {"day": float(document.getElementById(ref).value)},
         }
     )
     datetimes = await Api().get_datetimes(params)
@@ -165,7 +167,7 @@ async def sync_by_imsn(state, actions, event):
         {
             "grdt_timezone": state["grdt_timezone"],
             "imdt_timezone": state["imdt_timezone"],
-            "imsn": {"imperial_sol_number": float(document.getElementById(ref).value)},
+            "imsn": {"day": float(document.getElementById(ref).value)},
         }
     )
     datetimes = await Api().get_datetimes(params)

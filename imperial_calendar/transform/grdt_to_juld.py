@@ -6,20 +6,26 @@ import math
 
 def grdt_to_juld(grdt: GregorianDateTime) -> JulianDay:
     """グレゴリオ暦の日時をユリウス通日に變換する."""
+    intercept_day = 1721088
+    intercept_second = 0.5 * 24.0 * 60.0 * 60.0
     if grdt.month in [1, 2]:
         tweaked_year = grdt.year - 1
         tweaked_month = grdt.month + 12
     else:
         tweaked_year = grdt.year
         tweaked_month = grdt.month
-    return JulianDay(
+    day = (
         math.floor(tweaked_year * 365.25)
-        + math.floor(tweaked_year / 400)
-        - math.floor(tweaked_year / 100)
+        + math.floor(tweaked_year / 400.0)
+        - math.floor(tweaked_year / 100.0)
         + math.floor((tweaked_month - 2) * 30.59)
         + grdt.day
-        + grdt.hour / 24
-        + grdt.minute / (24 * 60)
-        + grdt.second / (24 * 60 * 60)
-        + grdt.intercept
+        + intercept_day
     )
+    second = (
+        grdt.hour * 60.0 * 60.0 + grdt.minute * 60.0 + grdt.second + intercept_second
+    )
+    if second >= 24.0 * 60.0 * 60.0:
+        day += 1
+        second -= 24.0 * 60.0 * 60.0
+    return JulianDay(day, second)
