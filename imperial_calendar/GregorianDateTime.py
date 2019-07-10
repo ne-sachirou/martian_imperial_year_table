@@ -43,19 +43,40 @@ class GregorianDateTime(object):
         cls, grdt: "GregorianDateTime", timezone: str
     ) -> "GregorianDateTime":
         """From UTC naive GregorianDateTime."""
+        from imperial_calendar.transform import grdt_to_juld, juld_to_grdt
+
         if not (grdt.timezone is None):
             raise Exception(f"This is not naive: {grdt.__dict__}")
-        dt = datetime(
-            grdt.year,
-            grdt.month,
-            grdt.day,
-            grdt.hour,
-            grdt.minute,
-            grdt.second,
-            tzinfo=utc,
-        )
-        dt = dt.astimezone(parse_timezone(timezone))
-        return cls(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, timezone)
+        parsed_tz = parse_timezone(timezone)
+        if hasattr(parsed_tz, "localize") and callable(
+            t.cast(t.Any, parsed_tz).localize
+        ):
+            dt = datetime(
+                grdt.year,
+                grdt.month,
+                grdt.day,
+                grdt.hour,
+                grdt.minute,
+                grdt.second,
+                tzinfo=utc,
+            )
+            dt = dt.astimezone(parsed_tz)
+            return cls(
+                dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, timezone
+            )
+        juld = grdt_to_juld(grdt)
+        juld.second += (
+            parsed_tz.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
+        ).total_seconds()
+        if juld.second < 0.0:
+            juld.day -= 1
+            juld.second += 24.0 * 60.0 * 60.0
+        elif juld.second >= 24.0 * 60.0 * 60.0:
+            juld.day += 1
+            juld.second -= 24.0 * 60.0 * 60.0
+        grdt = juld_to_grdt(juld)
+        grdt.timezone = timezone
+        return grdt
 
     # __pragma__("noskip")
 
@@ -134,9 +155,11 @@ class GregorianDateTime(object):
 
         if self.timezone is None:
             raise Exception(f"This is naive: {self.__dict__}")
-        timezone = parse_timezone(self.timezone)
-        if hasattr(timezone, "localize") and callable(t.cast(t.Any, timezone).localize):
-            dt: datetime = t.cast(t.Any, timezone).localize(
+        parsed_tz = parse_timezone(self.timezone)
+        if hasattr(parsed_tz, "localize") and callable(
+            t.cast(t.Any, parsed_tz).localize
+        ):
+            dt: datetime = t.cast(t.Any, parsed_tz).localize(
                 datetime(
                     self.year, self.month, self.day, self.hour, self.minute, self.second
                 )
@@ -149,7 +172,7 @@ class GregorianDateTime(object):
         grdt.timezone = None
         juld = grdt_to_juld(grdt)
         juld.second -= (
-            timezone.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
+            parsed_tz.utcoffset(datetime(1970, 1, 1, 0, 0, 0)) or timedelta(0)
         ).total_seconds()
         if juld.second < 0.0:
             juld.day -= 1
