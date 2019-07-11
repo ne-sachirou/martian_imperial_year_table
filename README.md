@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/ne-sachirou/martian_imperial_year_table.svg?branch=master)](https://travis-ci.com/ne-sachirou/martian_imperial_year_table)
 
-# 帝國火星暦テーブル
+# 帝國火星暦
 
 https://martian-imperial-year-table.c4se.jp/
 

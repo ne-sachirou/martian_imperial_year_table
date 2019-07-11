@@ -9,7 +9,6 @@ ENV FLASK_APP=web_main.py \
 WORKDIR /data
 VOLUME /data
 
-COPY package.json package-lock.json Pipfile Pipfile.lock ./
 RUN apk add --no-cache -t .build-deps \
     build-base \
     linux-headers \

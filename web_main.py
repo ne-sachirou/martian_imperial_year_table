@@ -25,6 +25,7 @@ from imperial_calendar.transform import (
     tert_to_mrsd,
 )
 import json
+import markdown
 import typing as t
 
 
@@ -75,6 +76,13 @@ def heartbeat() -> str:
 def index() -> str:
     """Index."""
     return render_template("index.html")
+
+
+@app.route("/description")
+def description() -> str:
+    """Description."""
+    with open("templates/description.md") as f:
+        return markdown.markdown(f.read(), extensions=[], output_format="html5")
 
 
 @app.route("/api/datetimes", methods=["GET"])

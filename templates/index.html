@@ -3,7 +3,25 @@
   <head lang="ja">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>帝國火星暦テーブル</title>
+    <meta
+      property="og:description"
+      content="我々は、我が國(日本帝國)と同君聯合を爲す國家たる火星帝國に於る曆法「帝國火星曆」での日時と地球の曆との換算を實現する爲の程序を製作しました。以下此の文章では、帝國火星曆の理念及び仕組に就て述べ、亦、地球の曆法から帝國火星曆への換算法、及び其の換算程序の作成に用ゐた曆學上の用語に就て解説します。"
+    />
+    <meta property="og:image" content="{{url_for("static", filename="img/martian_empire.png", _external=True)}}" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:title" content="帝國火星暦" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{request.url_root}}" />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:description"
+      content="我々は、我が國(日本帝國)と同君聯合を爲す國家たる火星帝國に於る曆法「帝國火星曆」での日時と地球の曆との換算を實現する爲の程序を製作しました。以下此の文章では、帝國火星曆の理念及び仕組に就て述べ、亦、地球の曆法から帝國火星曆への換算法、及び其の換算程序の作成に用ゐた曆學上の用語に就て解説します。"
+    />
+    <meta name="twitter:image" content="{{url_for("static", filename="img/martian_empire.png", _external=True)}}" />
+    <meta name="twitter:image:alt" content="帝國火星暦" />
+    <meta name="twitter:site" content="@ta_haruna" />
+    <meta name="twitter:title" content="帝國火星暦" />
+    <title>帝國火星暦</title>
     <link rel="stylesheet" href="{{url_for("static", filename="css/bulma.min.css")}}" />
     <script type="module">
       import { main } from "{{url_for("static", filename="js/ui_main.js")}}";
@@ -11,16 +29,6 @@
     </script>
   </head>
   <body>
-    <!-- GitHub Ribbons - The GitHub Blog https://github.blog/2008-12-19-github-ribbons/ -->
-    <a href="https://github.com/ne-sachirou/martian_imperial_year_table"
-      ><img
-        width="149"
-        height="149"
-        src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149"
-        class="attachment-full size-full"
-        alt="Fork me on GitHub"
-        data-recalc-dims="1"
-    /></a>
     <div id="app"></div>
   </body>
 </html>

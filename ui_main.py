@@ -10,4 +10,4 @@ document = setTimeout = 0  # __:skip
 def main():
     """Main."""
     main = app(initial_state(), actions(), view, document.getElementById("app"))
-    setTimeout(lambda: main["sync_by_grdt"](None), 0)
+    setTimeout(lambda: main["transform"]["sync_by_grdt"](None), 0)
