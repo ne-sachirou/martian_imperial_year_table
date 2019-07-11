@@ -29,19 +29,53 @@ class Api(object):
         return await response.json()
 
 
+def change_grdt_attr(state, event, attr: str):
+    """Change grdt attr."""
+    value = int(event.target.value)
+    grdt = state["grdt"].copy()
+    setattr(grdt, attr, value)
+    return {"grdt": grdt}
+
+
 def change_grdt_timezone(state, event):
     """Change grdt_timezone."""
-    ref = state["grdt_ref"]
-    grdt_timezone = document.getElementById(ref + "timezone").value
+    grdt_timezone = event.target.value
     grdt = state["grdt"].copy()
     grdt.timezone = grdt_timezone
     return {"grdt_timezone": grdt_timezone, "grdt": grdt}
 
 
+def change_juld(state, event):
+    """Change juld."""
+    return {"juld": state["juld"].__class__(float(event.target.value))}
+
+
+def change_tert(state, event):
+    """Change tert."""
+    return {"tert": state["tert"].__class__(float(event.target.value))}
+
+
+def change_mrsd(state, event):
+    """Change mrsd."""
+    return {"mrsd": state["mrsd"].__class__(float(event.target.value))}
+
+
+def change_imsn(state, event):
+    """Change imsn."""
+    return {"imsn": state["imsn"].__class__(float(event.target.value))}
+
+
+def change_imdt_attr(state, event, attr: str):
+    """Change imdt attr."""
+    value = int(event.target.value)
+    imdt = state["imdt"].copy()
+    setattr(imdt, attr, value)
+    return {"imdt": imdt}
+
+
 def change_imdt_timezone(state, event):
     """Change imdt_timezone."""
-    ref = state["imdt_ref"]
-    imdt_timezone = document.getElementById(ref + "timezone").value
+    imdt_timezone = event.target.value
     imdt = state["imdt"].copy()
     imdt.timezone = imdt_timezone
     return {"imdt_timezone": imdt_timezone, "imdt": imdt}
@@ -92,17 +126,17 @@ async def sync_by_grdt(state, actions, event):
     if event:
         event.stopPropagation()
         event.preventDefault()
-    ref = state["grdt_ref"]
+    grdt = state["grdt"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
         "grdt": {
-            "year": int(document.getElementById(ref + "year").value),
-            "month": int(document.getElementById(ref + "month").value),
-            "day": int(document.getElementById(ref + "day").value),
-            "hour": int(document.getElementById(ref + "hour").value),
-            "minute": int(document.getElementById(ref + "minute").value),
-            "second": int(document.getElementById(ref + "second").value),
+            "year": grdt.year,
+            "month": grdt.month,
+            "day": grdt.day,
+            "hour": grdt.hour,
+            "minute": grdt.minute,
+            "second": grdt.second,
         },
     }
     datetimes = await Api().get_datetimes(params)
@@ -113,11 +147,11 @@ async def sync_by_juld(state, actions, event):
     """Sync by juld."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["juld_ref"]
+    juld = state["juld"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
-        "juld": {"day": float(document.getElementById(ref).value)},
+        "juld": {"day": juld.day, "second": juld.second},
     }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
@@ -127,11 +161,10 @@ async def sync_by_tert(state, actions, event):
     """Sync by tert."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["tert_ref"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
-        "tert": {"terrestrial_time": float(document.getElementById(ref).value)},
+        "tert": {"terrestrial_time": state["tert"].terrestrial_time},
     }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
@@ -141,11 +174,10 @@ async def sync_by_mrsd(state, actions, event):
     """Sync by mrsd."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["mrsd_ref"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
-        "mrsd": {"mars_sol_date": float(document.getElementById(ref).value)},
+        "mrsd": {"mars_sol_date": state["mrsd"].mars_sol_date},
     }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
@@ -155,11 +187,11 @@ async def sync_by_imsn(state, actions, event):
     """Sync by imsn."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["imsn_ref"]
+    imsn = state["imsn"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
-        "imsn": {"day": float(document.getElementById(ref).value)},
+        "imsn": {"day": imsn.day, "second": imsn.second},
     }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
@@ -169,17 +201,17 @@ async def sync_by_imdt(state, actions, event):
     """Sync by imdt."""
     event.stopPropagation()
     event.preventDefault()
-    ref = state["imdt_ref"]
+    imdt = state["imdt"]
     params = {
         "grdt_timezone": state["grdt_timezone"],
         "imdt_timezone": state["imdt_timezone"],
         "imdt": {
-            "year": int(document.getElementById(ref + "year").value),
-            "month": int(document.getElementById(ref + "month").value),
-            "day": int(document.getElementById(ref + "day").value),
-            "hour": int(document.getElementById(ref + "hour").value),
-            "minute": int(document.getElementById(ref + "minute").value),
-            "second": int(document.getElementById(ref + "second").value),
+            "year": imdt.year,
+            "month": imdt.month,
+            "day": imdt.day,
+            "hour": imdt.hour,
+            "minute": imdt.minute,
+            "second": imdt.second,
         },
     }
     datetimes = await Api().get_datetimes(params)
@@ -189,8 +221,48 @@ async def sync_by_imdt(state, actions, event):
 def transform_actions() -> t.Dict[str, t.Callable]:
     """UI transform actions."""
     return {
+        "change_grdt_year": lambda event: lambda state: change_grdt_attr(
+            state, event, "year"
+        ),
+        "change_grdt_month": lambda event: lambda state: change_grdt_attr(
+            state, event, "month"
+        ),
+        "change_grdt_day": lambda event: lambda state: change_grdt_attr(
+            state, event, "day"
+        ),
+        "change_grdt_hour": lambda event: lambda state: change_grdt_attr(
+            state, event, "hour"
+        ),
+        "change_grdt_minute": lambda event: lambda state: change_grdt_attr(
+            state, event, "minute"
+        ),
+        "change_grdt_second": lambda event: lambda state: change_grdt_attr(
+            state, event, "second"
+        ),
         "change_grdt_timezone": lambda event: lambda state: change_grdt_timezone(
             state, event
+        ),
+        "change_juld": lambda event: lambda state: change_juld(state, event),
+        "change_tert": lambda event: lambda state: change_tert(state, event),
+        "change_mrsd": lambda event: lambda state: change_mrsd(state, event),
+        "change_imsn": lambda event: lambda state: change_imsn(state, event),
+        "change_imdt_year": lambda event: lambda state: change_imdt_attr(
+            state, event, "year"
+        ),
+        "change_imdt_month": lambda event: lambda state: change_imdt_attr(
+            state, event, "month"
+        ),
+        "change_imdt_day": lambda event: lambda state: change_imdt_attr(
+            state, event, "day"
+        ),
+        "change_imdt_hour": lambda event: lambda state: change_imdt_attr(
+            state, event, "hour"
+        ),
+        "change_imdt_minute": lambda event: lambda state: change_imdt_attr(
+            state, event, "minute"
+        ),
+        "change_imdt_second": lambda event: lambda state: change_imdt_attr(
+            state, event, "second"
         ),
         "change_imdt_timezone": lambda event: lambda state: change_imdt_timezone(
             state, event
