@@ -21,10 +21,11 @@ RUN apk add --no-cache -t .build-deps \
 
 COPY ui_main.py ./
 COPY imperial_calendar/ imperial_calendar/
+COPY static/ static/
 COPY ui/ ui/
 RUN mkdir -p static/css static/js \
  && cp node_modules/bulma/css/* static/css/ \
- && pipenv run transcrypt -b -k -m -n ui_main.py \
+ && pipenv run transcrypt -b -m -n ui_main.py \
  && mv __target__/* static/js/ \
  && rm -rf "$(pipenv --venv)" \
  && pipenv install --deploy

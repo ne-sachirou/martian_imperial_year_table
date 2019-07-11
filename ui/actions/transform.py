@@ -1,4 +1,4 @@
-"""UI actions."""
+"""UI transform actions."""
 from imperial_calendar.GregorianDateTime import GregorianDateTime
 from imperial_calendar.ImperialDateTime import ImperialDateTime
 from imperial_calendar.ImperialSolNumber import ImperialSolNumber
@@ -7,12 +7,7 @@ from imperial_calendar.MarsSolDate import MarsSolDate
 from imperial_calendar.TerrestrialTime import TerrestrialTime
 import typing as t
 
-# __pragma__("skip")
-document: t.Any = 0
-encodeURIComponent: t.Any = 0
-fetch: t.Any = 0
-JSON: t.Any = 0
-# __pragma__("noskip")
+document: t.Any = 0  # __:skip
 
 
 class Api(object):
@@ -20,8 +15,14 @@ class Api(object):
 
     async def get_datetimes(self, params: dict) -> dict:
         """Get datetimes."""
+        # __pragma__("skip")
+        encodeURIComponent: t.Any = 0
+        fetch: t.Any = 0
+        JSON: t.Any = 0
+        # __pragma__("noskip")
         response = await fetch(
-            f"/api/datetimes?params={encodeURIComponent(params)}", {"method": "GET"}
+            f"/api/datetimes?params={encodeURIComponent(JSON.stringify(params))}",
+            {"method": "GET"},
         )
         if not response.ok:
             raise Exception(f"{response.status}: {response.text()}")
@@ -92,20 +93,18 @@ async def sync_by_grdt(state, actions, event):
         event.stopPropagation()
         event.preventDefault()
     ref = state["grdt_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "grdt": {
-                "year": int(document.getElementById(ref + "year").value),
-                "month": int(document.getElementById(ref + "month").value),
-                "day": int(document.getElementById(ref + "day").value),
-                "hour": int(document.getElementById(ref + "hour").value),
-                "minute": int(document.getElementById(ref + "minute").value),
-                "second": int(document.getElementById(ref + "second").value),
-            },
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "grdt": {
+            "year": int(document.getElementById(ref + "year").value),
+            "month": int(document.getElementById(ref + "month").value),
+            "day": int(document.getElementById(ref + "day").value),
+            "hour": int(document.getElementById(ref + "hour").value),
+            "minute": int(document.getElementById(ref + "minute").value),
+            "second": int(document.getElementById(ref + "second").value),
+        },
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
@@ -115,13 +114,11 @@ async def sync_by_juld(state, actions, event):
     event.stopPropagation()
     event.preventDefault()
     ref = state["juld_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "juld": {"day": float(document.getElementById(ref).value)},
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "juld": {"day": float(document.getElementById(ref).value)},
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
@@ -131,13 +128,11 @@ async def sync_by_tert(state, actions, event):
     event.stopPropagation()
     event.preventDefault()
     ref = state["tert_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "tert": {"terrestrial_time": float(document.getElementById(ref).value)},
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "tert": {"terrestrial_time": float(document.getElementById(ref).value)},
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
@@ -147,13 +142,11 @@ async def sync_by_mrsd(state, actions, event):
     event.stopPropagation()
     event.preventDefault()
     ref = state["mrsd_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "mrsd": {"mars_sol_date": float(document.getElementById(ref).value)},
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "mrsd": {"mars_sol_date": float(document.getElementById(ref).value)},
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
@@ -163,13 +156,11 @@ async def sync_by_imsn(state, actions, event):
     event.stopPropagation()
     event.preventDefault()
     ref = state["imsn_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "imsn": {"day": float(document.getElementById(ref).value)},
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "imsn": {"day": float(document.getElementById(ref).value)},
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
@@ -179,26 +170,24 @@ async def sync_by_imdt(state, actions, event):
     event.stopPropagation()
     event.preventDefault()
     ref = state["imdt_ref"]
-    params = JSON.stringify(
-        {
-            "grdt_timezone": state["grdt_timezone"],
-            "imdt_timezone": state["imdt_timezone"],
-            "imdt": {
-                "year": int(document.getElementById(ref + "year").value),
-                "month": int(document.getElementById(ref + "month").value),
-                "day": int(document.getElementById(ref + "day").value),
-                "hour": int(document.getElementById(ref + "hour").value),
-                "minute": int(document.getElementById(ref + "minute").value),
-                "second": int(document.getElementById(ref + "second").value),
-            },
-        }
-    )
+    params = {
+        "grdt_timezone": state["grdt_timezone"],
+        "imdt_timezone": state["imdt_timezone"],
+        "imdt": {
+            "year": int(document.getElementById(ref + "year").value),
+            "month": int(document.getElementById(ref + "month").value),
+            "day": int(document.getElementById(ref + "day").value),
+            "hour": int(document.getElementById(ref + "hour").value),
+            "minute": int(document.getElementById(ref + "minute").value),
+            "second": int(document.getElementById(ref + "second").value),
+        },
+    }
     datetimes = await Api().get_datetimes(params)
     actions["draw_datetimes"](datetimes)
 
 
-def actions() -> t.Dict[str, t.Callable]:
-    """Actions."""
+def transform_actions() -> t.Dict[str, t.Callable]:
+    """UI transform actions."""
     return {
         "change_grdt_timezone": lambda event: lambda state: change_grdt_timezone(
             state, event

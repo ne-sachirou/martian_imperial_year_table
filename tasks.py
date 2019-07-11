@@ -203,7 +203,7 @@ def format():
     run(r"ag -l '\r' | xargs -r -t sed -i -e 's/\r//'")
     with docker() as _run:
         _run("pipenv run black *.py imperial_calendar tests ui")
-        _run("node_modules/.bin/prettier --write README.md")
+        _run("node_modules/.bin/prettier --write README.md templates/*.md")
 
 
 @task
