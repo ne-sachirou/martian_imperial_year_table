@@ -33,7 +33,21 @@ def view_global_navigation(state, actions):
                 "div",
                 {"class": "navbar-brand"},
                 [
-                    h("h1", {"class": "navbar-item"}, "帝國火星暦"),
+                    h(
+                        "h1",
+                        {"class": "navbar-item"},
+                        [
+                            h(
+                                "img",
+                                {
+                                    "alt": "帝國火星暦",
+                                    "src": "/static/img/martian_empire.png",
+                                },
+                                [],
+                            ),
+                            h("div", {}, "帝國火星暦"),
+                        ],
+                    ),
                     h(
                         "a",
                         {
