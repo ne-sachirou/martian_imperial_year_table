@@ -5,17 +5,18 @@ from node_modules.hyperapp.src.index import h  # type: ignore
 def view_grdt(state, actions):
     """View grdt."""
     grdt = state["transform"]["grdt"]
-    ref = state["transform"]["grdt_ref"]
     return h(
         "div",
         {"class": "field is-grouped is-grouped-multiline"},
         [
-            h("label", {"class": "label", "for": ref + "year"}, "Gregorian Date Time"),
+            h("label", {"class": "label"}, "Gregorian Date Time"),
             h(
                 "input",
                 {
-                    "id": ref + "year",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_grdt_year"](
+                        event
+                    ),
                     "style": {"width": "6em"},
                     "type": "number",
                     "value": grdt.year,
@@ -26,10 +27,12 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "month",
                     "class": "input",
                     "max": 12,
                     "min": 1,
+                    "oninput": lambda event: actions["transform"]["change_grdt_month"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": grdt.month,
@@ -40,10 +43,12 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "day",
                     "class": "input",
                     "max": 31,
                     "min": 1,
+                    "oninput": lambda event: actions["transform"]["change_grdt_day"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": grdt.day,
@@ -54,8 +59,10 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "hour",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_grdt_hour"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": grdt.hour,
@@ -66,8 +73,10 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "minute",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_grdt_minute"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": grdt.minute,
@@ -78,8 +87,10 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "second",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_grdt_second"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": grdt.second,
@@ -89,7 +100,6 @@ def view_grdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "timezone",
                     "class": "input",
                     "oninput": lambda event: actions["transform"][
                         "change_grdt_timezone"
@@ -117,17 +127,16 @@ def view_grdt(state, actions):
 def view_juld(state, actions):
     """View juld."""
     juld = state["transform"]["juld"]
-    ref = state["transform"]["juld_ref"]
     return h(
         "div",
         {"class": "field is-grouped"},
         [
-            h("label", {"class": "label", "for": ref}, "Julian Day"),
+            h("label", {"class": "label"}, "Julian Day"),
             h(
                 "input",
                 {
-                    "id": ref,
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_juld"](event),
                     "step": 0.00001,
                     "type": "number",
                     "value": round(juld.julian_day, 5),
@@ -161,17 +170,16 @@ def view_delta_t(state, actions):
 def view_tert(state, actions):
     """View tert."""
     tert = state["transform"]["tert"]
-    ref = state["transform"]["tert_ref"]
     return h(
         "div",
         {"class": "field is-grouped"},
         [
-            h("label", {"class": "label", "for": ref}, "Terrestrial Time"),
+            h("label", {"class": "label"}, "Terrestrial Time"),
             h(
                 "input",
                 {
-                    "id": ref,
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_tert"](event),
                     "step": 0.00001,
                     "type": "number",
                     "value": round(tert.terrestrial_time, 5),
@@ -208,17 +216,16 @@ def view_mrls(state, actions):
 def view_mrsd(state, actions):
     """View mrsd."""
     mrsd = state["transform"]["mrsd"]
-    ref = state["transform"]["mrsd_ref"]
     return h(
         "div",
         {"class": "field is-grouped"},
         [
-            h("label", {"class": "label", "for": ref}, "Mars Sol Date"),
+            h("label", {"class": "label"}, "Mars Sol Date"),
             h(
                 "input",
                 {
-                    "id": ref,
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_mrsd"](event),
                     "step": 0.00001,
                     "type": "number",
                     "value": round(mrsd.mars_sol_date, 5),
@@ -242,17 +249,16 @@ def view_mrsd(state, actions):
 def view_imsn(state, actions):
     """View ImperialSolNumber."""
     imsn = state["transform"]["imsn"]
-    ref = state["transform"]["imsn_ref"]
     return h(
         "div",
         {"class": "field is-grouped"},
         [
-            h("label", {"class": "label", "for": ref}, "Imperial Sol Number"),
+            h("label", {"class": "label"}, "Imperial Sol Number"),
             h(
                 "input",
                 {
-                    "id": ref,
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_imsn"](event),
                     "step": 0.00001,
                     "type": "number",
                     "value": round(imsn.imperial_sol_number, 5),
@@ -276,17 +282,18 @@ def view_imsn(state, actions):
 def view_imdt(state, actions):
     """View ImperialDateTime."""
     imdt = state["transform"]["imdt"]
-    ref = state["transform"]["imdt_ref"]
     return h(
         "div",
         {"class": "field is-grouped is-grouped-multiline"},
         [
-            h("label", {"class": "label", "for": ref + "year"}, "Imperial Date Time"),
+            h("label", {"class": "label"}, "Imperial Date Time"),
             h(
                 "input",
                 {
-                    "id": ref + "year",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_imdt_year"](
+                        event
+                    ),
                     "style": {"width": "6em"},
                     "type": "number",
                     "value": imdt.year,
@@ -297,10 +304,12 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "month",
                     "class": "input",
                     "max": 24,
                     "min": 1,
+                    "oninput": lambda event: actions["transform"]["change_imdt_month"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": imdt.month,
@@ -311,10 +320,12 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "day",
                     "class": "input",
                     "max": 28,
                     "min": 1,
+                    "oninput": lambda event: actions["transform"]["change_imdt_day"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": imdt.day,
@@ -325,8 +336,10 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "hour",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_imdt_hour"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": imdt.hour,
@@ -337,8 +350,10 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "minute",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_imdt_minute"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": imdt.minute,
@@ -349,8 +364,10 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "second",
                     "class": "input",
+                    "oninput": lambda event: actions["transform"]["change_imdt_second"](
+                        event
+                    ),
                     "style": {"width": "3.5em"},
                     "type": "number",
                     "value": imdt.second,
@@ -360,7 +377,6 @@ def view_imdt(state, actions):
             h(
                 "input",
                 {
-                    "id": ref + "timezone",
                     "class": "input",
                     "oninput": lambda event: actions["transform"][
                         "change_imdt_timezone"
