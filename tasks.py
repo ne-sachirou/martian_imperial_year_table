@@ -134,6 +134,7 @@ def clean():
 @task
 def deploy_staging():
     """Deploy to staging."""
+    run("./deployments/base/secret.sh")
     with powershell() as _run:
         _run(
             r"""

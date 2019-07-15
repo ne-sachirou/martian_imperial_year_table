@@ -16,12 +16,13 @@ spec:
       maxUnavailable: 50%
   template:
     metadata:
-      labels: {}
+      annotations:
+        mackerel.io/roles: martian-imperial-year-table:web
     spec:
       containers:
         - name: web
           image: gcr.io/c4se-197915/martian_imperial_year_table:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -30,9 +31,35 @@ spec:
               path: /ops/heartbeat
               port: 5000
           resources:
-            limits:
-              cpu: 200m
-              memory: 256Mi
             requests:
               cpu: 100m
               memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+        - name: mackerel-container-agent
+          image: mackerel/mackerel-container-agent:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 128Mi
+          env:
+            - name: MACKEREL_CONTAINER_PLATFORM
+              value: kubernetes
+            - name: MACKEREL_KUBERNETES_KUBELET_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: MACKEREL_KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: MACKEREL_KUBERNETES_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MACKEREL_ROLES
+              value: martian-imperial-year-table:web
+          envFrom:
+            - secretRef:
+                name: martian-imperial-year-table

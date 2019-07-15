@@ -3,7 +3,6 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: martian-imperial-year-table
-  labels: {}
 spec:
   maxReplicas: 2
   minReplicas: 1

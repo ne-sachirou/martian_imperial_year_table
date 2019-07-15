@@ -1,5 +1,6 @@
 __target__
 .envrc
+/deployments/*/secret
 /static/css
 /static/js
 

@@ -3,6 +3,5 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: martian-imperial-year-table
-  labels: {}
 spec:
   rules: []
