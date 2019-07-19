@@ -9,8 +9,3 @@ resources:
   - ing.yaml
   - pdb.yaml
   - svc.yaml
-secretGenerator:
-  - name: martian-imperial-year-table
-    files:
-      - MACKEREL_APIKEY=secret/MACKEREL_APIKEY
-    type: Opaque

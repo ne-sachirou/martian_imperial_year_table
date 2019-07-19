@@ -21,7 +21,7 @@ Requirements :
 
 - Python 3
 - Docker
-- gcloud, kubectl (only for deploy)
+- gcloud (only for deploy)
 
 See `./tasks.py help`.
 

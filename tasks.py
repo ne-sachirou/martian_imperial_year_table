@@ -134,17 +134,6 @@ def clean():
 @task
 def deploy_staging():
     """Deploy to staging."""
-    run("./deployments/base/secret.sh")
-    with powershell() as _run:
-        _run(
-            r"""
-            kubectl apply \
-                -n staging \
-                --prune \
-                --selector app=martian-imperial-year-table \
-                -k deployments\staging
-            """
-        )
     run("git tag -f staging")
     run("git push -f origin staging")
     with powershell() as _run:
@@ -162,22 +151,11 @@ def deploy_staging():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
-        _run("kubectl -n staging get ev -w --sort-by '.metadata.creationTimestamp'")
 
 
 @task
 def deploy_production():
     """Deploy to production."""
-    with powershell() as _run:
-        _run(
-            r"""
-            kubectl apply \
-                -n default \
-                --prune \
-                --selector app=martian-imperial-year-table \
-                -k deployments\production
-            """
-        )
     run("git tag -f production")
     run("git push -f origin production")
     with powershell() as _run:
@@ -195,7 +173,6 @@ def deploy_production():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
-        _run("kubectl -n default get ev -w --sort-by '.metadata.creationTimestamp'")
 
 
 @task

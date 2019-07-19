@@ -5,7 +5,10 @@ from node_modules.hyperapp.src.index import h  # type: ignore
 def view_global_navigation(state, actions):
     """UI global navigation view."""
     navbar_tab_items = []
-    for (main_content, title) in [("transform", "變換"), ("description", "解説")]:
+    for (main_content, href, title) in [
+        ("transform", "/", "變換"),
+        ("description", "/description", "解説"),
+    ]:
         klass = ["is-tab", "navbar-item"]
         if state["global_navigation"]["main_content"] == main_content:
             klass.append("is-active")
@@ -14,6 +17,7 @@ def view_global_navigation(state, actions):
             {
                 "class": " ".join(klass),
                 "data-main-content": main_content,
+                "href": href,
                 "onclick": lambda event: actions["global_navigation"][
                     "switch_main_content"
                 ](event),
