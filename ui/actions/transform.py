@@ -7,7 +7,9 @@ from imperial_calendar.MarsSolDate import MarsSolDate
 from imperial_calendar.TerrestrialTime import TerrestrialTime
 import typing as t
 
+Date: t.Any = 0  # __:skip
 document: t.Any = 0  # __:skip
+setTimeout: t.Any = 0  # __:skip
 
 
 class Api(object):
@@ -119,6 +121,35 @@ def draw_datetimes(state, datetimes):
         "imsn": imsn,
         "imdt": imdt,
     }
+
+
+def set_to_current(state, actions, event):
+    """Set to current."""
+    event.stopPropagation()
+    event.preventDefault()
+    now = __new__(Date)  # noqa
+    offset = now.getTimezoneOffset()
+    if offset <= 0:
+        sign = "+"
+    else:
+        sign = "-"
+    # grdt_timezone = "{0}{1:0>2}:{2:0>2}".format(
+    #     sign, abs(offset) // 60, abs(offset) % 60
+    # )
+    grdt_timezone = "{0}{1}:{2}".format(
+        sign, f"0{abs(offset) // 60}".substr(-2), f"0{abs(offset) % 60}".substr(-2)
+    )
+    grdt = GregorianDateTime(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        now.getDate(),
+        now.getHours(),
+        now.getMinutes(),
+        now.getSeconds(),
+        grdt_timezone,
+    )
+    setTimeout(lambda: actions["sync_by_grdt"](None), 0)
+    return {"grdt": grdt, "grdt_timezone": grdt_timezone}
 
 
 async def sync_by_grdt(state, actions, event):
@@ -269,6 +300,9 @@ def transform_actions() -> t.Dict[str, t.Callable]:
         ),
         "draw_datetimes": lambda datetimes: lambda state: draw_datetimes(
             state, datetimes
+        ),
+        "set_to_current": lambda event: lambda state, actions: set_to_current(
+            state, actions, event
         ),
         "sync_by_grdt": lambda event: lambda state, actions: sync_by_grdt(
             state, actions, event
