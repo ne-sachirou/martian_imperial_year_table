@@ -2,6 +2,26 @@
 from node_modules.hyperapp.src.index import h  # type: ignore
 
 
+def view_set_to_current(state, actions):
+    """View set to current."""
+    return h(
+        "div",
+        {},
+        [
+            h(
+                "button",
+                {
+                    "class": "button is-dark",
+                    "onclick": lambda event: actions["transform"]["set_to_current"](
+                        event
+                    ),
+                },
+                "現在日時",
+            )
+        ],
+    )
+
+
 def view_grdt(state, actions):
     """View grdt."""
     grdt = state["transform"]["grdt"]
@@ -407,6 +427,7 @@ def view_transform(state, actions):
         "div",
         {},
         [
+            view_set_to_current,
             view_grdt,
             view_juld,
             view_delta_t,
