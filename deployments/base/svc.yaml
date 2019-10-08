@@ -4,6 +4,9 @@ kind: Service
 metadata:
   name: martian-imperial-year-table
   labels: {}
+  annotations:
+    cloud.google.com/neg: |
+      {"ingress": true}
 spec:
   type: NodePort
   ports:
