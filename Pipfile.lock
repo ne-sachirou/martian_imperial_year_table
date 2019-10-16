@@ -164,10 +164,10 @@
         },
         "attrs": {
             "hashes": [
-                "sha256:ec20e7a4825331c1b5ebf261d111e16fa9612c1f7a5e1f884f12bd53a664dfd2",
-                "sha256:f913492e1663d3c36f502e5e9ba6cd13cf19d7fab50aa13239e420fef95e1396"
+                "sha256:08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c",
+                "sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72"
             ],
-            "version": "==19.2.0"
+            "version": "==19.3.0"
         },
         "black": {
             "hashes": [
@@ -342,11 +342,11 @@
         },
         "yamllint": {
             "hashes": [
-                "sha256:67173339f28868260ce5912abfefa10e115ceb1d2ac1c4d8c7acc8c4ef6c9a8a",
-                "sha256:70a6f8316851254e197a6231c35577be29fa2fbe2c77390a54c9a50217cdaa13"
+                "sha256:24f05b7ff1a604120eeb5ff7afb7ed8792253bfa96ee83db9cec6d5c20feaf64",
+                "sha256:d42dbb35b3d28722a8c5c25de4593add0a6215b2732eb6932d89f38482c3d01c"
             ],
             "index": "pypi",
-            "version": "==1.17.0"
+            "version": "==1.18.0"
         }
     }
 }
