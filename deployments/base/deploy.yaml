@@ -19,6 +19,10 @@ spec:
       annotations:
         mackerel.io/roles: martian-imperial-year-table:web
     spec:
+      volumes:
+        - name: mackerel-agent-config
+          configMap:
+            name: mackerel-agent-config
       containers:
         - name: web
           image: gcr.io/c4se-197915/martian_imperial_year_table:latest
@@ -63,3 +67,7 @@ spec:
           envFrom:
             - secretRef:
                 name: martian-imperial-year-table
+          volumeMounts:
+            - name: mackerel-agent-config
+              mountPath: /etc/mackerel
+              readOnly: true
