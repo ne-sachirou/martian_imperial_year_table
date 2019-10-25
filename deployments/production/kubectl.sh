@@ -2,11 +2,16 @@
 
 set -eux
 
-curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest | \
-grep -E 'browser_download.+linux' | \
-cut -d '"' -f 4 | \
-xargs -r -t curl -L -o /usr/local/bin/kustomize
-chmod +x /usr/local/bin/kustomize
+# https://github.com/kubernetes-sigs/kustomize/blob/master/docs/INSTALL.md
+curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
+  grep browser_download |\
+  grep linux |\
+  cut -d '"' -f 4 |\
+  grep /kustomize/v |\
+  sort | tail -n 1 |\
+  xargs -t curl -O -L
+tar vxzf ./kustomize_v*_linux_amd64.tar.gz
+mv kustomize /usr/local/bin
 
 cd deployments/production || exit 1
 mkdir -p secret
