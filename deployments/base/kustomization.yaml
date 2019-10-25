@@ -7,5 +7,6 @@ resources:
   - deploy.yaml
   - hpa.yaml
   - ing.yaml
+  - mackerel-agent-config.yaml
   - pdb.yaml
   - svc.yaml
