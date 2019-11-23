@@ -1,4 +1,4 @@
-"""帝國火星暦の日時."""
+"""帝國火星曆の日時."""
 import re  # __:skip
 import typing as t
 
@@ -22,7 +22,7 @@ def parse_timezone(timezone: str) -> float:
 
 
 class ImperialDateTime(object):
-    """帝國火星暦の日時."""
+    """帝國火星曆の日時."""
 
     dummy = 42
 

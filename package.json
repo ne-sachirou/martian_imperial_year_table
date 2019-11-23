@@ -1,7 +1,7 @@
 {
   "name": "martian_imperial_year_table",
   "version": "1.0.0",
-  "description": "帝國火星暦テーブル",
+  "description": "帝國火星曆テーブル",
   "main": "main.py",
   "directories": {
     "test": "tests"

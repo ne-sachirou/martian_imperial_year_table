@@ -1,10 +1,10 @@
-"""帝國火星暦の通算日."""
+"""帝國火星曆の通算日."""
 import math
 import typing as t
 
 
 class ImperialSolNumber(object):
-    """帝國火星暦の通算日."""
+    """帝國火星曆の通算日."""
 
     def __init__(self, day: t.Union[float, int], second=0.0) -> None:
         """Init."""

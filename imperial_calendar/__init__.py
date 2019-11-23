@@ -1,4 +1,4 @@
-"""Imperial Calendar (帝國火星暦)."""
+"""Imperial Calendar (帝國火星曆)."""
 from imperial_calendar.GregorianDateTime import GregorianDateTime
 from imperial_calendar.ImperialDateTime import ImperialDateTime
 from imperial_calendar.ImperialSolNumber import ImperialSolNumber

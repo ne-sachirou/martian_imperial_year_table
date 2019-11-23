@@ -1,4 +1,4 @@
-"""帝國火星暦の通算日を日時に變換する."""
+"""帝國火星曆の通算日を日時に變換する."""
 from imperial_calendar.ImperialDateTime import ImperialDateTime
 from imperial_calendar.ImperialSolNumber import ImperialSolNumber
 from imperial_calendar.internal.consts import (
@@ -9,7 +9,7 @@ from imperial_calendar.internal.consts import (
 
 
 def imsn_to_imdt(imsn: ImperialSolNumber) -> ImperialDateTime:
-    """帝國火星暦の通算日を日時に變換する."""
+    """帝國火星曆の通算日を日時に變換する."""
     (millennium, days_in_millennium) = divmod(imsn.day, imperial_millennium_days)
     years_in_millennium = (
         len(

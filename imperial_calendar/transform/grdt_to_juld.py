@@ -1,11 +1,11 @@
-"""グレゴリオ暦の日時をユリウス通日に變換する."""
+"""グレゴリオ曆の日時をユリウス通日に變換する."""
 from imperial_calendar.GregorianDateTime import GregorianDateTime
 from imperial_calendar.JulianDay import JulianDay
 import math
 
 
 def grdt_to_juld(grdt: GregorianDateTime) -> JulianDay:
-    """グレゴリオ暦の日時をユリウス通日に變換する."""
+    """グレゴリオ曆の日時をユリウス通日に變換する."""
     intercept_day = 1721088
     intercept_second = 0.5 * 24.0 * 60.0 * 60.0
     if grdt.month in [1, 2]:

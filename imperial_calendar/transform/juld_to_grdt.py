@@ -1,5 +1,5 @@
 """
-ユリウス通日をグレゴリオ暦の日時に變換する.
+ユリウス通日をグレゴリオ曆の日時に變換する.
 
 cf. http://astronomy.webcrow.jp/time/julianday-gregoriancalendar.html
 """
@@ -9,7 +9,7 @@ import math
 
 
 def juld_to_grdt(juld: JulianDay) -> GregorianDateTime:
-    """ユリウス通日をグレゴリオ暦の日時に變換する."""
+    """ユリウス通日をグレゴリオ曆の日時に變換する."""
     A = math.floor(juld.julian_day + 68569.5)
     B = juld.julian_day + 0.5
     a = math.floor(A / 36524.25)

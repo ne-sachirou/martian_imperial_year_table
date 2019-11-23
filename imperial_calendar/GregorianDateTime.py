@@ -1,4 +1,4 @@
-"""グレゴリオ暦の日時."""
+"""グレゴリオ曆の日時."""
 import typing as t
 
 # __pragma__("skip")
@@ -33,7 +33,7 @@ def parse_timezone(timezone: str) -> tzinfo:
 
 
 class GregorianDateTime(object):
-    """グレゴリオ暦の日時."""
+    """グレゴリオ曆の日時."""
 
     dummy = 42
 

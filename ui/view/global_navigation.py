@@ -44,12 +44,12 @@ def view_global_navigation(state, actions):
                             h(
                                 "img",
                                 {
-                                    "alt": "帝國火星暦",
+                                    "alt": "帝國火星曆",
                                     "src": "/static/img/martian_empire.png",
                                 },
                                 [],
                             ),
-                            h("div", {}, "帝國火星暦"),
+                            h("div", {}, "帝國火星曆"),
                         ],
                     ),
                     h(

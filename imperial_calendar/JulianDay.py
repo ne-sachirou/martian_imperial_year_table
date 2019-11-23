@@ -8,7 +8,7 @@ def julian_day_to_julian_year(juld) -> float:
     """ユリウス通日をユリウス年表示に變換する."""
     julian_day_to_julian_year_intercept = 1721117.5
     tweaked_julian_day = juld.julian_day - julian_day_to_julian_year_intercept
-    # ユリウス暦0年3月1日正子を0とする通算日數を計算。
+    # ユリウス曆0年3月1日正子を0とする通算日數を計算。
     quadrennium = divmod(tweaked_julian_day, (365 * 4 + 1))
     if quadrennium[1] < 365:
         quadrennial_year = 0

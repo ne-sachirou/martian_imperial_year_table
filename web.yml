@@ -1,7 +1,7 @@
 ---
 openapi: "3.0.0"
 info:
-  title: 帝國火星暦テーブル
+  title: 帝國火星曆テーブル
   version: "0.0.1"
 paths:
   /api/datetimes:

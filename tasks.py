@@ -117,7 +117,7 @@ def build():
                 .
             """
         )
-    setup()
+    # setup()
     run("mkdir -p static/css static/js")
     run("cp node_modules/bulma/css/* static/css/")
     with docker() as _run:
