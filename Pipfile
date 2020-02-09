@@ -16,7 +16,7 @@ flake8 = "*"
 flake8-docstrings = "*"
 flake8-mypy = "*"
 mypy = "*"
-pydocstyle = "<5.0"
+pydocstyle = "<6.0"
 transcrypt = "*"
 yamllint = "*"
 
