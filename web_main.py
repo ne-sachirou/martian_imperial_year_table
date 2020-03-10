@@ -80,7 +80,7 @@ def index() -> str:
 
 @app.route("/description")
 def description() -> str:
-    """Description."""
+    """Describe Martian Imperial Calendar."""
     with open("templates/description.md") as f:
         return markdown.markdown(f.read(), extensions=[], output_format="html5")
 

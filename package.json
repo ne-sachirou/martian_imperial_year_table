@@ -20,10 +20,11 @@
   },
   "homepage": "https://github.com/ne-sachirou/martian_imperial_year_table#readme",
   "dependencies": {
-    "bulma": "^0.7.5",
-    "hyperapp": "^1.2.10"
+    "bulma": "^0.8.1",
+    "hyperapp": "^2.0.4"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "npm-check-updates": "^4.1.1",
+    "prettier": "^2.0.4"
   }
 }

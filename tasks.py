@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 """
 Tasks.
 
@@ -49,17 +49,20 @@ def run_in_docker(
     """Run command in Docker."""
     command = command.strip()
     print(command)
-    cwd = os.getcwd()
-    if cwd.startswith("/mnt/c"):
-        cwd = re.sub("^/mnt", "", cwd)
+    # cwd = os.getcwd()
+    # if cwd.startswith("/mnt/c"):
+    #     cwd = re.sub("^/mnt", "", cwd)
     return subprocess.run(
         fr"""
-        docker run \
-            -v {quote(cwd)}:/data:cached \
-            --rm \
-            {docker_options} \
-            martian_imperial_year_table:development {command}
+        docker-compose {docker_options} run --rm web {command}
         """,
+        # fr"""
+        # docker run \
+        #     -v {quote(cwd)}:/mnt:cached \
+        #     --rm \
+        #     {docker_options} \
+        #     martian_imperial_year_table:development {command}
+        # """,
         capture_output=capture_output,
         check=True,
         shell=True,
@@ -106,29 +109,25 @@ def within_wsl() -> bool:
 @task
 def build():
     """Build."""
-    if not within_docker():
-        run(
-            r"""
-            docker build \
-                -f deployments/development/Dockerfile \
-                -t martian_imperial_year_table:development \
-                --force-rm \
-                --pull \
-                .
-            """
-        )
-    # setup()
     run("mkdir -p static/css static/js")
-    run("cp node_modules/bulma/css/* static/css/")
+    if not within_docker():
+        run("docker-compose pull web-src")
+        run("docker-compose build --force-rm --pull")
+        run("docker-compose run --rm web-src /docker-entrypoint.d/precopy_appsync.sh")
     with docker() as _run:
-        _run("pipenv run transcrypt -b -m -n ui_main.py")
-    run("mv __target__/* static/js/")
+        _run(
+            "sh -eux -c {:s}".format(quote(r"cp node_modules/bulma/css/* static/css/"))
+        )
+        _run("poetry run transcrypt -b -m -n ui_main.py")
+        _run("sh -eux -c {:s}".format(quote(r"mv __target__/* static/js/")))
 
 
 @task
 def clean():
     """Clean built files."""
-    run("rm -rf __target__ static/css static/js")
+    run("docker-compose down -v")
+    run("rm -rf static/css static/js")
+    run("rm -rf __target__ node_modules")
 
 
 @task
@@ -178,51 +177,69 @@ def deploy_production():
 @task
 def format():
     """Format code."""
-    run(r"ag -l '\r' | xargs -r -t sed -i -e 's/\r//'")
+    run(r"ag -l '\r' | xargs -t -I{} sed -i -e 's/\r//' {}")
     with docker() as _run:
-        _run("pipenv run black *.py imperial_calendar tests ui")
-        _run("node_modules/.bin/prettier --write README.md templates/*.md")
-
-
-@task
-def setup():
-    """Install deps."""
-    with docker() as _run:
-        _run("pipenv install -d")
-        _run("npm install")
+        _run("poetry run black *.py imperial_calendar tests ui")
+        _run("npx prettier --write README.md templates/*.md")
 
 
 @task
 def sh():
     """Run shell in docker."""
     with docker() as _run:
-        _run("sh", "-it")
+        _run("sh")
 
 
 @task
 def start():
     """Start dev server."""
-    with docker() as _run:
-        _run("", "-p 0.0.0.0:5000:5000")
+    run("docker-compose up")
 
 
+@task
 def test():
     """Test."""
+    for env in ["development", "staging"]:
+        run(
+            fr"""
+           docker run -i \
+             -v $(pwd):/mnt \
+             --rm \
+             hadolint/hadolint \
+             hadolint \
+               --config /mnt/.hadolint.yaml \
+               /mnt/deployments/{env}/Dockerfile
+           """
+        )
     with docker() as _run:
-        _run("pipenv check || true")
+        _run("poetry check")
         _run("npm audit")
-        _run(r"ag --hidden -g '\.ya?ml$' | xargs -r -t pipenv run yamllint")
-        _run("hadolint deployments/*/Dockerfile")
-        _run("pipenv run black --check *.py imperial_calendar tests ui")
-        _run("pipenv run flake8 .")
-        _run("pipenv run mypy debug.py")
-        _run("pipenv run python -m unittest discover -s tests/imperial_calendar")
-        _run("FLASK_ENV=testing pipenv run python -m unittest discover -s tests/web")
+        _run(
+            "sh -eux -c {:s}".format(
+                quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")
+            )
+        )
+        _run("poetry run black --check *.py imperial_calendar tests ui")
+        _run("poetry run flake8 .")
+        _run("poetry run mypy debug.py")
+        _run("poetry run python -m unittest discover -s tests/imperial_calendar")
+        _run("poetry run python -m unittest discover -s tests/web")
+
+
+@task
+def update():
+    """Update dependencies."""
+    with docker() as _run:
+        _run("npm outdated || true")
+        _run("npx npm-check-updates -u")
+        _run("npm update")
+        _run("npm fund")
+        _run("poetry update")
 
 
 if len(sys.argv) == 1 or sys.argv[1] == "help":
     for task_name, describe in tasks.items():
         print(f"{task_name.ljust(16)}\t{describe}")
-    exit
+    exit(0)
 for task_name in sys.argv[1:]:
     locals()[task_name]()

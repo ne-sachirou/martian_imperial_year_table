@@ -2,20 +2,19 @@ FROM python:3-alpine AS builder
 
 SHELL ["/bin/ash", "-ex", "-o", "pipefail", "-c"]
 
-ENV PIPENV_VENV_IN_PROJECT=1
+WORKDIR /mnt
 
-WORKDIR /data
-
-COPY package.json package-lock.json Pipfile Pipfile.lock ./
+COPY package.json package-lock.json poetry.lock poetry.toml pyproject.toml ./
 RUN apk add --no-cache -t .build-deps \
     build-base \
+    curl \
     linux-headers \
     nodejs \
     npm \
     pcre-dev \
     python3-dev \
- && pip install pipenv \
- && pipenv install -d --deploy \
+ && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
+ && poetry install --no-dev \
  && npm ci \
  && rm -rf /var/cache/apk/*
 
@@ -25,38 +24,38 @@ COPY static/ static/
 COPY ui/ ui/
 RUN mkdir -p static/css static/js \
  && cp node_modules/bulma/css/* static/css/ \
- && pipenv run transcrypt -b -m -n ui_main.py \
+ && poetry run transcrypt -b -m -n ui_main.py \
  && mv __target__/* static/js/ \
- && rm -rf "$(pipenv --venv)" \
- && pipenv install --deploy
+ && rm -rf "$(poetry --venv)" \
+ && poetry install
 
 
 FROM python:3-alpine
 
 SHELL ["/bin/ash", "-ex", "-o", "pipefail", "-c"]
 
-ENV FLASK_ENV=production \
-    PIPENV_VENV_IN_PROJECT=1
+ENV FLASK_ENV=production
 
-WORKDIR /data
+WORKDIR /mnt
 
 RUN apk add --no-cache -t .build-deps \
+    curl \
     shadow \
- && apk add --no-cache \
+ && apk add --no-cache -t .runtime-deps \
     pcre \
- && pip install pipenv \
+ && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
  && useradd uwsgi --no-create-home --user-group \
  && apk del --purge .build-deps \
  && rm -rf /var/cache/apk/*
 
-COPY --from=builder /data/.venv/ .venv/
-COPY --from=builder /data/static/ static/
-COPY Pipfile Pipfile.lock web_main.py web.yml ./
+COPY --from=builder /mnt/.venv/ .venv/
+COPY --from=builder /mnt/static/ static/
+COPY poetry.lock poetry.toml pyproject.toml web_main.py web.yml ./
 COPY imperial_calendar/ imperial_calendar/
 COPY templates/ templates/
 
 EXPOSE 5000 9191
-ENTRYPOINT ["pipenv", "run", "uwsgi", \
+ENTRYPOINT ["poetry", "run", "uwsgi", \
             "--die-on-term", \
             "--master", \
             "--uid", "uwsgi", \

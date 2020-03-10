@@ -10,6 +10,6 @@ setTimeout: t.Any = 0  # __:skip
 
 
 def main():
-    """Main."""
+    """UI Main."""
     main = app(initial_state(), actions(), view, document.getElementById("app"))
     setTimeout(lambda: main["transform"]["sync_by_grdt"](None), 0)
