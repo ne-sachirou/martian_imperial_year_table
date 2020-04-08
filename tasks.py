@@ -112,12 +112,33 @@ def build():
     run("mkdir -p static/css static/js")
     if not within_docker():
         run("docker-compose pull web-src")
-        run("docker-compose build --force-rm --pull")
+        run(
+            r"""
+            docker-compose build \
+              --build-arg BUILDKIT_INLINE_CACHE=1 \
+              --force-rm \
+              --parallel \
+              --pull
+            """
+        )
         run("docker-compose run --rm web-src /docker-entrypoint.d/precopy_appsync.sh")
     with docker() as _run:
         _run(
             "sh -eux -c {:s}".format(quote(r"cp node_modules/bulma/css/* static/css/"))
         )
+        _run(
+            "cp node_modules/create-react-class/create-react-class.js static/js/create-react-class.js"
+        )
+        _run(
+            "cp node_modules/react-dom/umd/react-dom.development.js static/js/react-dom.js"
+        )
+        _run(
+            "cp node_modules/react-hook-form/dist/react-hook-form.umd.js static/js/react-hook-form.js"
+        )
+        _run(
+            "cp node_modules/react-router-dom/umd/react-router-dom.js static/js/react-router-dom.js"
+        )
+        _run("cp node_modules/react/umd/react.development.js static/js/react.js")
         _run("poetry run transcrypt -b -m -n ui_main.py")
         _run("sh -eux -c {:s}".format(quote(r"mv __target__/* static/js/")))
 
@@ -125,7 +146,8 @@ def build():
 @task
 def clean():
     """Clean built files."""
-    run("docker-compose down -v")
+    if not within_docker():
+        run("docker-compose down -v")
     run("rm -rf static/css static/js")
     run("rm -rf __target__ node_modules")
 
@@ -199,26 +221,27 @@ def start():
 @task
 def test():
     """Test."""
-    for env in ["development", "staging"]:
-        run(
-            fr"""
-           docker run -i \
-             -v $(pwd):/mnt \
-             --rm \
-             hadolint/hadolint \
-             hadolint \
-               --config /mnt/.hadolint.yaml \
-               /mnt/deployments/{env}/Dockerfile
-           """
-        )
+    if not within_docker():
+        for env in ["development", "staging"]:
+            run(
+                fr"""
+               docker run -i \
+                 -v $(pwd):/mnt \
+                 --rm \
+                 hadolint/hadolint \
+                 hadolint \
+                   --config /mnt/.hadolint.yaml \
+                   /mnt/deployments/{env}/Dockerfile
+               """
+            )
     with docker() as _run:
         _run("poetry check")
         _run("npm audit")
-        _run(
-            "sh -eux -c {:s}".format(
-                quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")
-            )
-        )
+        # _run(
+        #     "sh -eux -c {:s}".format(
+        #         quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")
+        #     )
+        # )
         _run("poetry run black --check *.py imperial_calendar tests ui")
         _run("poetry run flake8 .")
         _run("poetry run mypy debug.py")
@@ -232,7 +255,7 @@ def update():
     with docker() as _run:
         _run("npm outdated || true")
         _run("npx npm-check-updates -u")
-        _run("npm update")
+        _run("npm install")
         _run("npm fund")
         _run("poetry update")
 

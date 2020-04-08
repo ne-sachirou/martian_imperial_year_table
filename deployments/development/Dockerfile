@@ -25,7 +25,7 @@ RUN apk add --no-cache -t .build-deps \
     rsync \
     the_silver_searcher \
  && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
- && apk del .build-deps \
+ && apk del --purge .build-deps \
  && rm -rf /var/cache/apk/*
 
 COPY package.json package-lock.json poetry.lock poetry.toml pyproject.toml ./

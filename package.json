@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "make test"
+    "start": "./tasks.py start",
+    "test": "./tasks.py test"
   },
   "repository": {
     "type": "git",
@@ -20,11 +21,15 @@
   },
   "homepage": "https://github.com/ne-sachirou/martian_imperial_year_table#readme",
   "dependencies": {
-    "bulma": "^0.8.1",
-    "hyperapp": "^2.0.4"
+    "bulma": "^0.8.2",
+    "create-react-class": "^15.6.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hook-form": "^5.3.1",
+    "react-router-dom": "^5.1.2"
   },
   "devDependencies": {
-    "npm-check-updates": "^4.1.1",
+    "npm-check-updates": "^4.1.2",
     "prettier": "^2.0.4"
   }
 }

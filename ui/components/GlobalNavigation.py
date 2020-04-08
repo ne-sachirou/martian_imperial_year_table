@@ -1,0 +1,86 @@
+"""GlobalNavigation component."""
+import typing as t
+
+React: t.Any = 0  # __:skip
+ReactRouterDOM: t.Any = 0  # __:skip
+
+
+def GlobalNavigation(props: dict):
+    """Render a GlobalNavigation component."""
+    [is_active, set_is_active] = React.useState(False)
+    return React.createElement(
+        "nav",
+        {"aria-label": "main navigation", "className": "navbar", "role": "navigation"},
+        React.createElement(
+            "div",
+            {"className": "navbar-brand"},
+            React.createElement(
+                "h1",
+                {"className": "navbar-item"},
+                React.createElement(
+                    "img", {"alt": "帝國火星曆", "src": "/static/img/martian_empire.png"}
+                ),
+            ),
+            React.createElement(
+                "a",
+                {
+                    "aria-expanded": "false",
+                    "aria-label": "menu",
+                    "className": "navbar-burger {}".format(
+                        "is-active" if is_active else ""
+                    ),
+                    "onClick": lambda event: set_is_active(not is_active),
+                    "role": "button",
+                },
+                React.createElement("span", {"aria-hidden": "true"}, ""),
+                React.createElement("span", {"aria-hidden": "true"}, ""),
+                React.createElement("span", {"aria-hidden": "true"}, ""),
+            ),
+        ),
+        React.createElement(
+            "div",
+            {"className": "navbar-menu {}".format("is-active" if is_active else "")},
+            React.createElement(
+                "div",
+                {"className": "navbar-start"},
+                React.createElement(
+                    ReactRouterDOM.NavLink,
+                    {
+                        "activeClassName": "is-active",
+                        "className": "is-tab navbar-item",
+                        "exact": None,
+                        "to": "/",
+                    },
+                    "變換",
+                ),
+                React.createElement(
+                    ReactRouterDOM.NavLink,
+                    {
+                        "activeClassName": "is-active",
+                        "className": "is-tab navbar-item",
+                        "to": "/description",
+                    },
+                    "解説",
+                ),
+            ),
+            React.createElement(
+                "div",
+                {"className": "navbar-end"},
+                React.createElement(
+                    "a",
+                    {
+                        "className": "navbar-item",
+                        "href": "https://github.com/ne-sachirou/martian_imperial_year_table",
+                        "title": "GitHub",
+                    },
+                    React.createElement(
+                        "img",
+                        {
+                            "alt": "GitHub",
+                            "src": "/static/img/GitHub-Mark-120px-plus.png",
+                        },
+                    ),
+                ),
+            ),
+        ),
+    )

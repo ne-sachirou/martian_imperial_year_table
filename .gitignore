@@ -1,5 +1,4 @@
 .envrc
-.venv/
 /deployments/*/secret
 /static/css
 /static/js

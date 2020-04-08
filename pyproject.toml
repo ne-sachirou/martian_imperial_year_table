@@ -6,9 +6,9 @@ authors = ["ne-sachirou <ne-sachirou@hatena.ne.jp>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-flasgger = "^0.9.4"
 Flask = "^1.1.2"
 Markdown = "^3.2.1"
+flasgger = "^0.9.4"
 pytz = "^2019.3"
 uwsgi = "^2.0.18"
 

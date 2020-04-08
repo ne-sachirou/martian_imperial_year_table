@@ -79,10 +79,9 @@ def index() -> str:
 
 
 @app.route("/description")
-def description() -> str:
+def index_description() -> str:
     """Describe Martian Imperial Calendar."""
-    with open("templates/description.md") as f:
-        return markdown.markdown(f.read(), extensions=[], output_format="html5")
+    return render_template("index.html")
 
 
 @app.route("/api/datetimes", methods=["GET"])
@@ -186,3 +185,12 @@ def datetimes() -> str:
             "imdt": imdt.__dict__,
         }
     )
+
+
+@app.route("/api/description")
+def description() -> str:
+    """Describe Martian Imperial Calendar."""
+    with open("templates/description.md") as f:
+        return jsonify(
+            {"html": markdown.markdown(f.read(), extensions=[], output_format="html5")}
+        )
