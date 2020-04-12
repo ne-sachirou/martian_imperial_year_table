@@ -45,7 +45,11 @@ spec:
           image: mackerel/mackerel-container-agent:latest
           imagePullPolicy: Always
           resources:
+            requests:
+              cpu: 50m
+              memory: 54Mi
             limits:
+              cpu: 100m
               memory: 128Mi
           env:
             - name: MACKEREL_CONTAINER_PLATFORM
