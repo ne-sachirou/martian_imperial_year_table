@@ -1,6 +1,5 @@
 """UI."""
-from ui.actions import actions
-from ui.initial_state import initial_state
-from ui.view import view
+from ui.Api import Api
+from ui.components import components
 
-__all__ = ["actions", "initial_state", "view"]
+__all__ = ["Api", "components"]

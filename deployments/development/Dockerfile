@@ -2,30 +2,35 @@ FROM python:3-alpine
 
 SHELL ["/bin/ash", "-ex", "-o", "pipefail", "-c"]
 
-ENV FLASK_APP=web_main.py \
-    FLASK_ENV=development \
-    PIPENV_VENV_IN_PROJECT=1
-
-WORKDIR /data
-VOLUME /data
-
-RUN apk add --no-cache -t .build-deps \
-    build-base \
-    linux-headers \
-    nodejs \
-    npm \
-    pcre-dev \
-    python3-dev \
- && apk add --no-cache -t .runtime-deps \
-    git \
-    the_silver_searcher \
- && pip install pipenv \
- && wget -O /usr/local/bin/container-structure-test https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \
- && chmod +x /usr/local/bin/container-structure-test \
- && wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 \
- && chmod +x /usr/local/bin/hadolint \
- && rm -rf /var/cache/apk/*
+WORKDIR /mnt
+VOLUME /mnt
 
 EXPOSE 5000
 
-CMD ["pipenv", "run", "flask", "run", "-h", "0.0.0.0"]
+ENV PATH=/root/.poetry/bin:$PATH
+
+RUN apk add --no-cache -t .build-deps \
+    curl \
+ && apk add --no-cache -t .runtime-deps \
+    build-base \
+    git \
+    inotify-tools \
+    libffi-dev \
+    linux-headers \
+    nodejs \
+    npm \
+    openssl-dev \
+    pcre-dev \
+    python3-dev \
+    rsync \
+    the_silver_searcher \
+ && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
+ && apk del --purge .build-deps \
+ && rm -rf /var/cache/apk/*
+
+COPY package.json package-lock.json poetry.lock poetry.toml pyproject.toml ./
+RUN poetry install \
+ && npm ci \
+ && mv node_modules /tmp
+
+ENTRYPOINT ["./deployments/development/entrypoint.sh"]
