@@ -203,6 +203,13 @@ def format():
     with docker() as _run:
         _run("poetry run black *.py imperial_calendar tests ui")
         _run("npx prettier --write README.md templates/*.md")
+        _run(
+            "sh -eux -c {:s}".format(
+                quote(
+                    r"ag --hidden -g \.ya?ml$ | xargs -t npx prettier --parser yaml --write"
+                )
+            )
+        )
 
 
 @task
