@@ -148,8 +148,8 @@ def clean():
     """Clean built files."""
     if not within_docker():
         run("docker-compose down -v")
-    run("rm -rf static/css static/js")
-    run("rm -rf __target__ node_modules")
+    run("rm -rfv static/css static/js")
+    run("rm -rfv __target__ node_modules")
 
 
 @task
@@ -257,12 +257,12 @@ def test():
 
 
 @task
-def update():
-    """Update dependencies."""
+def upgrade():
+    """Upgrade dependencies."""
     with docker() as _run:
-        _run("npm outdated || true")
         _run("npx npm-check-updates -u")
         _run("npm install")
+        _run("npm audit fix")
         _run("npm fund")
         _run("poetry update")
 
