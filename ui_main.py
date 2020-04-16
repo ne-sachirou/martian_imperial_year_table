@@ -7,9 +7,7 @@ ReactDOM: t.Any = 0  # __:skip
 document: t.Any = 0  # __:skip
 window: t.Any = 0  # __:skip
 
-
-def main():
-    """UI Main."""
+if __name__ == "__main__":
     window.addEventListener(
         "DOMContentLoaded",
         lambda event: ReactDOM.render(

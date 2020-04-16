@@ -23,18 +23,14 @@
     <meta name="twitter:title" content="帝國火星曆" />
     <title>帝國火星曆</title>
     <link rel="stylesheet" href="{{url_for("static", filename="css/bulma.min.css")}}" />
-    <script src="/static/js/react.js"></script>
-    <script src="/static/js/react-dom.js"></script>
-    <script src="/static/js/create-react-class.js"></script>
-    <script src="/static/js/react-hook-form.js"></script>
-    <script src="/static/js/react-router-dom.js"></script>
-    <script type="module">
-      import { main } from "{{url_for("static", filename="js/ui_main.js")}}";
-      window.process = {"env": {"NODE_ENV": "production"}}
-      main();
-    </script>
+    <script defer src="/static/js/react.js"></script>
+    <script defer src="/static/js/react-dom.js"></script>
+    <script defer src="/static/js/create-react-class.js"></script>
+    <script defer src="/static/js/react-hook-form.js"></script>
+    <script defer src="/static/js/react-router-dom.js"></script>
   </head>
   <body>
     <div id="app"></div>
+    <script src="{{url_for("static", filename="js/ui_main.js")}}" type="module"></script>
   </body>
 </html>

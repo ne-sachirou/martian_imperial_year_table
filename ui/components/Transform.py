@@ -11,6 +11,14 @@ import typing as t
 React: t.Any = 0  # __:skip
 ReactHookForm: t.Any = 0  # __:skip
 
+__pragma__(  # noqa: F821
+    "js",
+    "{}",
+    """
+    window.process = {"env": {"NODE_ENV": "production"}}
+    """,
+)
+
 INITIAL_DATETIME = {
     "grdt": GregorianDateTime(1970, 1, 1, 0, 0, 0, "+00:00"),
     "juld": JulianDay(2440587, 43200.0),
