@@ -20,7 +20,7 @@ flake8-mypy = "^17.8.0"
 mypy = "^0.770"
 pydocstyle = "^5.0.2"
 transcrypt = "^3.7.16"
-yamllint = "^1.22.0"
+yamllint = "^1.22.1"
 
 [build-system]
 requires = ["poetry>=1.0"]
