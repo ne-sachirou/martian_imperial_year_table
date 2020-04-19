@@ -15,6 +15,8 @@ __pragma__(  # noqa: F821
     "js",
     "{}",
     """
+    const React = require("react");
+    const ReactHookForm = require("react-hook-form");
     window.process = {"env": {"NODE_ENV": "production"}}
     """,
 )

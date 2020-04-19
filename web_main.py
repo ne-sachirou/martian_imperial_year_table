@@ -3,6 +3,7 @@ from datetime import timedelta
 from flasgger import swag_from, Swagger
 from flask import Flask, jsonify, request
 from flask import render_template
+from flask_gzip import Gzip
 from imperial_calendar import (
     GregorianDateTime,
     ImperialDateTime,
@@ -63,6 +64,7 @@ elif app.env == "testing":
     app.config.from_object(TestingConfig)
 else:
     raise Exception(f"Unknown FLASK_ENV: {app.env}")
+Gzip(app)
 Swagger(app)
 
 

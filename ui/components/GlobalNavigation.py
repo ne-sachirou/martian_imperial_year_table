@@ -1,6 +1,15 @@
 """GlobalNavigation component."""
 import typing as t
 
+__pragma__(  # noqa: F821
+    "js",
+    "{}",
+    """
+    const React = require("react");
+    const ReactRouterDOM = require("react-router-dom");
+    """,
+)
+
 React: t.Any = 0  # __:skip
 ReactRouterDOM: t.Any = 0  # __:skip
 

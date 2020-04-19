@@ -1,6 +1,15 @@
 """ErrorBoundary component."""
 import typing as t
 
+__pragma__(  # noqa: F821
+    "js",
+    "{}",
+    """
+    const React = require("react");
+    const createReactClass = require("create-react-class");
+    """,
+)
+
 React: t.Any = 0  # __:skip
 console: t.Any = 0  # __:skip
 createReactClass: t.Any = 0  # __:skip
