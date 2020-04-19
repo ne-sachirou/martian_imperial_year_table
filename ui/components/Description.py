@@ -2,6 +2,14 @@
 from ui.Api import Api
 import typing as t
 
+__pragma__(  # noqa: F821
+    "js",
+    "{}",
+    """
+    const React = require("react");
+    """,
+)
+
 React: t.Any = 0  # __:skip
 document: t.Any = 0  # __:skip
 js_undefined: t.Any = 0  # __:skip

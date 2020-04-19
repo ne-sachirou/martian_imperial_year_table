@@ -26,19 +26,14 @@ RUN apk add --no-cache -t .build-deps \
  && apk del --purge .build-deps \
  && rm -rf /var/cache/apk/*
 
-COPY ui_main.py ./
+COPY ui_main.py webpack.config.js ./
 COPY imperial_calendar/ imperial_calendar/
 COPY static/ static/
 COPY ui/ ui/
 RUN mkdir -p static/css static/js \
  && cp node_modules/bulma/css/* static/css/ \
- && cp node_modules/create-react-class/create-react-class.js static/js/create-react-class.js \
- && cp node_modules/react-dom/umd/react-dom.production.min.js static/js/react-dom.js \
- && cp node_modules/react-hook-form/dist/react-hook-form.umd.js static/js/react-hook-form.js \
- && cp node_modules/react-router-dom/umd/react-router-dom.js static/js/react-router-dom.js \
- && cp node_modules/react/umd/react.production.min.js static/js/react.js \
- && poetry run transcrypt -b -m -n ui_main.py \
- && mv __target__/* static/js/
+ && poetry run npx webpack \
+ && mv dist/* static/js/
 
 
 FROM python:3-alpine

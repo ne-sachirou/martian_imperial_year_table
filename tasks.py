@@ -126,21 +126,8 @@ def build():
         _run(
             "sh -eux -c {:s}".format(quote(r"cp node_modules/bulma/css/* static/css/"))
         )
-        _run(
-            "cp node_modules/create-react-class/create-react-class.js static/js/create-react-class.js"
-        )
-        _run(
-            "cp node_modules/react-dom/umd/react-dom.development.js static/js/react-dom.js"
-        )
-        _run(
-            "cp node_modules/react-hook-form/dist/react-hook-form.umd.js static/js/react-hook-form.js"
-        )
-        _run(
-            "cp node_modules/react-router-dom/umd/react-router-dom.js static/js/react-router-dom.js"
-        )
-        _run("cp node_modules/react/umd/react.development.js static/js/react.js")
-        _run("poetry run transcrypt -b -m -n ui_main.py")
-        _run("sh -eux -c {:s}".format(quote(r"mv __target__/* static/js/")))
+        _run("poetry run npx webpack")
+        _run("sh -eux -c {:s}".format(quote(r"mv dist/* static/js/")))
 
 
 @task
@@ -203,6 +190,7 @@ def format():
     with docker() as _run:
         _run("poetry run black *.py imperial_calendar tests ui")
         _run("npx prettier --write README.md templates/*.md")
+        _run("npx prettier --write *.js")
         _run(
             "sh -eux -c {:s}".format(
                 quote(
