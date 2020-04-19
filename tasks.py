@@ -126,7 +126,7 @@ def build():
         _run(
             "sh -eux -c {:s}".format(quote(r"cp node_modules/bulma/css/* static/css/"))
         )
-        _run("poetry run npx webpack")
+        _run("poetry run npx webpack --config webpack.development.js")
         _run("sh -eux -c {:s}".format(quote(r"mv dist/* static/js/")))
 
 
@@ -135,8 +135,8 @@ def clean():
     """Clean built files."""
     if not within_docker():
         run("docker-compose down -v")
-    run("rm -rfv static/css static/js")
-    run("rm -rfv __target__ node_modules")
+        run("rm -rfv node_modules")
+    run("rm -rfv __target__ static/css static/js")
 
 
 @task

@@ -26,13 +26,13 @@ RUN apk add --no-cache -t .build-deps \
  && apk del --purge .build-deps \
  && rm -rf /var/cache/apk/*
 
-COPY ui_main.py webpack.config.js ./
+COPY ui_main.py webpack.common.js webpack.production.js ./
 COPY imperial_calendar/ imperial_calendar/
 COPY static/ static/
 COPY ui/ ui/
 RUN mkdir -p static/css static/js \
  && cp node_modules/bulma/css/* static/css/ \
- && poetry run npx webpack \
+ && poetry run npx webpack --config webpack.production.js \
  && mv dist/* static/js/
 
 
