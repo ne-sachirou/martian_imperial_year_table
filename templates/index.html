@@ -22,12 +22,15 @@
     <meta name="twitter:site" content="@ta_haruna" />
     <meta name="twitter:title" content="帝國火星曆" />
     <title>帝國火星曆</title>
+    <link rel="shortcut icon" href="{{url_for("static", filename="img/favicon.ico")}}" />
+    <link rel="apple-touch-icon" href="{{url_for("static", filename="img/favicon.png")}}" />
+    <link rel="icon" href="{{url_for("static", filename="img/favicon.png")}}" type="image/png" />
     <link rel="stylesheet" href="{{url_for("static", filename="css/bulma.min.css")}}" />
-    <script defer src="/static/js/react.js"></script>
-    <script defer src="/static/js/react-dom.js"></script>
-    <script defer src="/static/js/create-react-class.js"></script>
-    <script defer src="/static/js/react-hook-form.js"></script>
-    <script defer src="/static/js/react-router-dom.js"></script>
+    <script defer src="{{url_for("static", filename="js/react.js")}}"></script>
+    <script defer src="{{url_for("static", filename="js/react-dom.js")}}"></script>
+    <script defer src="{{url_for("static", filename="js/create-react-class.js")}}"></script>
+    <script defer src="{{url_for("static", filename="js/react-hook-form.js")}}"></script>
+    <script defer src="{{url_for("static", filename="js/react-router-dom.js")}}"></script>
   </head>
   <body>
     <div id="app"></div>
