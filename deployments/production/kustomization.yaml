@@ -8,6 +8,7 @@ bases:
   - ../base/
 patchesStrategicMerge:
   - ing.yaml
+  - issuer.yaml
 secretGenerator:
   - name: martian-imperial-year-table
     files:

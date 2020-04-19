@@ -131,17 +131,6 @@ dotenv = ["python-dotenv"]
 
 [[package]]
 category = "main"
-description = "Compress responses in your Flask app with gzip."
-name = "flask-gzip"
-optional = false
-python-versions = "*"
-version = "0.2"
-
-[package.dependencies]
-Flask = "*"
-
-[[package]]
-category = "main"
 description = "Various helpers to pass data to untrusted environments and back."
 name = "itsdangerous"
 optional = false
@@ -396,7 +385,7 @@ pathspec = ">=0.5.3"
 pyyaml = "*"
 
 [metadata]
-content-hash = "d406a2f38be93773fc6ea03200fa57bc48d4fa14112b0e50d21377c6430946c7"
+content-hash = "6e4002dc93dedbf707621f9afdf77192c293d044db0a73c8d95dc2ec57d171e1"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -439,10 +428,6 @@ flasgger = [
 flask = [
     {file = "Flask-1.1.2-py2.py3-none-any.whl", hash = "sha256:8a4fdd8936eba2512e9c85df320a37e694c93945b33ef33c89946a340a238557"},
     {file = "Flask-1.1.2.tar.gz", hash = "sha256:4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060"},
-]
-flask-gzip = [
-    {file = "Flask-gzip-0.2.tar.gz", hash = "sha256:3adf55909c298a27aa4d3b8444dd54c12ccad9b290c7df2cfd17ca9fe9a4a019"},
-    {file = "Flask_gzip-0.2-py2-none-any.whl", hash = "sha256:239578c99630b13e16b53903d64f698c5b481d1811b5833e3f70c42ed298e6ed"},
 ]
 itsdangerous = [
     {file = "itsdangerous-1.1.0-py2.py3-none-any.whl", hash = "sha256:b12271b2047cb23eeb98c8b5622e2e5c5e9abd9784a153e9d8ef9cb4dd09d749"},

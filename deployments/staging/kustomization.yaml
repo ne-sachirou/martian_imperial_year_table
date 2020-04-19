@@ -4,12 +4,13 @@ kind: Kustomization
 namespace: martian-imperial-year-table-staging
 commonLabels:
   app: martian-imperial-year-table
-bases:
-  - ../base/
 patchesStrategicMerge:
   - ing.yaml
+  - issuer.yaml
 secretGenerator:
-  - name: martian-imperial-year-table
-    files:
+  - files:
       - MACKEREL_APIKEY=secret/MACKEREL_APIKEY
+    name: martian-imperial-year-table
     type: Opaque
+resources:
+  - ../base/
