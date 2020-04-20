@@ -16,8 +16,8 @@ spec:
       maxUnavailable: 50%
   template:
     metadata:
-      annotations:
-        mackerel.io/roles: martian-imperial-year-table:web
+      labels:
+        role: web
     spec:
       volumes:
         - name: mackerel-agent-config

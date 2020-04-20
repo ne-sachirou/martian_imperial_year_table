@@ -3,14 +3,15 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: martian-imperial-year-table
-  annotations:
-    ingress.gcp.kubernetes.io/pre-shared-cert: martian-imperial-year-table-production
 spec:
   rules:
     - host: martian-imperial-year-table.c4se.jp
       http:
         paths:
-          - path: /*
+          - path: /
             backend:
               serviceName: martian-imperial-year-table
               servicePort: 80
+  tls:
+    - hosts: [martian-imperial-year-table.c4se.jp]
+      secretName: letsencrypt-tls
