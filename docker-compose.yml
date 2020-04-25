@@ -32,6 +32,7 @@ services:
         -debug default -prefer /host_sync -numericids -auto -batch \
         -ignore 'Name .#*' \
         -ignore 'Name .git/*' \
+        -ignore 'Name .venv/*' \
         -ignore 'Name __target__/*' \
         -ignore 'Name node_modules/*' \
       UNISON_DEST: /app_sync
@@ -42,9 +43,9 @@ services:
         max-size: "10m"
         max-file: "2"
     volumes:
-      - ./deployments/development/src-entrypoints:/docker-entrypoint.d/:ro
-      - ./deployments/development/supervisor.conf.d:/etc/supervisor.conf.d:ro
-      - .:/host_sync:cached
+      - ${PWD:-.}/deployments/development/src-entrypoints:/docker-entrypoint.d/:ro
+      - ${PWD:-.}/deployments/development/supervisor.conf.d:/etc/supervisor.conf.d:ro
+      - ${PWD:-.}:/host_sync:cached
       - web-src:/app_sync
 
 volumes:
