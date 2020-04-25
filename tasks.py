@@ -5,15 +5,25 @@ Tasks.
 cf. Welcome to Invoke! — Invoke documentation https://www.pyinvoke.org/
 """
 from contextlib import contextmanager
+from shlex import quote
 import os
 import os.path
+import platform
 import re
-from shlex import quote
+import shutil
 import subprocess
 import sys
 import time
 
 tasks = {}
+
+
+def cwd_for_docker_volume() -> str:
+    """Get current directory for Docker volume. This works both on macOS & WSL."""
+    cwd = os.getcwd()
+    if cwd.startswith("/mnt/c"):
+        cwd = re.sub("^/mnt", "", cwd)
+    return cwd
 
 
 @contextmanager
@@ -23,6 +33,30 @@ def docker():
         yield run
     else:
         yield run_in_docker
+
+
+def docker_compose_exe() -> str:
+    """Get a DockerCompose executable name."""
+    if within_wsl():
+        return "docker-compose.exe"
+    else:
+        return "docker-compose"
+
+
+def docker_exe() -> str:
+    """Get a Docker executable name."""
+    if within_wsl():
+        return "docker.exe"
+    else:
+        return "docker"
+
+
+def kubectl_exe() -> str:
+    """Get a kubectl executable name."""
+    if within_wsl():
+        return "kubectl.exe"
+    else:
+        return "kubectl"
 
 
 @contextmanager
@@ -38,8 +72,15 @@ def run(command: str, capture_output=False, text=None) -> subprocess.CompletedPr
     """Run command."""
     command = command.strip()
     print(command)
+    env = os.environ.copy()
+    env["DOCKER_BUILDKIT"] = "1"
     return subprocess.run(
-        command, capture_output=capture_output, check=True, shell=True, text=text
+        command,
+        env=env,
+        capture_output=capture_output,
+        check=True,
+        shell=True,
+        text=text,
     )
 
 
@@ -49,20 +90,11 @@ def run_in_docker(
     """Run command in Docker."""
     command = command.strip()
     print(command)
-    # cwd = os.getcwd()
-    # if cwd.startswith("/mnt/c"):
-    #     cwd = re.sub("^/mnt", "", cwd)
+    env = os.environ.copy()
+    env["PWD"] = cwd_for_docker_volume()
     return subprocess.run(
-        fr"""
-        docker-compose {docker_options} run --rm web {command}
-        """,
-        # fr"""
-        # docker run \
-        #     -v {quote(cwd)}:/mnt:cached \
-        #     --rm \
-        #     {docker_options} \
-        #     martian_imperial_year_table:development {command}
-        # """,
+        f"{docker_compose_exe()} {docker_options} run --rm web {command}",
+        env=env,
         capture_output=capture_output,
         check=True,
         shell=True,
@@ -76,8 +108,11 @@ def run_in_powershell(
     """Run command in PowerShell if it's present."""
     command = re.sub(r"\\\n", r"`\n", command.strip())
     print(command)
+    env = os.environ.copy()
+    env["DOCKER_BUILDKIT"] = "1"
     return subprocess.run(
         f"powershell.exe -Command {quote(command)}",
+        env=env,
         capture_output=capture_output,
         check=True,
         shell=True,
@@ -103,25 +138,29 @@ def within_docker() -> bool:
 
 def within_wsl() -> bool:
     """Detect I'm in a WSL or not."""
-    return os.popen("which powershell.exe").read() != ""
+    uname = platform.uname()
+    return uname[0] == "Linux" and "Microsoft" in uname[2]
 
 
 @task
 def build():
     """Build."""
-    run("mkdir -p static/css static/js")
+    os.makedirs("static/css", exist_ok=True)
+    os.makedirs("static/js", exist_ok=True)
     if not within_docker():
-        run("docker-compose pull web-src")
+        run(f"{docker_compose_exe()} pull web-src")
         run(
-            r"""
-            docker-compose build \
+            rf"""
+            {docker_compose_exe()} build \
               --build-arg BUILDKIT_INLINE_CACHE=1 \
               --force-rm \
               --parallel \
               --pull
             """
         )
-        run("docker-compose run --rm web-src /docker-entrypoint.d/precopy_appsync.sh")
+        run(
+            f"{docker_compose_exe()} run --rm web-src /docker-entrypoint.d/precopy_appsync.sh"
+        )
     with docker() as _run:
         _run(
             "sh -eux -c {:s}".format(quote(r"cp node_modules/bulma/css/* static/css/"))
@@ -134,9 +173,11 @@ def build():
 def clean():
     """Clean built files."""
     if not within_docker():
-        run("docker-compose down -v")
-        run("rm -rfv node_modules")
-    run("rm -rfv __target__ static/css static/js")
+        run(f"{docker_compose_exe()} down -v")
+        shutil.rmtree("node_modules", ignore_errors=True)
+    shutil.rmtree("__target__", ignore_errors=True)
+    shutil.rmtree("static/css", ignore_errors=True)
+    shutil.rmtree("static/js", ignore_errors=True)
 
 
 @task
@@ -146,7 +187,7 @@ def deploy_staging():
     run("git push -f origin staging")
     with powershell() as _run:
         time.sleep(10)
-        builds_filter = r"""
+        builds_filter = """
         source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
         source.repoSource.tagName = staging
         """.strip().replace(
@@ -168,7 +209,7 @@ def deploy_production():
     run("git push -f origin production")
     with powershell() as _run:
         time.sleep(10)
-        builds_filter = r"""
+        builds_filter = """
         source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
         source.repoSource.tagName = production
         """.strip().replace(
@@ -220,8 +261,8 @@ def test():
         for env in ["development", "staging"]:
             run(
                 fr"""
-               docker run -i \
-                 -v $(pwd):/mnt \
+               {docker_exe()} run -i \
+                 -v {cwd_for_docker_volume()}:/mnt \
                  --rm \
                  hadolint/hadolint \
                  hadolint \
@@ -255,9 +296,10 @@ def upgrade():
         _run("poetry update")
 
 
-if len(sys.argv) == 1 or sys.argv[1] == "help":
-    for task_name, describe in tasks.items():
-        print(f"{task_name.ljust(16)}\t{describe}")
-    exit(0)
-for task_name in sys.argv[1:]:
-    locals()[task_name]()
+if __name__ == "__main__":
+    if len(sys.argv) == 1 or sys.argv[1] == "help":
+        for task_name, describe in tasks.items():
+            print(f"{task_name.ljust(16)}\t{describe}")
+        exit(0)
+    for task_name in sys.argv[1:]:
+        locals()[task_name]()

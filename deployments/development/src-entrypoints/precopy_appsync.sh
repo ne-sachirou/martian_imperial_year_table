@@ -5,6 +5,7 @@ rsync -auv \
       --delete \
       --exclude='.#*' \
       --exclude='.git/*' \
+      --exclude='.venv/*' \
       --exclude='__target__/*' \
       --exclude='node_modules/*' \
       /host_sync/ /app_sync
