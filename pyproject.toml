@@ -9,7 +9,7 @@ python = "^3.8"
 Flask = "^1.1.2"
 Markdown = "^3.2.1"
 flasgger = "^0.9.4"
-pytz = "^2019.3"
+pytz = "^2020.1"
 uwsgi = "^2.0.18"
 
 [tool.poetry.dev-dependencies]
