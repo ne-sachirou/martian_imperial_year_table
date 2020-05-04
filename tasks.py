@@ -229,7 +229,7 @@ def format():
     """Format code."""
     run(r"ag -l '\r' | xargs -t -I{} sed -i -e 's/\r//' {}")
     with docker() as _run:
-        _run("poetry run black *.py imperial_calendar tests ui")
+        _run("poetry run black *.py imperial_calendar tests ui web")
         _run("npx prettier --write README.md templates/*.md")
         _run("npx prettier --write *.js")
         _run(
@@ -251,7 +251,7 @@ def sh():
 @task
 def start():
     """Start dev server."""
-    run("docker-compose up")
+    run(f"{docker_compose_exe()} up")
 
 
 @task

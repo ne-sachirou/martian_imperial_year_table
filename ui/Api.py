@@ -60,7 +60,7 @@ class Api(object):
 
     async def get_description(self) -> dict:
         """Get description."""
-        response = await fetch("/api/description")
+        response = await fetch("/api/description.html")
         if not response.ok:
             raise Exception(f"{response.status}: {response.text()}")
         return await response.json()

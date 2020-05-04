@@ -2,7 +2,7 @@
 import typing as t
 
 # __pragma__("skip")
-from datetime import datetime, timedelta, timezone as tz_c, tzinfo
+from datetime import date, datetime, timedelta, timezone as tz_c, tzinfo
 from pytz import timezone as tz, utc
 import re
 
@@ -99,11 +99,9 @@ class GregorianDateTime(object):
         self.second: int = second
         self.timezone: t.Optional[str] = timezone
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: "GregorianDateTime") -> bool:
         """Eq."""
-        if not isinstance(other, GregorianDateTime):
-            return False
-        return self.__dict__ == other.__dict__
+        isinstance(other, GregorianDateTime) and self.__dict__ == other.__dict__
 
     def __repr__(self) -> str:
         """Representation."""
@@ -183,3 +181,8 @@ class GregorianDateTime(object):
         return juld_to_grdt(juld)
 
     # __pragma__("noskip")
+
+    @property
+    def weekday(self) -> int:
+        """Caliculate the ISO week day. Monday is 1 then Sunday is 7."""
+        return date(self.year, self.month, self.day).isoweekday()
