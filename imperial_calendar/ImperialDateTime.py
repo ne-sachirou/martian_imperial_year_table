@@ -143,6 +143,18 @@ class ImperialDateTime(object):
             "大寒",
         ][self.month - 1]
 
+    def next_month(self) -> "ImperialDateTime":
+        if self.month == 24:
+            self.year += 1
+            self.month = 1
+        else:
+            self.month += 1
+        self.day = 1
+        self.hour = 0
+        self.minute = 0
+        self.second = 0
+        return self
+
     # __pragma__("skip")
     @property
     def offset(self) -> float:
@@ -152,6 +164,18 @@ class ImperialDateTime(object):
         return parse_timezone(self.timezone)
 
     # __pragma__("noskip")
+
+    def prev_month(self) -> "ImperialDateTime":
+        if self.month == 1:
+            self.year -= 1
+            self.month = 24
+        else:
+            self.month -= 1
+        self.day = 1
+        self.hour = 0
+        self.minute = 0
+        self.second = 0
+        return self
 
     # __pragma__("skip")
     def to_standard_naive(self) -> "ImperialDateTime":

@@ -73,6 +73,7 @@ def heartbeat() -> str:
 
 
 @app.route("/")
+@app.route("/calendar")
 @app.route("/description")
 def index() -> str:
     """Index."""
@@ -85,9 +86,7 @@ def calendar_svg() -> str:
     params = json.loads(t.cast(str, request.args.get("params")))
     imdt = params["imdt"]
     imdt = ImperialDateTime(imdt["year"], imdt["month"], 1, 0, 0, 0, "+00:00")
-    resp = Response(CalendarImage(imdt, "Asia/Tokyo").draw_as_svg())
-    resp.headers["Content-Type"] = "image/svg+xml"
-    return resp
+    return jsonify({"svg": CalendarImage(imdt, params["grdt_timezone"]).draw_as_svg()})
 
 
 @app.route("/api/datetimes", methods=["GET"])

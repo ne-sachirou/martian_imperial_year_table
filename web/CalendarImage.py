@@ -146,7 +146,7 @@ class CalendarImage(object):
             self.__draw_imdt_days(_e)
             self.__draw_imdt_syukuzitu(_e)
             self.__draw_grdt_days(_e)
-        return ET.tostring(svg)
+        return str(ET.tostring(svg))
 
     def __draw_grdt_day(self, _e, grdt: GregorianDateTime) -> None:
         imdt = grdt_to_imdt(grdt, self.imdt.timezone)
@@ -465,10 +465,4 @@ class CalendarImage(object):
             )
 
     def __next_imdt_month(self) -> ImperialDateTime:
-        imdt = self.imdt.copy()
-        if imdt.month == 24:
-            imdt.year += 1
-            imdt.month = 1
-        else:
-            imdt.month += 1
-        return imdt
+        return self.imdt.copy().next_month()
