@@ -79,21 +79,22 @@ def text_y(y: float, font_size: float) -> float:
 
 class CalendarImage(object):
     BLACK: str = "#3b3b3b"
-    BLUE: str = "#005ed7"
+    BLUE: str = "#40a1cc"
     FONT_FAMILY_BOLD: str = """"筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-B", sans-serif"""
     FONT_FAMILY_REGULAR: str = """"筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-R", sans-serif"""
+    FONT_SIZE_ANNOTATION: float = 8.0
     FONT_SIZE_BOLD_LARGE: float = 32.0
     FONT_SIZE_LARGE: float = 20.0
-    FONT_SIZE_SMALL: float = 8.0
-    GRAY_BLUE: str = "#add8e6"
-    GRAY_RED: str = "#ffb6c1"
-    GRAY: str = "#acacac"
+    FONT_SIZE_SMALL: float = 10.0
+    GRAY_BLUE: str = "#a5c7d6"
+    GRAY_RED: str = "#ffb7a1"
+    GRAY: str = "#999999"
     grdt_timezone: str
     HEIGHT_DAYS_GAP: float = 4.5
     HEIGHT_GRDT_BELT: float = 5.5
-    HEIGHT_TOP_SPACE: float = 10.0
+    HEIGHT_TOP_SPACE: float = 15.0
     imdt: ImperialDateTime
-    RED: str = "#cd3f37"
+    RED: str = "#e07553"
     SIZE_DAY_SQUARE: float = 22.5
     STROKE_WIDTH_BOLD: str = "0.4mm"
     STROKE_WIDTH_THIN: str = "0.15mm"
@@ -170,7 +171,8 @@ class CalendarImage(object):
             * CalendarImage.SIZE_DAY_SQUARE
         )
         is_drawable_on_beginning_of_month = (
-            next_line_x > 0.353 * CalendarImage.FONT_SIZE_SMALL * (5 * 0.6) + 1
+            next_line_x
+            > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len("10/10") * 0.6) + 1.5
         )
         if grdt.weekday == 6:
             color = CalendarImage.GRAY_BLUE
@@ -187,7 +189,7 @@ class CalendarImage(object):
             )
             is_drawable_on_weekend = (
                 CalendarImage.SIZE_DAY_SQUARE - line_x
-            ) > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len(text) * 0.6) + 1
+            ) > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len(text) * 0.6) + 1.5
             if (
                 imdt.day == ImperialMonth(self.imdt.month).days()
                 and not is_drawable_on_weekend
@@ -202,7 +204,7 @@ class CalendarImage(object):
                         "x": f"{CalendarImage.WIDTH_LEFT_SPACE + 1}mm",
                         "y": CalendarImage.HEIGHT_TOP_SPACE
                         + CalendarImage.SIZE_DAY_SQUARE
-                        + 1
+                        + 0.5
                         + (
                             CalendarImage.HEIGHT_GRDT_BELT
                             + CalendarImage.HEIGHT_DAYS_GAP
@@ -221,7 +223,7 @@ class CalendarImage(object):
                         "x": f"{CalendarImage.WIDTH_LEFT_SPACE + line_x + 1 + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)}mm",
                         "y": CalendarImage.HEIGHT_TOP_SPACE
                         + CalendarImage.SIZE_DAY_SQUARE
-                        + 1
+                        + 0.5
                         + (
                             CalendarImage.HEIGHT_GRDT_BELT
                             + CalendarImage.HEIGHT_DAYS_GAP
@@ -241,7 +243,7 @@ class CalendarImage(object):
                         "x": f"{CalendarImage.WIDTH_LEFT_SPACE + 1}mm",
                         "y": CalendarImage.HEIGHT_TOP_SPACE
                         + CalendarImage.SIZE_DAY_SQUARE
-                        + 1,
+                        + 0.5,
                     },
                     f"{grdt.month}/{grdt.day}",
                 )
@@ -304,8 +306,8 @@ class CalendarImage(object):
                 {
                     "fill": color,
                     "font-size": CalendarImage.FONT_SIZE_SMALL,
-                    "x": f"{CalendarImage.WIDTH_LEFT_SPACE + (CalendarImage.SIZE_DAY_SQUARE / 2) - 1.5 + CalendarImage.SIZE_DAY_SQUARE * i}mm",
-                    "y": 5.0,
+                    "x": f"{CalendarImage.WIDTH_LEFT_SPACE + (CalendarImage.SIZE_DAY_SQUARE / 2) - 2.0 + CalendarImage.SIZE_DAY_SQUARE * i}mm",
+                    "y": CalendarImage.HEIGHT_TOP_SPACE - 5,
                 },
                 joubi,
             )
@@ -388,7 +390,7 @@ class CalendarImage(object):
                 "fill": CalendarImage.BLACK,
                 "font-family": CalendarImage.FONT_FAMILY_BOLD,
                 "font-size": CalendarImage.FONT_SIZE_BOLD_LARGE,
-                "x": f"{1 if self.imdt.month in range(10) else 11}mm",
+                "x": f"{10 + (CalendarImage.FONT_SIZE_BOLD_LARGE * 0.7 * 0.353 if self.imdt.month in range(10) else 0)}mm",
                 "y": 28.0,
             },
             f"{self.imdt.month}月",
@@ -403,35 +405,59 @@ class CalendarImage(object):
             },
             f"({self.imdt.japanese_month_name}月)",
         )
-        weekdays = ["月", "火", "水", "木", "金", "土", "日"]
-        grdt_start = imdt_to_grdt(self.imdt, self.grdt_timezone)
-        grdt_start_weekday = weekdays[grdt_start.weekday - 1]
-        grdt_end = imdt_to_grdt(self.__next_imdt_month(), self.grdt_timezone)
-        grdt_end_weekday = weekdays[grdt_end.weekday - 1]
         self.__draw_text(
             _e,
             {
                 "fill": CalendarImage.GRAY,
-                "font-size": CalendarImage.FONT_SIZE_SMALL,
-                "x": "7mm",
+                "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
+                "x": f"{CalendarImage.WIDTH_LEFT_SPACE - 5.5}mm",
                 "y": 52.0,
             },
-            f"{grdt_start.year}/{grdt_start.month}/{grdt_start.day}({grdt_start_weekday}){grdt_start.hour}:{grdt_start.minute}:{grdt_start.second}～",
+            "～",
         )
-        text = ""
-        if grdt_start.year != grdt_end.year:
-            text += f"{grdt_end.year}/"
-        text += f"{grdt_end.month}/{grdt_end.day}({grdt_end_weekday}){grdt_end.hour}:{grdt_end.minute}:{grdt_end.second}"
-        self.__draw_text(
-            _e,
+        with _e(
+            "svg",
             {
-                "fill": CalendarImage.GRAY,
-                "font-size": CalendarImage.FONT_SIZE_SMALL,
-                "x": "10mm",
-                "y": 56.0,
+                "height": "8mm",
+                "style": """
+                background-color: transparent;
+                """,
+                "width": f"{CalendarImage.WIDTH_LEFT_SPACE - 8}mm",
+                "x": "2mm",
+                "y": "52mm",
             },
-            text,
-        )
+        ) as _e:
+            weekdays = ["月", "火", "水", "木", "金", "土", "日"]
+            grdt_start = imdt_to_grdt(self.imdt, self.grdt_timezone)
+            grdt_start_weekday = weekdays[grdt_start.weekday - 1]
+            grdt_end = imdt_to_grdt(self.__next_imdt_month(), self.grdt_timezone)
+            grdt_end_weekday = weekdays[grdt_end.weekday - 1]
+            self.__draw_text(
+                _e,
+                {
+                    "fill": CalendarImage.GRAY,
+                    "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
+                    "text-anchor": "end",
+                    "x": "100%",
+                    "y": 0.0,
+                },
+                f"{grdt_start.year}/{grdt_start.month}/{grdt_start.day}({grdt_start_weekday}){grdt_start.hour:02}:{grdt_start.minute:02}:{grdt_start.second:02}",
+            )
+            text = ""
+            if grdt_start.year != grdt_end.year:
+                text += f"{grdt_end.year}/"
+            text += f"{grdt_end.month}/{grdt_end.day}({grdt_end_weekday}){grdt_end.hour:02}:{grdt_end.minute:02}:{grdt_end.second:02}"
+            self.__draw_text(
+                _e,
+                {
+                    "fill": CalendarImage.GRAY,
+                    "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
+                    "text-anchor": "end",
+                    "x": "100%",
+                    "y": 4.0,
+                },
+                text,
+            )
 
     def __next_imdt_month(self) -> ImperialDateTime:
         imdt = self.imdt.copy()
