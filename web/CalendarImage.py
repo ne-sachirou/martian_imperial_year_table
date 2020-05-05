@@ -40,7 +40,7 @@ def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
             grdt.month = 1
         else:
             grdt.month += 1
-            grdt.day = 1
+        grdt.day = 1
     else:
         grdt.day += 1
     return grdt
