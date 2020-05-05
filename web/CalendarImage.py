@@ -2,6 +2,7 @@ from contextlib import contextmanager
 from functools import partial
 from imperial_calendar import GregorianDateTime, ImperialDateTime
 from imperial_calendar.internal.ImperialMonth import ImperialMonth
+from imperial_calendar.internal.ImperialYear import ImperialYear
 from imperial_calendar.transform import (
     grdt_to_juld,
     imdt_to_imsn,
@@ -16,6 +17,13 @@ from imperial_calendar.transform import (
 )
 import typing as t
 import xml.etree.ElementTree as ET
+
+
+def days_of_month(imdt: ImperialDateTime) -> int:
+    days = ImperialMonth(imdt.month).days()
+    if imdt.month == 24 and ImperialYear(imdt.year).is_leap_year():
+        days += 1
+    return days
 
 
 def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
@@ -190,10 +198,7 @@ class CalendarImage(object):
             is_drawable_on_weekend = (
                 CalendarImage.SIZE_DAY_SQUARE - line_x
             ) > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len(text) * 0.6) + 1.5
-            if (
-                imdt.day == ImperialMonth(self.imdt.month).days()
-                and not is_drawable_on_weekend
-            ):
+            if imdt.day == days_of_month(self.imdt) and not is_drawable_on_weekend:
                 pass
             elif imdt.day % 7 == 0 and not is_drawable_on_weekend:
                 self.__draw_text(
@@ -261,7 +266,7 @@ class CalendarImage(object):
             drawing_grdt_day = next_grdt_day_of(drawing_grdt_day)
 
     def __draw_imdt_days(self, _e) -> None:
-        for day in range(1, ImperialMonth(self.imdt.month).days() + 1):
+        for day in range(1, days_of_month(self.imdt) + 1):
             if day % 7 == 0:
                 color = CalendarImage.BLUE
             elif day % 7 == 1:
@@ -313,7 +318,7 @@ class CalendarImage(object):
             )
 
     def __draw_static_frame(self, _e) -> None:
-        days = ImperialMonth(self.imdt.month).days()
+        days = days_of_month(self.imdt)
         for i in range(4):
             days_of_week = 6 if i == 3 and days == 27 else 7
             with _e(
