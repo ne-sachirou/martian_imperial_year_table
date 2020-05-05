@@ -272,7 +272,7 @@ def test():
             )
     with docker() as _run:
         _run("poetry check")
-        _run("npm audit")
+        # _run("npm audit")
         # _run(
         #     "sh -eux -c {:s}".format(
         #         quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")

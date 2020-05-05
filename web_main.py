@@ -1,7 +1,7 @@
 """App."""
 from datetime import timedelta
 from flasgger import swag_from, Swagger
-from flask import Flask, Response, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request
 from imperial_calendar import (
     GregorianDateTime,
     ImperialDateTime,

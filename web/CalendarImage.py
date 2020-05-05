@@ -1,3 +1,4 @@
+"""Draw a imdt calendar image."""
 from contextlib import contextmanager
 from functools import partial
 from imperial_calendar import GregorianDateTime, ImperialDateTime
@@ -20,6 +21,7 @@ import xml.etree.ElementTree as ET
 
 
 def days_of_month(imdt: ImperialDateTime) -> int:
+    """Get days of the imdt month."""
     days = ImperialMonth(imdt.month).days()
     if imdt.month == 24 and ImperialYear(imdt.year).is_leap_year():
         days += 1
@@ -27,6 +29,7 @@ def days_of_month(imdt: ImperialDateTime) -> int:
 
 
 def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
+    """Create a new grdt on the next day."""
     grdt = grdt.copy()
     days: int = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][grdt.month - 1]
     # NOTE: Don't consider about Julian Calendar, before Gregorian Calendar begins.
@@ -47,6 +50,7 @@ def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
 
 
 def grdt_to_imdt(grdt: GregorianDateTime, imdt_timezone: str) -> ImperialDateTime:
+    """Transform grdt to imdt."""
     juld = grdt_to_juld(grdt.to_utc_naive())
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
@@ -55,6 +59,7 @@ def grdt_to_imdt(grdt: GregorianDateTime, imdt_timezone: str) -> ImperialDateTim
 
 
 def imdt_to_grdt(imdt: ImperialDateTime, grdt_timezone: str) -> GregorianDateTime:
+    """Transform imdt to grdt."""
     imsn = imdt_to_imsn(imdt.to_standard_naive())
     mrsd = imsn_to_mrsd(imsn)
     tert = mrsd_to_tert(mrsd)
@@ -66,7 +71,8 @@ def imdt_to_grdt(imdt: ImperialDateTime, grdt_timezone: str) -> GregorianDateTim
 def e(
     tag: str, attrib: t.Dict[str, str] = {}, text: str = "", parent: ET.Element = None
 ) -> None:
-    if parent != None:
+    """Create a XML element and pass a new context for sub elements."""
+    if parent is not None:
         element = ET.SubElement(parent, tag, attrib)
     else:
         element = ET.Element(tag, attrib)
@@ -86,6 +92,8 @@ def text_y(y: float, font_size: float) -> float:
 
 
 class CalendarImage(object):
+    """Draw a imdt calendar image."""
+
     BLACK: str = "#3b3b3b"
     BLUE: str = "#40a1cc"
     FONT_FAMILY_BOLD: str = """"筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-B", sans-serif"""
@@ -110,6 +118,7 @@ class CalendarImage(object):
     WIDTH_LEFT_SPACE: float = 45.0
 
     def __init__(self, imdt: ImperialDateTime, grdt_timezone: str):
+        """Init."""
         self.grdt_timezone = grdt_timezone
         self.imdt = imdt.copy()
         self.imdt.day = 1
@@ -118,6 +127,7 @@ class CalendarImage(object):
         self.imdt.socond = 0
 
     def draw_as_svg(self) -> str:
+        """Draw a imdt calendar image as SVG string."""
         svg = ET.Element(
             "svg",
             {
@@ -130,7 +140,7 @@ class CalendarImage(object):
             },
         )
         with e("title", {}, f"帝國火星曆{self.imdt.year}年{self.imdt.month}月", parent=svg):
-            None
+            pass
         with e(
             "g",
             {
@@ -146,7 +156,7 @@ class CalendarImage(object):
             self.__draw_imdt_days(_e)
             self.__draw_imdt_syukuzitu(_e)
             self.__draw_grdt_days(_e)
-        return str(ET.tostring(svg))
+        return ET.tostring(svg).decode("utf-8")
 
     def __draw_grdt_day(self, _e, grdt: GregorianDateTime) -> None:
         imdt = grdt_to_imdt(grdt, self.imdt.timezone)
@@ -156,18 +166,49 @@ class CalendarImage(object):
             * CalendarImage.SIZE_DAY_SQUARE
         )
         if imdt.month == self.imdt.month:
+            x1 = (
+                CalendarImage.WIDTH_LEFT_SPACE
+                + line_x
+                + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)
+            )
+            x2 = (
+                CalendarImage.WIDTH_LEFT_SPACE
+                + line_x
+                + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)
+            )
+            y1 = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + CalendarImage.SIZE_DAY_SQUARE
+                + (
+                    CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                    + CalendarImage.SIZE_DAY_SQUARE
+                )
+                * ((imdt.day - 1) // 7)
+            )
+            y2 = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + CalendarImage.SIZE_DAY_SQUARE
+                + CalendarImage.HEIGHT_GRDT_BELT
+                + (
+                    CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                    + CalendarImage.SIZE_DAY_SQUARE
+                )
+                * ((imdt.day - 1) // 7)
+            )
             with _e(
                 "line",
                 {
                     "stroke": CalendarImage.BLACK,
                     "stroke-width": CalendarImage.STROKE_WIDTH_THIN,
-                    "x1": f"{CalendarImage.WIDTH_LEFT_SPACE + line_x + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)}mm",
-                    "x2": f"{CalendarImage.WIDTH_LEFT_SPACE + line_x + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)}mm",
-                    "y1": f"{CalendarImage.HEIGHT_TOP_SPACE + CalendarImage.SIZE_DAY_SQUARE + (CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP + CalendarImage.SIZE_DAY_SQUARE) * ((imdt.day - 1) // 7)}mm",
-                    "y2": f"{CalendarImage.HEIGHT_TOP_SPACE + CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + (CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP + CalendarImage.SIZE_DAY_SQUARE) * ((imdt.day - 1) // 7)}mm",
+                    "x1": f"{x1}mm",
+                    "x2": f"{x2}mm",
+                    "y1": f"{y1}mm",
+                    "y2": f"{y2}mm",
                 },
             ):
-                None
+                pass
         next_grdt_day = next_grdt_day_of(grdt)
         next_grdt_day_imdt = grdt_to_imdt(next_grdt_day, self.imdt.timezone)
         next_line_x = (
@@ -220,12 +261,18 @@ class CalendarImage(object):
                     text,
                 )
             else:
+                x = (
+                    CalendarImage.WIDTH_LEFT_SPACE
+                    + line_x
+                    + 1
+                    + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)
+                )
                 self.__draw_text(
                     _e,
                     {
                         "fill": color,
                         "font-size": CalendarImage.FONT_SIZE_SMALL,
-                        "x": f"{CalendarImage.WIDTH_LEFT_SPACE + line_x + 1 + CalendarImage.SIZE_DAY_SQUARE * ((imdt.day - 1) % 7)}mm",
+                        "x": f"{x}mm",
                         "y": CalendarImage.HEIGHT_TOP_SPACE
                         + CalendarImage.SIZE_DAY_SQUARE
                         + 0.5
@@ -306,12 +353,18 @@ class CalendarImage(object):
                 ("土", CalendarImage.BLUE),
             ]
         ):
+            x = (
+                CalendarImage.WIDTH_LEFT_SPACE
+                + (CalendarImage.SIZE_DAY_SQUARE / 2)
+                - 2.0
+                + CalendarImage.SIZE_DAY_SQUARE * i
+            )
             self.__draw_text(
                 _e,
                 {
                     "fill": color,
                     "font-size": CalendarImage.FONT_SIZE_SMALL,
-                    "x": f"{CalendarImage.WIDTH_LEFT_SPACE + (CalendarImage.SIZE_DAY_SQUARE / 2) - 2.0 + CalendarImage.SIZE_DAY_SQUARE * i}mm",
+                    "x": f"{x}mm",
                     "y": CalendarImage.HEIGHT_TOP_SPACE - 5,
                 },
                 joubi,
@@ -321,6 +374,15 @@ class CalendarImage(object):
         days = days_of_month(self.imdt)
         for i in range(4):
             days_of_week = 6 if i == 3 and days == 27 else 7
+            y = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + (
+                    CalendarImage.SIZE_DAY_SQUARE
+                    + CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                )
+                * i
+            )
             with _e(
                 "rect",
                 {
@@ -330,10 +392,30 @@ class CalendarImage(object):
                     "stroke": CalendarImage.BLACK,
                     "width": f"{CalendarImage.SIZE_DAY_SQUARE * days_of_week}mm",
                     "x": f"{CalendarImage.WIDTH_LEFT_SPACE}mm",
-                    "y": f"{CalendarImage.HEIGHT_TOP_SPACE + (CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP) * i}mm",
+                    "y": f"{y}mm",
                 },
             ):
-                None
+                pass
+            y1 = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + CalendarImage.SIZE_DAY_SQUARE
+                + (
+                    CalendarImage.SIZE_DAY_SQUARE
+                    + CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                )
+                * i
+            )
+            y2 = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + CalendarImage.SIZE_DAY_SQUARE
+                + (
+                    CalendarImage.SIZE_DAY_SQUARE
+                    + CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                )
+                * i
+            )
             with _e(
                 "line",
                 {
@@ -341,12 +423,31 @@ class CalendarImage(object):
                     "stroke": CalendarImage.BLACK,
                     "x1": f"{CalendarImage.WIDTH_LEFT_SPACE}mm",
                     "x2": f"{CalendarImage.WIDTH_LEFT_SPACE + CalendarImage.SIZE_DAY_SQUARE * days_of_week}mm",
-                    "y1": f"{CalendarImage.HEIGHT_TOP_SPACE + CalendarImage.SIZE_DAY_SQUARE + (CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP) * i}mm",
-                    "y2": f"{CalendarImage.HEIGHT_TOP_SPACE + CalendarImage.SIZE_DAY_SQUARE + (CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP) * i}mm",
+                    "y1": f"{y1}mm",
+                    "y2": f"{y2}mm",
                 },
             ):
-                None
+                pass
             for j in range(days_of_week):
+                y1 = (
+                    CalendarImage.HEIGHT_TOP_SPACE
+                    + (
+                        CalendarImage.SIZE_DAY_SQUARE
+                        + CalendarImage.HEIGHT_GRDT_BELT
+                        + CalendarImage.HEIGHT_DAYS_GAP
+                    )
+                    * i
+                )
+                y2 = (
+                    CalendarImage.HEIGHT_TOP_SPACE
+                    + CalendarImage.SIZE_DAY_SQUARE
+                    + (
+                        CalendarImage.SIZE_DAY_SQUARE
+                        + CalendarImage.HEIGHT_GRDT_BELT
+                        + CalendarImage.HEIGHT_DAYS_GAP
+                    )
+                    * i
+                )
                 with _e(
                     "line",
                     {
@@ -354,11 +455,11 @@ class CalendarImage(object):
                         "stroke": CalendarImage.BLACK,
                         "x1": f"{CalendarImage.WIDTH_LEFT_SPACE + CalendarImage.SIZE_DAY_SQUARE * (j + 1)}mm",
                         "x2": f"{CalendarImage.WIDTH_LEFT_SPACE + CalendarImage.SIZE_DAY_SQUARE * (j + 1)}mm",
-                        "y1": f"{CalendarImage.HEIGHT_TOP_SPACE + (CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP) * i}mm",
-                        "y2": f"{CalendarImage.HEIGHT_TOP_SPACE + CalendarImage.SIZE_DAY_SQUARE + (CalendarImage.SIZE_DAY_SQUARE + CalendarImage.HEIGHT_GRDT_BELT + CalendarImage.HEIGHT_DAYS_GAP) * i}mm",
+                        "y1": f"{y1}mm",
+                        "y2": f"{y2}mm",
                     },
                 ):
-                    None
+                    pass
 
     def __draw_text(
         self, _e, attrib: t.Dict[str, t.Union[str, float]], text: str
@@ -366,7 +467,7 @@ class CalendarImage(object):
         attrib["y"] = "{}mm".format(text_y(attrib["y"], attrib["font-size"]))
         attrib["font-size"] = "{}pt".format(attrib["font-size"])
         with _e("text", attrib, text):
-            None
+            pass
 
     def __draw_title(self, _e) -> None:
         self.__draw_text(
@@ -389,13 +490,18 @@ class CalendarImage(object):
             },
             f"{self.imdt.year}年",
         )
+        x = 10 + (
+            CalendarImage.FONT_SIZE_BOLD_LARGE * 0.7 * 0.353
+            if self.imdt.month in range(10)
+            else 0
+        )
         self.__draw_text(
             _e,
             {
                 "fill": CalendarImage.BLACK,
                 "font-family": CalendarImage.FONT_FAMILY_BOLD,
                 "font-size": CalendarImage.FONT_SIZE_BOLD_LARGE,
-                "x": f"{10 + (CalendarImage.FONT_SIZE_BOLD_LARGE * 0.7 * 0.353 if self.imdt.month in range(10) else 0)}mm",
+                "x": f"{x}mm",
                 "y": 28.0,
             },
             f"{self.imdt.month}月",
@@ -446,12 +552,27 @@ class CalendarImage(object):
                     "x": "100%",
                     "y": 0.0,
                 },
-                f"{grdt_start.year}/{grdt_start.month}/{grdt_start.day}({grdt_start_weekday}){grdt_start.hour:02}:{grdt_start.minute:02}:{grdt_start.second:02}",
+                "{}/{}/{}({}){:02}:{:02}:{:02}".format(
+                    grdt_start.year,
+                    grdt_start.month,
+                    grdt_start.day,
+                    grdt_start_weekday,
+                    grdt_start.hour,
+                    grdt_start.minute,
+                    grdt_start.second,
+                ),
             )
             text = ""
             if grdt_start.year != grdt_end.year:
                 text += f"{grdt_end.year}/"
-            text += f"{grdt_end.month}/{grdt_end.day}({grdt_end_weekday}){grdt_end.hour:02}:{grdt_end.minute:02}:{grdt_end.second:02}"
+            text += "{}/{}({}){:02}:{:02}:{:02}".format(
+                grdt_end.month,
+                grdt_end.day,
+                grdt_end_weekday,
+                grdt_end.hour,
+                grdt_end.minute,
+                grdt_end.second,
+            )
             self.__draw_text(
                 _e,
                 {

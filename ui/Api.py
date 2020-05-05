@@ -59,6 +59,7 @@ class Api(object):
         }
 
     async def get_calendar_svg(self, params: dict) -> dict:
+        """Get a calendar SVG of the month."""
         response = await fetch(
             "/api/calendar.svg?params={}".format(
                 encodeURIComponent(JSON.stringify(params))
@@ -69,7 +70,7 @@ class Api(object):
         return await response.json()
 
     async def get_description_html(self) -> dict:
-        """Get description."""
+        """Get the description HTML."""
         response = await fetch("/api/description.html")
         if not response.ok:
             raise Exception(f"{response.status}: {response.text()}")

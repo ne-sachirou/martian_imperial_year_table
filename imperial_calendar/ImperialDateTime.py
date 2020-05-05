@@ -69,17 +69,17 @@ class ImperialDateTime(object):
         self.second: int = second
         self.timezone: t.Optional[str] = timezone
 
-    def __eq__(self, other: "ImperialDateTime") -> bool:
+    def __eq__(self, other: object) -> bool:
         """Eq."""
-        isinstance(other, ImperialDateTime) and self.__dict__ == other.__dict__
+        return isinstance(other, ImperialDateTime) and self.__dict__ == other.__dict__
 
     # NOTE: Can't apply `@functools.total_ordering` because of Transcrypt.
     def __lt__(self, other: "ImperialDateTime") -> bool:
         """Less than."""
         me = self
-        if me.timezone != None:
+        if me.timezone is not None:
             me = me.to_standard_naive()
-        if other.timezone != None:
+        if other.timezone is not None:
             other = other.to_standard_naive()
         return (
             me.year < other.year
@@ -116,6 +116,7 @@ class ImperialDateTime(object):
 
     @property
     def japanese_month_name(self) -> str:
+        """Give a translation to the Japanese (is almose equal to Kwaseg-go) month name."""
         return [
             "立春",
             "雨水",
@@ -144,6 +145,7 @@ class ImperialDateTime(object):
         ][self.month - 1]
 
     def next_month(self) -> "ImperialDateTime":
+        """Forward to the first day of the next month."""
         if self.month == 24:
             self.year += 1
             self.month = 1
@@ -166,6 +168,7 @@ class ImperialDateTime(object):
     # __pragma__("noskip")
 
     def prev_month(self) -> "ImperialDateTime":
+        """Back to the first day of the previous month."""
         if self.month == 1:
             self.year -= 1
             self.month = 24

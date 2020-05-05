@@ -27,6 +27,7 @@ INITIAL_DATETIME = {
 
 
 async def draw(form, ref) -> None:
+    """Draw the calendar SVG."""
     grdt = current_grdt()
     values = form.getValues()
     calendar = await Api().get_calendar_svg(
@@ -42,6 +43,7 @@ async def draw(form, ref) -> None:
 
 
 async def set_to_current(form, ref) -> None:
+    """Draw a calendar at now."""
     grdt = current_grdt()
     form.setValue("grdt.timezone", grdt.timezone)
     response = await Api().get_datetimes(
@@ -63,17 +65,8 @@ async def set_to_current(form, ref) -> None:
     await draw(form, ref)
 
 
-async def turn_to_previous(form, ref) -> None:
-    values = form.getValues()
-    imdt = ImperialDateTime(
-        int(values["imdt.year"]), int(values["imdt.month"]), 1, 0, 0, 0, "+00:00"
-    ).prev_month()
-    form.setValue("imdt.year", imdt.year)
-    form.setValue("imdt.month", imdt.month)
-    await draw(form, ref)
-
-
 async def turn_to_next(form, ref) -> None:
+    """Turn the calendar to the next month."""
     values = form.getValues()
     imdt = ImperialDateTime(
         int(values["imdt.year"]), int(values["imdt.month"]), 1, 0, 0, 0, "+00:00"
@@ -83,7 +76,19 @@ async def turn_to_next(form, ref) -> None:
     await draw(form, ref)
 
 
+async def turn_to_previous(form, ref) -> None:
+    """Turn the calendar to the previous month."""
+    values = form.getValues()
+    imdt = ImperialDateTime(
+        int(values["imdt.year"]), int(values["imdt.month"]), 1, 0, 0, 0, "+00:00"
+    ).prev_month()
+    form.setValue("imdt.year", imdt.year)
+    form.setValue("imdt.month", imdt.month)
+    await draw(form, ref)
+
+
 def Calendar(props: dict):
+    """Render a Calendar component."""
     form = ReactHookForm.useForm()
     ref = React.useRef()
     React.useEffect(lambda: set_to_current(form, ref) and js_undefined, [form, ref])

@@ -99,9 +99,9 @@ class GregorianDateTime(object):
         self.second: int = second
         self.timezone: t.Optional[str] = timezone
 
-    def __eq__(self, other: "GregorianDateTime") -> bool:
+    def __eq__(self, other: object) -> bool:
         """Eq."""
-        isinstance(other, GregorianDateTime) and self.__dict__ == other.__dict__
+        return isinstance(other, GregorianDateTime) and self.__dict__ == other.__dict__
 
     def __repr__(self) -> str:
         """Representation."""

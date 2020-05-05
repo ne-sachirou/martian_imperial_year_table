@@ -1,9 +1,12 @@
+"""Utils for UI."""
 from imperial_calendar.GregorianDateTime import GregorianDateTime
+import typing as t
 
 Date: t.Any = 0  # __:skip
 
 
 def current_grdt() -> GregorianDateTime:
+    """Get the current grdt on the Web browser."""
     now = __new__(Date)  # noqa
     offset = now.getTimezoneOffset()
     if offset <= 0:
