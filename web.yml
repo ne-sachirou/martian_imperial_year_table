@@ -4,6 +4,22 @@ info:
   title: 帝國火星曆テーブル
   version: "0.0.1"
 paths:
+  /api/calendar.svg:
+    get:
+      parameters:
+        - in: query
+          name: params
+          required: true
+          description: JSON encoded imdt year & month
+          schema:
+            type: string
+      responses:
+        200:
+          schema:
+            required:
+              - svg
+            properties:
+              svg: { type: string }
   /api/datetimes:
     get:
       parameters:
@@ -35,6 +51,15 @@ paths:
               imdt: { $ref: "#/definitions/imdt" }
         400:
           schema: { $ref: "#/definitions/error" }
+  /api/description.html:
+    get:
+      responses:
+        200:
+          schema:
+            required:
+              - html
+            properties:
+              html: { type: string }
 definitions:
   datetimes_params:
     description: /api/datetimesのparameters

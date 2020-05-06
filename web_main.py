@@ -23,6 +23,7 @@ from imperial_calendar.transform import (
     tert_to_mrls,
     tert_to_mrsd,
 )
+from web.CalendarImage import CalendarImage
 import json
 import markdown
 import typing as t
@@ -72,15 +73,20 @@ def heartbeat() -> str:
 
 
 @app.route("/")
+@app.route("/calendar")
+@app.route("/description")
 def index() -> str:
     """Index."""
     return render_template("index.html")
 
 
-@app.route("/description")
-def index_description() -> str:
-    """Describe Martian Imperial Calendar."""
-    return render_template("index.html")
+@app.route("/api/calendar.svg", methods=["GET"])
+def calendar_svg() -> str:
+    """Render the caneldar of the month to a SVG."""
+    params = json.loads(t.cast(str, request.args.get("params")))
+    imdt = params["imdt"]
+    imdt = ImperialDateTime(imdt["year"], imdt["month"], 1, 0, 0, 0, "+00:00")
+    return jsonify({"svg": CalendarImage(imdt, params["grdt_timezone"]).draw_as_svg()})
 
 
 @app.route("/api/datetimes", methods=["GET"])
@@ -186,8 +192,8 @@ def datetimes() -> str:
     )
 
 
-@app.route("/api/description")
-def description() -> str:
+@app.route("/api/description.html", methods=["GET"])
+def description_html() -> str:
     """Describe Martian Imperial Calendar."""
     with open("templates/description.md") as f:
         return jsonify(

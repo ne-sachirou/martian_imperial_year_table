@@ -1,4 +1,5 @@
 """Root React component."""
+from ui.components.Calendar import Calendar
 from ui.components.Description import Description
 from ui.components.ErrorBoundary import supervise
 from ui.components.GlobalNavigation import GlobalNavigation
@@ -38,6 +39,11 @@ def App(props):
                         ReactRouterDOM.Route,
                         {"path": "/description"},
                         React.createElement(Description, {}),
+                    ),
+                    React.createElement(
+                        ReactRouterDOM.Route,
+                        {"path": "/calendar"},
+                        React.createElement(Calendar, {}),
                     ),
                 ),
             ),

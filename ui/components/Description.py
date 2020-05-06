@@ -23,7 +23,7 @@ async def fetch_description(html: str, set_html) -> None:
     """Fetch the description from the Web API."""
     if html is not None:
         return
-    description = await Api().get_description()
+    description = await Api().get_description_html()
     set_html(description.html)
 
 

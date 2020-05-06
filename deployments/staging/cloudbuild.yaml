@@ -44,6 +44,8 @@ steps:
       # - --build-arg
       # - BUILDKIT_INLINE_CACHE=1
       - --cache-from
+      - "gcr.io/${PROJECT_ID}/martian_imperial_year_table:builder"
+      - --cache-from
       - "gcr.io/${PROJECT_ID}/martian_imperial_year_table:latest"
       - .
     # env:

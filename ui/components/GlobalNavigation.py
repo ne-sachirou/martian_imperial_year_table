@@ -71,6 +71,15 @@ def GlobalNavigation(props: dict):
                     },
                     "解説",
                 ),
+                React.createElement(
+                    ReactRouterDOM.NavLink,
+                    {
+                        "activeClassName": "is-active",
+                        "className": "is-tab navbar-item",
+                        "to": "/calendar",
+                    },
+                    "七曜表",
+                ),
             ),
             React.createElement(
                 "div",

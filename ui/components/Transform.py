@@ -6,6 +6,7 @@ from imperial_calendar.JulianDay import JulianDay
 from imperial_calendar.MarsSolDate import MarsSolDate
 from imperial_calendar.TerrestrialTime import TerrestrialTime
 from ui.Api import Api
+from ui.utils import current_grdt
 import typing as t
 
 React: t.Any = 0  # __:skip
@@ -29,7 +30,7 @@ INITIAL_DATETIME = {
     "mrls": 295.3794638508962,
     "mrsd": MarsSolDate(34127.295516404454),
     "imsn": ImperialSolNumber(935321, 79532.61734358966),
-    "imdt": ImperialDateTime(1398, 12, 22, 5, 23, 33, "+00:00"),
+    "imdt": ImperialDateTime(1398, 23, 12, 22, 5, 33, "+00:00"),
 }
 
 
@@ -217,27 +218,7 @@ async def sync_by_imdt(form):
 
 def set_to_current(form):
     """Sync a datetime by the current grdt."""
-    now = __new__(Date)  # noqa
-    offset = now.getTimezoneOffset()
-    if offset <= 0:
-        sign = "+"
-    else:
-        sign = "-"
-    grdt_timezone = "{0}{1}:{2}".format(
-        sign,
-        "0{}".format(abs(offset) // 60).substr(-2),
-        "0{}".format(abs(offset) % 60).substr(-2),
-    )
-    grdt = GregorianDateTime(
-        now.getFullYear(),
-        now.getMonth() + 1,
-        now.getDate(),
-        now.getHours(),
-        now.getMinutes(),
-        now.getSeconds(),
-        grdt_timezone,
-    )
-    set_grdt(form, grdt)
+    set_grdt(form, current_grdt())
     sync_by_grdt(form)
 
 

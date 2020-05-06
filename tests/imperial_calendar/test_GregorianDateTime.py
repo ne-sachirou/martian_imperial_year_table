@@ -65,3 +65,8 @@ class TestGregorianDateTime(unittest.TestCase):
             grdt = GregorianDateTime(1970, 1, 1, 0, 0, second, timezone)
             with self.subTest(grdt=grdt):
                 self.assertEqual(naive_grdt, grdt.to_utc_naive())
+
+    def test_weekday(self):
+        """正しい曜日を取得する."""
+        self.assertEqual(3, GregorianDateTime(2020, 1, 1, 0, 0, 0, "+09:00").weekday)
+        self.assertEqual(4, GregorianDateTime(2020, 12, 31, 0, 0, 0, "+09:00").weekday)

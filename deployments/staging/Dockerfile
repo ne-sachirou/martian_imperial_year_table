@@ -69,6 +69,7 @@ COPY --from=builder /mnt/static/ static/
 COPY web_main.py web.yml ./
 COPY imperial_calendar/ imperial_calendar/
 COPY templates/ templates/
+COPY web/ web/
 
 EXPOSE 5000 9191
 ENTRYPOINT ["poetry", "run", "uwsgi", \

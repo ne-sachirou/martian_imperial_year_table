@@ -58,9 +58,20 @@ class Api(object):
             "imdt": imdt,
         }
 
-    async def get_description(self) -> dict:
-        """Get description."""
-        response = await fetch("/api/description")
+    async def get_calendar_svg(self, params: dict) -> dict:
+        """Get a calendar SVG of the month."""
+        response = await fetch(
+            "/api/calendar.svg?params={}".format(
+                encodeURIComponent(JSON.stringify(params))
+            )
+        )
+        if not response.ok:
+            raise Exception(f"{response.status}: {response.text()}")
+        return await response.json()
+
+    async def get_description_html(self) -> dict:
+        """Get the description HTML."""
+        response = await fetch("/api/description.html")
         if not response.ok:
             raise Exception(f"{response.status}: {response.text()}")
         return await response.json()
