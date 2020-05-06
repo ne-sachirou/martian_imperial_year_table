@@ -49,8 +49,11 @@ def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
     return grdt
 
 
-def grdt_to_imdt(grdt: GregorianDateTime, imdt_timezone: str) -> ImperialDateTime:
+def grdt_to_imdt(
+    grdt: GregorianDateTime, imdt_timezone: t.Optional[str]
+) -> ImperialDateTime:
     """Transform grdt to imdt."""
+    imdt_timezone = imdt_timezone or "+00:00"
     juld = grdt_to_juld(grdt.to_utc_naive())
     tert = juld_to_tert(juld)
     mrsd = tert_to_mrsd(tert)
@@ -70,7 +73,7 @@ def imdt_to_grdt(imdt: ImperialDateTime, grdt_timezone: str) -> GregorianDateTim
 @contextmanager
 def e(
     tag: str, attrib: t.Dict[str, str] = {}, text: str = "", parent: ET.Element = None
-) -> None:
+) -> t.Generator[t.Callable[[str, t.Dict[str, str], str], t.Any], None, t.Any]:
     """Create a XML element and pass a new context for sub elements."""
     if parent is not None:
         element = ET.SubElement(parent, tag, attrib)
@@ -81,14 +84,14 @@ def e(
     yield partial(e, parent=element)
 
 
-def text_y(y: float, font_size: float) -> float:
+def text_y(y: t.Union[float, str], font_size: t.Union[float, str]) -> float:
     """
     Caliculate the y value of the SVG text element.
 
     y: mm
     font_size: pt
     """
-    return y + font_size * 0.353
+    return float(y) + float(font_size) * 0.353
 
 
 class CalendarImage(object):
@@ -124,7 +127,7 @@ class CalendarImage(object):
         self.imdt.day = 1
         self.imdt.hour = 0
         self.imdt.minute = 0
-        self.imdt.socond = 0
+        self.imdt.second = 0
 
     def draw_as_svg(self) -> str:
         """Draw a imdt calendar image as SVG string."""
