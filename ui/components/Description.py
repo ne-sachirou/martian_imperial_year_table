@@ -2,6 +2,10 @@
 from ui.Api import Api
 import typing as t
 
+__pragma__: t.Any = 0  # __:skip
+js_undefined: t.Any = 0  # __:skip
+React: t.Any = 0  # __:skip
+
 __pragma__(  # noqa: F821
     "js",
     "{}",
@@ -9,14 +13,6 @@ __pragma__(  # noqa: F821
     const React = require("react");
     """,
 )
-
-React: t.Any = 0  # __:skip
-document: t.Any = 0  # __:skip
-js_undefined: t.Any = 0  # __:skip
-
-
-# (a.{~(48+i.10),(97+i.26),(65+i.26)){~]32?@$62
-ref = "OQeicebRkj87J29D6erS7BMKzuysRV6k"
 
 
 async def fetch_description(html: str, set_html) -> None:
@@ -34,14 +30,15 @@ def use_description() -> str:
     return html
 
 
-def draw_description(html: str) -> None:
+def draw_description(html: str, ref) -> None:
     """Draw the description HTML."""
     if html is not None:
-        document.getElementById(ref).innerHTML = html
+        ref.current.innerHTML = html
 
 
 def Description(props: dict):
     """Render a Description component."""
     html = use_description()
-    React.useEffect(lambda: draw_description(html), [html])
-    return React.createElement("div", {"id": ref, "className": "content section"})
+    ref = React.useRef()
+    React.useEffect(lambda: draw_description(html, ref), [html, ref])
+    return React.createElement("div", {"className": "content section", "ref": ref})

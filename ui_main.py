@@ -2,6 +2,12 @@
 from ui.components.App import App
 import typing as t
 
+__pragma__: t.Any = 0  # __:skip
+document: t.Any = 0  # __:skip
+React: t.Any = 0  # __:skip
+ReactDOM: t.Any = 0  # __:skip
+window: t.Any = 0  # __:skip
+
 __pragma__(  # noqa: F821
     "js",
     "{}",
@@ -10,11 +16,6 @@ __pragma__(  # noqa: F821
     const ReactDOM = require("react-dom");
     """,
 )
-
-React: t.Any = 0  # __:skip
-ReactDOM: t.Any = 0  # __:skip
-document: t.Any = 0  # __:skip
-window: t.Any = 0  # __:skip
 
 if __name__ == "__main__":
     window.addEventListener(

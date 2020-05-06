@@ -3,6 +3,7 @@ import typing as t
 
 # __pragma__("skip")
 from datetime import date, datetime, timedelta, timezone as tz_c, tzinfo
+from holiday_jp import HolidayJp
 from pytz import timezone as tz, utc
 import re
 
@@ -126,6 +127,14 @@ class GregorianDateTime(object):
             self.second,
             self.timezone,
         )
+
+    # __pragma__("skip")
+    @property
+    def is_holiday(self) -> bool:
+        """Return the day is a holiday or not."""
+        return HolidayJp(date(self.year, self.month, self.day)).is_holiday
+
+    # __pragma__("noskip")
 
     # __pragma__("skip")
     @property

@@ -5,6 +5,13 @@ from ui.Api import Api
 from ui.utils import current_grdt
 import typing as t
 
+__pragma__: t.Any = 0  # __:skip
+encodeURIComponent: t.Any = 0  # __:skip
+js_undefined: t.Any = 0  # __:skip
+JSON: t.Any = 0  # __:skip
+React: t.Any = 0  # __:skip
+ReactHookForm: t.Any = 0  # __:skip
+
 __pragma__(  # noqa: F821
     "js",
     "{}",
@@ -15,14 +22,7 @@ __pragma__(  # noqa: F821
     """,
 )
 
-document: t.Any = 0  # __:skip
-encodeURIComponent: t.Any = 0  # __:skip
-js_undefined: t.Any = 0  # __:skip
-JSON: t.Any = 0  # __:skip
-React: t.Any = 0  # __:skip
-ReactHookForm: t.Any = 0  # __:skip
-
-INITIAL_DATETIME = {
+INITIAL_DATETIME: t.Dict[str, t.Any] = {
     "grdt": GregorianDateTime(1970, 1, 1, 0, 0, 0, "+00:00"),
     "imdt": ImperialDateTime(1398, 23, 12, 22, 5, 33, "+00:00"),
 }
@@ -61,8 +61,8 @@ async def set_to_current(form, ref) -> None:
             },
         },
     )
-    form.setValue("imdt.year", response.imdt.year)
-    form.setValue("imdt.month", response.imdt.month)
+    form.setValue("imdt.year", response["imdt"].year)
+    form.setValue("imdt.month", response["imdt"].month)
     await draw(form, ref)
 
 
@@ -109,7 +109,7 @@ def Calendar(props: dict):
                     "input",
                     {
                         "className": "input",
-                        "defaultValue": INITIAL_DATETIME.grdt.timezone,
+                        "defaultValue": INITIAL_DATETIME["grdt"].timezone,
                         "disabled": True,
                         "name": "grdt.timezone",
                         "ref": form.register,
@@ -128,7 +128,7 @@ def Calendar(props: dict):
                     "input",
                     {
                         "className": "input",
-                        "defaultValue": INITIAL_DATETIME.imdt.year,
+                        "defaultValue": INITIAL_DATETIME["imdt"].year,
                         "name": "imdt.year",
                         "ref": form.register,
                         "style": {"width": "6em"},
@@ -140,7 +140,7 @@ def Calendar(props: dict):
                     "input",
                     {
                         "className": "input",
-                        "defaultValue": INITIAL_DATETIME.imdt.month,
+                        "defaultValue": INITIAL_DATETIME["imdt"].month,
                         "max": 24,
                         "min": 1,
                         "name": "imdt.month",

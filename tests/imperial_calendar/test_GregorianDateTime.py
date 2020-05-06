@@ -38,6 +38,25 @@ class TestGregorianDateTime(unittest.TestCase):
                     grdt, GregorianDateTime.from_utc_naive(naive_grdt, timezone)
                 )
 
+    def test_is_holiday(self):
+        """祝日."""
+        self.assertTrue(GregorianDateTime(2020, 1, 1, 0, 0, 0, "Asia/Tokyo").is_holiday)
+        self.assertFalse(
+            GregorianDateTime(2020, 1, 2, 0, 0, 0, "Asia/Tokyo").is_holiday
+        )
+        self.assertFalse(
+            GregorianDateTime(2020, 2, 22, 0, 0, 0, "Asia/Tokyo").is_holiday
+        )
+        self.assertTrue(
+            GregorianDateTime(2020, 2, 23, 0, 0, 0, "Asia/Tokyo").is_holiday
+        )
+        self.assertTrue(
+            GregorianDateTime(2020, 2, 24, 0, 0, 0, "Asia/Tokyo").is_holiday
+        )
+        self.assertFalse(
+            GregorianDateTime(2020, 2, 25, 0, 0, 0, "Asia/Tokyo").is_holiday
+        )
+
     def test_to_utc_naive(self):
         """Convert to naive GregorianDateTime as UTC."""
         for (naive_grdt, grdt) in [

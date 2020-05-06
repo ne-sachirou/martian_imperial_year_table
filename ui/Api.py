@@ -15,7 +15,7 @@ fetch: t.Any = 0  # __:skip
 class Api(object):
     """Client of Web API."""
 
-    async def get_datetimes(self, params: dict) -> dict:
+    async def get_datetimes(self, params: dict) -> t.Dict[str, t.Any]:
         """Get datetimes."""
         response = await fetch(
             "/api/datetimes?params={}".format(
@@ -58,7 +58,7 @@ class Api(object):
             "imdt": imdt,
         }
 
-    async def get_calendar_svg(self, params: dict) -> dict:
+    async def get_calendar_svg(self, params: dict) -> str:
         """Get a calendar SVG of the month."""
         response = await fetch(
             "/api/calendar.svg?params={}".format(
@@ -69,7 +69,7 @@ class Api(object):
             raise Exception(f"{response.status}: {response.text()}")
         return await response.text()
 
-    async def get_description_html(self) -> dict:
+    async def get_description_html(self) -> t.Dict[str, t.Any]:
         """Get the description HTML."""
         response = await fetch("/api/description.html")
         if not response.ok:

@@ -229,7 +229,7 @@ def format():
     """Format code."""
     run(r"ag -l '\r' | xargs -t -I{} sed -i -e 's/\r//' {}")
     with docker() as _run:
-        _run("poetry run black *.py imperial_calendar tests ui web")
+        _run("poetry run black *.py imperial_calendar stubs tests ui web")
         _run("npx prettier --write README.md templates/*.md")
         _run("npx prettier --write *.js")
         _run(
@@ -278,9 +278,9 @@ def test():
         #         quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")
         #     )
         # )
-        _run("poetry run black --check *.py imperial_calendar tests ui")
+        _run("poetry run black --check *.py imperial_calendar stubs tests ui web")
         _run("poetry run flake8 .")
-        _run("poetry run mypy debug.py")
+        _run("poetry run mypy *.py")
         _run("poetry run python -m unittest discover -s tests/imperial_calendar")
         _run("poetry run python -m unittest discover -s tests/web")
 

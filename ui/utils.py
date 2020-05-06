@@ -2,6 +2,7 @@
 from imperial_calendar.GregorianDateTime import GregorianDateTime
 import typing as t
 
+__new__: t.Any = 0  # __:skip
 Date: t.Any = 0  # __:skip
 
 
@@ -14,9 +15,7 @@ def current_grdt() -> GregorianDateTime:
     else:
         sign = "-"
     grdt_timezone = "{0}{1}:{2}".format(
-        sign,
-        "0{}".format(abs(offset) // 60).substr(-2),
-        "0{}".format(abs(offset) % 60).substr(-2),
+        sign, "0{}".format(abs(offset) // 60)[-2:], "0{}".format(abs(offset) % 60)[-2:],
     )
     return GregorianDateTime(
         now.getFullYear(),

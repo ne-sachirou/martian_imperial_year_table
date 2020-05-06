@@ -1,6 +1,10 @@
 """GlobalNavigation component."""
 import typing as t
 
+__pragma__: t.Any = 0  # __:skip
+React: t.Any = 0  # __:skip
+ReactRouterDOM: t.Any = 0  # __:skip
+
 __pragma__(  # noqa: F821
     "js",
     "{}",
@@ -9,9 +13,6 @@ __pragma__(  # noqa: F821
     const ReactRouterDOM = require("react-router-dom");
     """,
 )
-
-React: t.Any = 0  # __:skip
-ReactRouterDOM: t.Any = 0  # __:skip
 
 
 def GlobalNavigation(props: dict):
