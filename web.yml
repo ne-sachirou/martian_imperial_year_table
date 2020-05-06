@@ -16,10 +16,11 @@ paths:
       responses:
         200:
           schema:
+            type: object
             required:
               - svg
             properties:
-              svg: { type: string }
+              svg: { type: object }
   /api/datetimes:
     get:
       parameters:

@@ -1,7 +1,7 @@
 """App."""
 from datetime import timedelta
 from flasgger import swag_from, Swagger
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, Response, jsonify, render_template, request
 from imperial_calendar import (
     GregorianDateTime,
     ImperialDateTime,
@@ -86,7 +86,9 @@ def calendar_svg() -> str:
     params = json.loads(t.cast(str, request.args.get("params")))
     imdt = params["imdt"]
     imdt = ImperialDateTime(imdt["year"], imdt["month"], 1, 0, 0, 0, "+00:00")
-    return jsonify({"svg": CalendarImage(imdt, params["grdt_timezone"]).draw_as_svg()})
+    resp = Response(CalendarImage(imdt, params["grdt_timezone"]).draw_as_svg())
+    resp.headers["Content-Type"] = "image/svg+xml"
+    return resp
 
 
 @app.route("/api/datetimes", methods=["GET"])

@@ -16,7 +16,9 @@ __pragma__(  # noqa: F821
 )
 
 document: t.Any = 0  # __:skip
+encodeURIComponent: t.Any = 0  # __:skip
 js_undefined: t.Any = 0  # __:skip
+JSON: t.Any = 0  # __:skip
 React: t.Any = 0  # __:skip
 ReactHookForm: t.Any = 0  # __:skip
 
@@ -30,16 +32,15 @@ async def draw(form, ref) -> None:
     """Draw the calendar SVG."""
     grdt = current_grdt()
     values = form.getValues()
-    calendar = await Api().get_calendar_svg(
-        {
-            "grdt_timezone": grdt.timezone,
-            "imdt": {
-                "year": int(values["imdt.year"]),
-                "month": int(values["imdt.month"]),
-            },
-        }
+    params = {
+        "grdt_timezone": grdt.timezone,
+        "imdt": {"year": int(values["imdt.year"]), "month": int(values["imdt.month"])},
+    }
+    svg = await Api().get_calendar_svg(params)
+    html = '<a href="/api/calendar.svg?params={}">{}</a>'.format(
+        encodeURIComponent(JSON.stringify(params)), svg,
     )
-    ref.current.innerHTML = calendar["svg"]
+    ref.current.innerHTML = html
 
 
 async def set_to_current(form, ref) -> None:

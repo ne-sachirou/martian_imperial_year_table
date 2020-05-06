@@ -67,7 +67,7 @@ class Api(object):
         )
         if not response.ok:
             raise Exception(f"{response.status}: {response.text()}")
-        return await response.json()
+        return await response.text()
 
     async def get_description_html(self) -> dict:
         """Get the description HTML."""
