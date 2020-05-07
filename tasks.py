@@ -200,6 +200,17 @@ def deploy_staging():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
+        _run(
+            f"""
+            {kubectl_exe()} -n martian-imperial-year-table-staging \
+              wait \
+              po \
+              -l app=martian-imperial-year-table \
+              -l role=web \
+              --for=condition=ready \
+              --timeout=10m
+            """
+        )
 
 
 @task
@@ -222,6 +233,17 @@ def deploy_production():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
+        _run(
+            f"""
+            {kubectl_exe()} -n martian-imperial-year-table-production \
+              wait \
+              po \
+              -l app=martian-imperial-year-table \
+              -l role=web \
+              --for=condition=ready \
+              --timeout=10m
+            """
+        )
 
 
 @task
