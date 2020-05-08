@@ -493,22 +493,30 @@ class CalendarImage(object):
             },
             f"{self.imdt.year}年",
         )
-        x = 10 + (
-            CalendarImage.FONT_SIZE_BOLD_LARGE * 0.7 * 0.353
-            if self.imdt.month in range(10)
-            else 0
-        )
-        self.__draw_text(
-            _e,
+        with _e(
+            "svg",
             {
-                "fill": CalendarImage.BLACK,
-                "font-family": CalendarImage.FONT_FAMILY_BOLD,
-                "font-size": CalendarImage.FONT_SIZE_BOLD_LARGE,
-                "x": f"{x}mm",
-                "y": 28.0,
+                "height": "44mm",
+                "style": """
+                background-color: transparent;
+                """,
+                "width": f"{CalendarImage.WIDTH_LEFT_SPACE - 8}mm",
+                "x": "0mm",
+                "y": "28mm",
             },
-            f"{self.imdt.month}月",
-        )
+        ) as _e2:
+            self.__draw_text(
+                _e2,
+                {
+                    "fill": CalendarImage.BLACK,
+                    "font-family": CalendarImage.FONT_FAMILY_BOLD,
+                    "font-size": CalendarImage.FONT_SIZE_BOLD_LARGE,
+                    "text-anchor": "end",
+                    "x": "100%",
+                    "y": 0.0,
+                },
+                f"{self.imdt.month}月",
+            )
         self.__draw_text(
             _e,
             {
@@ -540,14 +548,14 @@ class CalendarImage(object):
                 "x": "2mm",
                 "y": "52mm",
             },
-        ) as _e:
+        ) as _e2:
             weekdays = ["月", "火", "水", "木", "金", "土", "日"]
             grdt_start = imdt_to_grdt(self.imdt, self.grdt_timezone)
             grdt_start_weekday = weekdays[grdt_start.weekday - 1]
             grdt_end = imdt_to_grdt(self.__next_imdt_month(), self.grdt_timezone)
             grdt_end_weekday = weekdays[grdt_end.weekday - 1]
             self.__draw_text(
-                _e,
+                _e2,
                 {
                     "fill": CalendarImage.GRAY,
                     "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
@@ -577,7 +585,7 @@ class CalendarImage(object):
                 grdt_end.second,
             )
             self.__draw_text(
-                _e,
+                _e2,
                 {
                     "fill": CalendarImage.GRAY,
                     "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
