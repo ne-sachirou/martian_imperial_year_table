@@ -226,11 +226,7 @@ class CalendarImage(object):
             next_line_x
             > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len("10/10") * 0.6) + 1.5
         )
-        if (
-            grdt.is_holiday
-            or (grdt.month == 1 and grdt.day in range(2, 4))
-            or grdt.weekday == 7
-        ):
+        if grdt.is_holiday or grdt.weekday == 7:
             color = CalendarImage.GRAY_RED
         elif grdt.weekday == 6:
             color = CalendarImage.GRAY_BLUE
