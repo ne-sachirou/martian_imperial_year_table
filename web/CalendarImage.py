@@ -1,9 +1,7 @@
 """Draw a imdt calendar image."""
 from contextlib import contextmanager
 from functools import partial
-from imperial_calendar import GregorianDateTime, ImperialDateTime
-from imperial_calendar.internal.ImperialMonth import ImperialMonth
-from imperial_calendar.internal.ImperialYear import ImperialYear
+from imperial_calendar import GregorianDateTime, ImperialDateTime, ImperialYearMonth
 from imperial_calendar.transform import (
     grdt_to_juld,
     imdt_to_imsn,
@@ -18,14 +16,6 @@ from imperial_calendar.transform import (
 )
 import typing as t
 import xml.etree.ElementTree as ET
-
-
-def days_of_month(imdt: ImperialDateTime) -> int:
-    """Get days of the imdt month."""
-    days = ImperialMonth(imdt.month).days()
-    if imdt.month == 24 and ImperialYear(imdt.year).is_leap_year():
-        days += 1
-    return days
 
 
 def next_grdt_day_of(grdt: GregorianDateTime) -> GregorianDateTime:
@@ -242,7 +232,10 @@ class CalendarImage(object):
             is_drawable_on_weekend = (
                 CalendarImage.SIZE_DAY_SQUARE - line_x
             ) > 0.353 * CalendarImage.FONT_SIZE_SMALL * (len(text) * 0.6) + 1.5
-            if imdt.day == days_of_month(self.imdt) and not is_drawable_on_weekend:
+            if (
+                imdt.day == ImperialYearMonth(self.imdt.year, self.imdt.month).days()
+                and not is_drawable_on_weekend
+            ):
                 pass
             elif imdt.day % 7 == 0 and not is_drawable_on_weekend:
                 self.__draw_text(
@@ -316,30 +309,53 @@ class CalendarImage(object):
             drawing_grdt_day = next_grdt_day_of(drawing_grdt_day)
 
     def __draw_imdt_days(self, _e) -> None:
-        for day in range(1, days_of_month(self.imdt) + 1):
-            if day % 7 == 0:
-                color = CalendarImage.BLUE
-            elif day % 7 == 1:
+        for day in range(
+            1, ImperialYearMonth(self.imdt.year, self.imdt.month).days() + 1
+        ):
+            imdt = self.imdt.copy()
+            imdt.day = day
+            if imdt.holiday is not None or day % 7 == 1:
                 color = CalendarImage.RED
+            elif day % 7 == 0:
+                color = CalendarImage.BLUE
             else:
                 color = CalendarImage.BLACK
+            x = (
+                CalendarImage.WIDTH_LEFT_SPACE
+                + 1
+                + CalendarImage.SIZE_DAY_SQUARE * ((day - 1) % 7)
+            )
+            y = (
+                CalendarImage.HEIGHT_TOP_SPACE
+                + 1
+                + (
+                    CalendarImage.SIZE_DAY_SQUARE
+                    + CalendarImage.HEIGHT_GRDT_BELT
+                    + CalendarImage.HEIGHT_DAYS_GAP
+                )
+                * ((day - 1) // 7)
+            )
             self.__draw_text(
                 _e,
                 {
                     "fill": color,
                     "font-size": CalendarImage.FONT_SIZE_SMALL,
-                    "x": f"{CalendarImage.WIDTH_LEFT_SPACE + 1 + CalendarImage.SIZE_DAY_SQUARE * ((day - 1) % 7)}mm",
-                    "y": CalendarImage.HEIGHT_TOP_SPACE
-                    + 1
-                    + (
-                        CalendarImage.SIZE_DAY_SQUARE
-                        + CalendarImage.HEIGHT_GRDT_BELT
-                        + CalendarImage.HEIGHT_DAYS_GAP
-                    )
-                    * ((day - 1) // 7),
+                    "x": f"{x}mm",
+                    "y": y,
                 },
                 str(day),
             )
+            if imdt.holiday is not None:
+                self.__draw_text(
+                    _e,
+                    {
+                        "fill": color,
+                        "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
+                        "x": f"{x + CalendarImage.FONT_SIZE_SMALL * (0.353 - 0.05) * len(str(day))}mm",
+                        "y": y + 0.25,
+                    },
+                    str(imdt.holiday.name),
+                )
 
     def __draw_imdt_syukuzitu(self, _e) -> None:
         pass
@@ -374,7 +390,7 @@ class CalendarImage(object):
             )
 
     def __draw_static_frame(self, _e) -> None:
-        days = days_of_month(self.imdt)
+        days = ImperialYearMonth(self.imdt.year, self.imdt.month).days()
         for i in range(4):
             days_of_week = 6 if i == 3 and days == 27 else 7
             y = (
@@ -597,4 +613,7 @@ class CalendarImage(object):
             )
 
     def __next_imdt_month(self) -> ImperialDateTime:
-        return self.imdt.copy().next_month()
+        next_month = ImperialYearMonth(self.imdt.year, self.imdt.month).next_month()
+        return ImperialDateTime(
+            next_month.year, next_month.month, 1, 0, 0, 0, self.imdt.timezone
+        )

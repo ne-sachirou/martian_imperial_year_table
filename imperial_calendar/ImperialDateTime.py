@@ -1,4 +1,5 @@
 """帝國火星曆の日時."""
+from imperial_calendar.internal.HolidayMars import HolidayMars  # __:skip
 import re  # __:skip
 import typing as t
 
@@ -81,13 +82,33 @@ class ImperialDateTime(object):
             me = me.to_standard_naive()
         if other.timezone is not None:
             other = other.to_standard_naive()
-        return (
-            me.year < other.year
-            or me.month < other.month
-            or me.day < other.day
-            or me.hour < other.hour
-            or me.minute < other.minute
-            or me.second < other.second
+        return me.year < other.year or (
+            me.year == other.year
+            and (
+                me.month < other.month
+                or (
+                    me.month == other.month
+                    and (
+                        me.day < other.day
+                        or (
+                            me.day == other.day
+                            and (
+                                me.hour < other.hour
+                                or (
+                                    me.hour == other.hour
+                                    and (
+                                        me.minute < other.minute
+                                        or (
+                                            me.minute == other.minute
+                                            and me.second < other.second
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         )
 
     def __repr__(self) -> str:
@@ -113,6 +134,17 @@ class ImperialDateTime(object):
             self.second,
             self.timezone,
         )
+
+    # __pragma__("skip")
+    @property
+    def holiday(self) -> t.Optional[HolidayMars]:
+        """Return the day is a holiday or not."""
+        holiday = HolidayMars(self.year, self.month, self.day)
+        if not holiday.is_holiday:
+            return None
+        return holiday
+
+    # __pragma__("noskip")
 
     @property
     def japanese_month_name(self) -> str:
@@ -144,19 +176,6 @@ class ImperialDateTime(object):
             "大寒",
         ][self.month - 1]
 
-    def next_month(self) -> "ImperialDateTime":
-        """Forward to the first day of the next month."""
-        if self.month == 24:
-            self.year += 1
-            self.month = 1
-        else:
-            self.month += 1
-        self.day = 1
-        self.hour = 0
-        self.minute = 0
-        self.second = 0
-        return self
-
     # __pragma__("skip")
     @property
     def offset(self) -> float:
@@ -166,19 +185,6 @@ class ImperialDateTime(object):
         return parse_timezone(self.timezone)
 
     # __pragma__("noskip")
-
-    def prev_month(self) -> "ImperialDateTime":
-        """Back to the first day of the previous month."""
-        if self.month == 1:
-            self.year -= 1
-            self.month = 24
-        else:
-            self.month -= 1
-        self.day = 1
-        self.hour = 0
-        self.minute = 0
-        self.second = 0
-        return self
 
     # __pragma__("skip")
     def to_standard_naive(self) -> "ImperialDateTime":

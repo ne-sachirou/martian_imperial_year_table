@@ -9,7 +9,7 @@ class ImperialMonth(object):
         self.month: int = month
 
     def days(self) -> int:
-        """この月の日數."""
+        """この月の日數. 閏年は考慮しない."""
         if self.month % 6 == 0:
             return 27
         else:

@@ -1,6 +1,7 @@
 """Calendar component."""
 from imperial_calendar.GregorianDateTime import GregorianDateTime
 from imperial_calendar.ImperialDateTime import ImperialDateTime
+from imperial_calendar.ImperialYearMonth import ImperialYearMonth
 from ui.Api import Api
 from ui.utils import current_grdt
 import typing as t
@@ -69,22 +70,22 @@ async def set_to_current(form, ref) -> None:
 async def turn_to_next(form, ref) -> None:
     """Turn the calendar to the next month."""
     values = form.getValues()
-    imdt = ImperialDateTime(
-        int(values["imdt.year"]), int(values["imdt.month"]), 1, 0, 0, 0, "+00:00"
+    next_month = ImperialYearMonth(
+        int(values["imdt.year"]), int(values["imdt.month"])
     ).next_month()
-    form.setValue("imdt.year", imdt.year)
-    form.setValue("imdt.month", imdt.month)
+    form.setValue("imdt.year", next_month.year)
+    form.setValue("imdt.month", next_month.month)
     await draw(form, ref)
 
 
 async def turn_to_previous(form, ref) -> None:
     """Turn the calendar to the previous month."""
     values = form.getValues()
-    imdt = ImperialDateTime(
-        int(values["imdt.year"]), int(values["imdt.month"]), 1, 0, 0, 0, "+00:00"
+    prev_month = ImperialYearMonth(
+        int(values["imdt.year"]), int(values["imdt.month"])
     ).prev_month()
-    form.setValue("imdt.year", imdt.year)
-    form.setValue("imdt.month", imdt.month)
+    form.setValue("imdt.year", prev_month.year)
+    form.setValue("imdt.month", prev_month.month)
     await draw(form, ref)
 
 

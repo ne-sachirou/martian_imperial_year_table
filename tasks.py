@@ -175,6 +175,7 @@ def clean():
     if not within_docker():
         run(f"{docker_compose_exe()} down -v")
         shutil.rmtree("node_modules", ignore_errors=True)
+        run("find . -name '.unison.*' -exec rm -vrf {} +;")
     shutil.rmtree("__target__", ignore_errors=True)
     shutil.rmtree("static/css", ignore_errors=True)
     shutil.rmtree("static/js", ignore_errors=True)
