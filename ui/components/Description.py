@@ -5,12 +5,14 @@ import typing as t
 __pragma__: t.Any = 0  # __:skip
 js_undefined: t.Any = 0  # __:skip
 React: t.Any = 0  # __:skip
+ReactHelmet: t.Any = 0  # __:skip
 
 __pragma__(  # noqa: F821
     "js",
     "{}",
     """
     const React = require("react");
+    const ReactHelmet = require("react-helmet");
     """,
 )
 
@@ -41,4 +43,11 @@ def Description(props: dict):
     html = use_description()
     ref = React.useRef()
     React.useEffect(lambda: draw_description(html, ref), [html, ref])
-    return React.createElement("div", {"className": "content section", "ref": ref})
+    return React.createElement(
+        React.Fragment,
+        {},
+        React.createElement(
+            ReactHelmet.Helmet, {}, React.createElement("title", {}, "解説 | 帝國火星曆"),
+        ),
+        React.createElement("div", {"className": "content section", "ref": ref}),
+    )

@@ -11,6 +11,7 @@ encodeURIComponent: t.Any = 0  # __:skip
 js_undefined: t.Any = 0  # __:skip
 JSON: t.Any = 0  # __:skip
 React: t.Any = 0  # __:skip
+ReactHelmet: t.Any = 0  # __:skip
 ReactHookForm: t.Any = 0  # __:skip
 
 __pragma__(  # noqa: F821
@@ -18,6 +19,7 @@ __pragma__(  # noqa: F821
     "{}",
     """
     const React = require("react");
+    const ReactHelmet = require("react-helmet");
     const ReactHookForm = require("react-hook-form");
     window.process = {"env": {"NODE_ENV": "production"}}
     """,
@@ -95,90 +97,97 @@ def Calendar(props: dict):
     ref = React.useRef()
     React.useEffect(lambda: set_to_current(form, ref) and js_undefined, [form, ref])
     return React.createElement(
-        "div",
-        {"onSubmit": lambda event: event.preventDefault()},
+        React.Fragment,
+        {},
         React.createElement(
-            "form",
-            {},
-            React.createElement(
-                "div",
-                {"className": "field is-grouped"},
-                React.createElement(
-                    "label", {"className": "label"}, "Gregorian Date Time"
-                ),
-                React.createElement(
-                    "input",
-                    {
-                        "className": "input",
-                        "defaultValue": INITIAL_DATETIME["grdt"].timezone,
-                        "disabled": True,
-                        "name": "grdt.timezone",
-                        "ref": form.register,
-                        "style": {"width": "6em"},
-                        "type": "text",
-                    },
-                ),
-            ),
-            React.createElement(
-                "div",
-                {"className": "field is-grouped"},
-                React.createElement(
-                    "label", {"className": "label"}, "Imperial Date Time"
-                ),
-                React.createElement(
-                    "input",
-                    {
-                        "className": "input",
-                        "defaultValue": INITIAL_DATETIME["imdt"].year,
-                        "name": "imdt.year",
-                        "ref": form.register,
-                        "style": {"width": "6em"},
-                        "type": "number",
-                    },
-                ),
-                "-",
-                React.createElement(
-                    "input",
-                    {
-                        "className": "input",
-                        "defaultValue": INITIAL_DATETIME["imdt"].month,
-                        "max": 24,
-                        "min": 1,
-                        "name": "imdt.month",
-                        "ref": form.register,
-                        "style": {"width": "3.5em"},
-                        "type": "number",
-                    },
-                ),
-                React.createElement(
-                    "button",
-                    {
-                        "className": "button is-dark",
-                        "onClick": lambda event: draw(form, ref),
-                    },
-                    "Draw",
-                ),
-            ),
-            React.createElement(
-                "div",
-                {"className": "field is-grouped"},
-                React.createElement(
-                    "button",
-                    {
-                        "className": "button is-dark",
-                        "onClick": lambda event: turn_to_previous(form, ref),
-                    },
-                    "◀",
-                ),
-                React.createElement(
-                    "button",
-                    {
-                        "className": "button is-dark",
-                        "onClick": lambda event: turn_to_next(form, ref),
-                    },
-                    "▶",
-                ),
-            ),
+            ReactHelmet.Helmet, {}, React.createElement("title", {}, "七曜表 | 帝國火星曆"),
         ),
-        React.createElement("div", {"ref": ref}),
+        React.createElement(
+            "div",
+            {"onSubmit": lambda event: event.preventDefault()},
+            React.createElement(
+                "form",
+                {},
+                React.createElement(
+                    "div",
+                    {"className": "field is-grouped"},
+                    React.createElement(
+                        "label", {"className": "label"}, "Gregorian Date Time"
+                    ),
+                    React.createElement(
+                        "input",
+                        {
+                            "className": "input",
+                            "defaultValue": INITIAL_DATETIME["grdt"].timezone,
+                            "disabled": True,
+                            "name": "grdt.timezone",
+                            "ref": form.register,
+                            "style": {"width": "6em"},
+                            "type": "text",
+                        },
+                    ),
+                ),
+                React.createElement(
+                    "div",
+                    {"className": "field is-grouped"},
+                    React.createElement(
+                        "label", {"className": "label"}, "Imperial Date Time"
+                    ),
+                    React.createElement(
+                        "input",
+                        {
+                            "className": "input",
+                            "defaultValue": INITIAL_DATETIME["imdt"].year,
+                            "name": "imdt.year",
+                            "ref": form.register,
+                            "style": {"width": "6em"},
+                            "type": "number",
+                        },
+                    ),
+                    "-",
+                    React.createElement(
+                        "input",
+                        {
+                            "className": "input",
+                            "defaultValue": INITIAL_DATETIME["imdt"].month,
+                            "max": 24,
+                            "min": 1,
+                            "name": "imdt.month",
+                            "ref": form.register,
+                            "style": {"width": "3.5em"},
+                            "type": "number",
+                        },
+                    ),
+                    React.createElement(
+                        "button",
+                        {
+                            "className": "button is-dark",
+                            "onClick": lambda event: draw(form, ref),
+                        },
+                        "Draw",
+                    ),
+                ),
+                React.createElement(
+                    "div",
+                    {"className": "field is-grouped"},
+                    React.createElement(
+                        "button",
+                        {
+                            "className": "button is-dark",
+                            "onClick": lambda event: turn_to_previous(form, ref),
+                        },
+                        "◀",
+                    ),
+                    React.createElement(
+                        "button",
+                        {
+                            "className": "button is-dark",
+                            "onClick": lambda event: turn_to_next(form, ref),
+                        },
+                        "▶",
+                    ),
+                ),
+            ),
+            React.createElement("div", {"ref": ref}),
+        ),
     )
