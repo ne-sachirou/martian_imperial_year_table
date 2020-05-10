@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.com/ne-sachirou/martian_imperial_year_table.svg?branch=master)](https://travis-ci.com/ne-sachirou/martian_imperial_year_table)
+![test](https://github.com/ne-sachirou/martian_imperial_year_table/workflows/test/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/ne-sachirou/martian_imperial_year_table/badge.svg?branch=master)](https://coveralls.io/github/ne-sachirou/martian_imperial_year_table?branch=master)
 
 # 帝國火星曆
 
