@@ -21,6 +21,8 @@ mypy = "^0.770"
 pydocstyle = "^5.0.2"
 transcrypt = "^3.7.16"
 yamllint = "^1.22.1"
+coverage = "^5.1"
+coveralls = "^2.0.0"
 
 [build-system]
 requires = ["poetry>=1.0"]
