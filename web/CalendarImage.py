@@ -351,7 +351,7 @@ class CalendarImage(object):
                     {
                         "fill": color,
                         "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
-                        "x": f"{x + CalendarImage.FONT_SIZE_SMALL * (0.353 - 0.05) * len(str(day))}mm",
+                        "x": f"{x + CalendarImage.FONT_SIZE_SMALL * (0.353 - 0.06) * len(str(day))}mm",
                         "y": y + 0.25,
                     },
                     str(imdt.holiday.name),

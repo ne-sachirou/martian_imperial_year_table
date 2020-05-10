@@ -265,6 +265,19 @@ def format():
 
 
 @task
+def resync():
+    """Re-sync the Docker volume."""
+    if within_docker():
+        return
+    run(f"{docker_compose_exe()} stop web-src")
+    run("find . -name '.unison.*' -exec rm -vrf {} +;")
+    run(
+        f"{docker_compose_exe()} run --rm web-src /docker-entrypoint.d/precopy_appsync.sh"
+    )
+    run(f"{docker_compose_exe()} up -d web-src")
+
+
+@task
 def sh():
     """Run shell in docker."""
     with docker() as _run:
@@ -297,15 +310,17 @@ def test():
         _run("poetry check")
         _run("npm audit")
         # _run(
-        #     "sh -eux -c {:s}".format(
+        #     "sh -eux -c {}".format(
         #         quote(r"ag --hidden -g \.ya?ml$ | xargs -t poetry run yamllint")
         #     )
         # )
         _run("poetry run black --check *.py imperial_calendar stubs tests ui web")
         _run("poetry run flake8 .")
         _run("poetry run mypy *.py")
-        _run("poetry run python -m unittest discover -s tests/imperial_calendar")
-        _run("poetry run python -m unittest discover -s tests/web")
+        _run("poetry run coverage erase")
+        _run("poetry run coverage run -m unittest discover -s tests/imperial_calendar")
+        _run("poetry run coverage run -m unittest discover -s tests/web")
+        _run("poetry run coverage report -m")
 
 
 @task
