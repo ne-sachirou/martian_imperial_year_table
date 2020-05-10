@@ -14,7 +14,10 @@ jobs:
       - run: |
           echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u ne-sachirou --password-stdin
           docker-compose pull web || true
-          ./tasks.py build test coveralls
+          ./tasks.py build test
+          docker cp "$(docker-compose ps web-src | grep web-src | awk '{print$1}'):/app_sync/.coverage" .
+          pip install coveralls
+          coveralls
           docker-compose push web
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

@@ -182,13 +182,6 @@ def clean():
 
 
 @task
-def coveralls():
-    """Post coverage.py results to coveralls.io."""
-    with docker() as _run:
-        _run("poetry run coveralls")
-
-
-@task
 def deploy_staging():
     """Deploy to staging."""
     run("git tag -f staging")
