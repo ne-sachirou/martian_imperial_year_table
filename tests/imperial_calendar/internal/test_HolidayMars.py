@@ -12,8 +12,8 @@ class TestHolidayMars(unittest.TestCase):
             [
                 [
                     HolidayMars(1425, 1, 1),
+                    HolidayMars(1425, 1, 2),
                     HolidayMars(1425, 1, 3),
-                    HolidayMars(1425, 1, 5),
                     HolidayMars(1425, 1, 15),
                 ],
                 HolidayMars(1425, 1, 1),
@@ -21,8 +21,8 @@ class TestHolidayMars(unittest.TestCase):
             ],
             [
                 [
+                    HolidayMars(1425, 1, 2),
                     HolidayMars(1425, 1, 3),
-                    HolidayMars(1425, 1, 5),
                     HolidayMars(1425, 1, 15),
                 ],
                 HolidayMars(1425, 1, 2),
@@ -31,19 +31,27 @@ class TestHolidayMars(unittest.TestCase):
             [
                 [
                     HolidayMars(1425, 1, 1),
+                    HolidayMars(1425, 1, 2),
                     HolidayMars(1425, 1, 3),
-                    HolidayMars(1425, 1, 5),
                 ],
                 HolidayMars(1425, 1, 1),
                 HolidayMars(1425, 1, 14),
             ],
             [
-                [HolidayMars(1425, 1, 15), HolidayMars(1425, 3, 15)],
+                [
+                    HolidayMars(1425, 1, 15),
+                    HolidayMars(1425, 1, 16),
+                    HolidayMars(1425, 3, 15),
+                ],
                 HolidayMars(1425, 1, 15),
                 HolidayMars(1425, 3, 15),
             ],
             [
-                [HolidayMars(1425, 22, 1), HolidayMars(1426, 1, 1)],
+                [
+                    HolidayMars(1425, 22, 1),
+                    HolidayMars(1425, 22, 2),
+                    HolidayMars(1426, 1, 1),
+                ],
                 HolidayMars(1425, 22, 1),
                 HolidayMars(1426, 1, 1),
             ],
@@ -54,7 +62,7 @@ class TestHolidayMars(unittest.TestCase):
     def test_is_holiday(self):
         """その日が祝日であるか否か."""
         self.assertTrue(HolidayMars(1425, 1, 1).is_holiday)
-        self.assertFalse(HolidayMars(1425, 1, 2).is_holiday)
+        self.assertFalse(HolidayMars(1425, 1, 4).is_holiday)
 
     def test_lt(self):
         """より小さい."""

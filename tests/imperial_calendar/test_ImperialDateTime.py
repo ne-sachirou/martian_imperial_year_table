@@ -120,7 +120,7 @@ class TestImperialDateTime(unittest.TestCase):
             HolidayMars(1425, 1, 1),
             ImperialDateTime(1425, 1, 1, 0, 0, 0, "+00:00").holiday,
         )
-        self.assertIsNone(ImperialDateTime(1425, 1, 2, 0, 0, 0, "+00:00").holiday)
+        self.assertIsNone(ImperialDateTime(1425, 1, 4, 0, 0, 0, "+00:00").holiday)
 
     def test_japanese_month_name(self):
         """日本語 (火星語) 月名."""
