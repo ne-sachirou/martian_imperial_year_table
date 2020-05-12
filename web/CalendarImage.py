@@ -149,7 +149,7 @@ class CalendarImage(object):
             self.__draw_imdt_days(_e)
             self.__draw_imdt_syukuzitu(_e)
             self.__draw_grdt_days(_e)
-        return ET.tostring(svg).decode("utf-8")
+        return ET.tostring(svg, encoding="utf-8")
 
     def __draw_grdt_day(self, _e, grdt: GregorianDateTime) -> None:
         imdt = grdt_to_imdt(grdt, self.imdt.timezone)
