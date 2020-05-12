@@ -71,7 +71,7 @@ def powershell():
 def run(command: str, capture_output=False, text=None) -> subprocess.CompletedProcess:
     """Run command."""
     command = command.strip()
-    print(command)
+    print("+ ", command)
     env = os.environ.copy()
     env["DOCKER_BUILDKIT"] = "1"
     return subprocess.run(
@@ -89,7 +89,7 @@ def run_in_docker(
 ) -> subprocess.CompletedProcess:
     """Run command in Docker."""
     command = command.strip()
-    print(command)
+    print("+ ", command)
     env = os.environ.copy()
     env["PWD"] = cwd_for_docker_volume()
     return subprocess.run(
@@ -107,7 +107,7 @@ def run_in_powershell(
 ) -> subprocess.CompletedProcess:
     """Run command in PowerShell if it's present."""
     command = re.sub(r"\\\n", r"`\n", command.strip())
-    print(command)
+    print("+ ", command)
     env = os.environ.copy()
     env["DOCKER_BUILDKIT"] = "1"
     return subprocess.run(
