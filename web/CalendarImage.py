@@ -127,7 +127,7 @@ class CalendarImage(object):
                 "height": "148mm",
                 "style": f"""
                 background-color: {CalendarImage.WHITE};
-                """,
+                """.strip(),
                 "width": "210mm",
                 "xmlns": "http://www.w3.org/2000/svg",
             },
@@ -135,13 +135,7 @@ class CalendarImage(object):
         with e("title", {}, f"帝國火星曆{self.imdt.year}年{self.imdt.month}月", parent=svg):
             pass
         with e(
-            "g",
-            {
-                "style": f"""
-                font-family: {CalendarImage.FONT_FAMILY_REGULAR};
-                """
-            },
-            parent=svg,
+            "g", {"font-family": CalendarImage.FONT_FAMILY_REGULAR}, parent=svg,
         ) as _e:
             self.__draw_title(_e)
             self.__draw_joubi(_e)
@@ -515,7 +509,7 @@ class CalendarImage(object):
                 "height": "44mm",
                 "style": """
                 background-color: transparent;
-                """,
+                """.strip(),
                 "width": f"{CalendarImage.WIDTH_LEFT_SPACE - 8}mm",
                 "x": "0mm",
                 "y": "28mm",
@@ -559,7 +553,7 @@ class CalendarImage(object):
                 "height": "8mm",
                 "style": """
                 background-color: transparent;
-                """,
+                """.strip(),
                 "width": f"{CalendarImage.WIDTH_LEFT_SPACE - 8}mm",
                 "x": "2mm",
                 "y": "52mm",
