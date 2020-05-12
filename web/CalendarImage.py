@@ -89,8 +89,8 @@ class CalendarImage(object):
 
     BLACK: str = "#3b3b3b"
     BLUE: str = "#40a1cc"
-    FONT_FAMILY_BOLD: str = """"筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-B", sans-serif"""
-    FONT_FAMILY_REGULAR: str = """"筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-R", sans-serif"""
+    FONT_FAMILY_BOLD: str = """TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-B", sans-serif"""
+    FONT_FAMILY_REGULAR: str = """TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-R", sans-serif"""
     FONT_SIZE_ANNOTATION: float = 8.0
     FONT_SIZE_BOLD_LARGE: float = 32.0
     FONT_SIZE_LARGE: float = 20.0
