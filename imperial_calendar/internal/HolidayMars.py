@@ -34,11 +34,17 @@ HOLIDAYS: t.Dict[int, t.Dict[int, t.Dict[int, Internal]]] = {
         3: {15: Internal(name="春季皇靈祭"), 16: Internal(name="振替休日")},
         6: {4: Internal(name="紀元節")},
         10: {13: Internal(name="夏至祭")},
-        12: {1: Internal(name="裏正月"), 2: Internal(name="振替休日")},
+        12: {26: Internal(name="大祓前日"), 27: Internal(name="夏越大祓")},
+        13: {1: Internal(name="裏元日"), 2: Internal(name="振替休日")},
         16: {24: Internal(name="神武天皇祭"), 25: Internal(name="秋季皇靈祭")},
         17: {19: Internal(name="天長節")},
-        18: {20: Internal(name="地久節")},
+        18: {2: Internal(name="地久節")},
         22: {1: Internal(name="冬至祭"), 2: Internal(name="振替休日")},
+        24: {
+            26: Internal(name="大祓前々日"),
+            27: Internal(name="大祓前日"),
+            28: Internal(name="年越大祓"),
+        },
     },
     1426: {
         1: {
@@ -51,11 +57,17 @@ HOLIDAYS: t.Dict[int, t.Dict[int, t.Dict[int, Internal]]] = {
         3: {14: Internal(name="春季皇靈祭"), 16: Internal(name="振替休日")},
         6: {4: Internal(name="紀元節")},
         10: {13: Internal(name="夏至祭")},
-        12: {1: Internal(name="裏正月"), 2: Internal(name="振替休日")},
+        12: {26: Internal(name="大祓前日"), 27: Internal(name="夏越大祓")},
+        13: {1: Internal(name="裏元日"), 2: Internal(name="振替休日")},
         16: {24: Internal(name="神武天皇祭"), 25: Internal(name="秋季皇靈祭")},
         17: {19: Internal(name="天長節")},
-        18: {20: Internal(name="地久節")},
+        18: {2: Internal(name="地久節")},
         22: {1: Internal(name="冬至祭"), 2: Internal(name="振替休日")},
+        24: {
+            26: Internal(name="大祓前々日"),
+            27: Internal(name="大祓前日"),
+            28: Internal(name="年越大祓"),
+        },
     },
 }
 

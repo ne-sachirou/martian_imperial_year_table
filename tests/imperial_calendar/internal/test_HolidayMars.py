@@ -50,6 +50,9 @@ class TestHolidayMars(unittest.TestCase):
                 [
                     HolidayMars(1425, 22, 1),
                     HolidayMars(1425, 22, 2),
+                    HolidayMars(1425, 24, 26),
+                    HolidayMars(1425, 24, 27),
+                    HolidayMars(1425, 24, 28),
                     HolidayMars(1426, 1, 1),
                 ],
                 HolidayMars(1425, 22, 1),
