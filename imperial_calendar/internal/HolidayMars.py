@@ -22,7 +22,9 @@ class Internal(object):
         return f"Internal({self.name})"
 
 
-HOLIDAYS: t.Dict[int, t.Dict[int, t.Dict[int, Internal]]] = {
+THolidays = t.Dict[int, t.Dict[int, t.Dict[int, Internal]]]
+
+HOLIDAYS: THolidays = {
     1425: {
         1: {
             1: Internal(name="四方節"),
@@ -68,6 +70,22 @@ HOLIDAYS: t.Dict[int, t.Dict[int, t.Dict[int, Internal]]] = {
 }
 
 
+class Holidays(object):
+    """Proxy HOLIDAYS constant for test."""
+
+    holidays: THolidays = HOLIDAYS
+
+    @classmethod
+    def setUpForTest(cls, holidays: THolidays):
+        """Override HOLIDAYS by given holidays."""
+        cls.holidays = holidays
+
+    @classmethod
+    def tearDownForTest(cls):
+        """Restore the HOLIDAYS."""
+        cls.holidays = HOLIDAYS
+
+
 @total_ordering
 class HolidayMars(object):
     """火星帝國の祝日."""
@@ -84,15 +102,15 @@ class HolidayMars(object):
             return []
         holidays = []
         for year in range(
-            max(lhs.year, min(HOLIDAYS.keys())),
-            min(rhs.year, max(HOLIDAYS.keys())) + 1,
+            max(lhs.year, min(Holidays.holidays.keys())),
+            min(rhs.year, max(Holidays.holidays.keys())) + 1,
         ):
             for month in range(
                 lhs.month if lhs.year == year else 1,
                 (rhs.month if rhs.year == year else 24) + 1,
             ):
-                if month in HOLIDAYS[year]:
-                    for day in sorted(HOLIDAYS[year][month].keys()):
+                if month in Holidays.holidays[year]:
+                    for day in sorted(Holidays.holidays[year][month].keys()):
                         if day in range(
                             lhs.day if lhs.year == year and lhs.month == month else 1,
                             (
@@ -111,8 +129,8 @@ class HolidayMars(object):
         self.internal = None
         self.month = month
         self.year = year
-        if year in HOLIDAYS:
-            hy = HOLIDAYS[year]
+        if year in Holidays.holidays:
+            hy = Holidays.holidays[year]
             if month in hy:
                 hm = hy[month]
                 if day in hm:
