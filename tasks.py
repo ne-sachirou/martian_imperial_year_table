@@ -22,7 +22,7 @@ def cwd_for_docker_volume() -> str:
     """Get current directory for Docker volume. This works both on macOS & WSL."""
     cwd = os.getcwd()
     if cwd.startswith("/mnt/c"):
-        cwd = re.sub("^/mnt", "", cwd)
+        cwd = cwd[4:]
     return cwd
 
 
@@ -201,17 +201,17 @@ def deploy_staging():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
-        _run(
-            f"""
-            {kubectl_exe()} -n martian-imperial-year-table-staging \
-              wait \
-              po \
-              -l app=martian-imperial-year-table \
-              -l role=web \
-              --for=condition=ready \
-              --timeout=10m
-            """
-        )
+    run(
+        f"""
+        {kubectl_exe()} -n martian-imperial-year-table-staging \
+          wait \
+          po \
+          -l app=martian-imperial-year-table \
+          -l role=web \
+          --for=condition=ready \
+          --timeout=10m
+        """
+    )
 
 
 @task
@@ -234,17 +234,17 @@ def deploy_production():
         )
         build = process.stdout.split("\n")[1].split(" ")[0]
         _run(f"gcloud builds log --stream {quote(build)}")
-        _run(
-            f"""
-            {kubectl_exe()} -n martian-imperial-year-table-production \
-              wait \
-              po \
-              -l app=martian-imperial-year-table \
-              -l role=web \
-              --for=condition=ready \
-              --timeout=10m
-            """
-        )
+    run(
+        f"""
+        {kubectl_exe()} -n martian-imperial-year-table-production \
+          wait \
+          po \
+          -l app=martian-imperial-year-table \
+          -l role=web \
+          --for=condition=ready \
+          --timeout=10m
+        """
+    )
 
 
 @task
