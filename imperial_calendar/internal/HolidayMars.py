@@ -22,7 +22,7 @@ class Internal(object):
         return f"Internal({self.name})"
 
 
-THolidays = t.Dict[int, t.Dict[int, t.Dict[int, Internal]]]
+THolidays = t.Dict[int, t.Dict[int, t.Dict[int, t.Union[Internal, t.List[Internal]]]]]
 
 HOLIDAYS: THolidays = {
     1425: {
@@ -91,7 +91,7 @@ class HolidayMars(object):
     """火星帝國の祝日."""
 
     day: int
-    internal: t.Optional[Internal]
+    internals: t.List[Internal]
     month: int
     year: int
 
@@ -126,7 +126,7 @@ class HolidayMars(object):
     def __init__(self, year: int, month: int, day: int):
         """Init."""
         self.day = day
-        self.internal = None
+        self.internals = []
         self.month = month
         self.year = year
         if year in Holidays.holidays:
@@ -134,7 +134,11 @@ class HolidayMars(object):
             if month in hy:
                 hm = hy[month]
                 if day in hm:
-                    self.internal = hm[day]
+                    hd = hm[day]
+                    if isinstance(hd, list):
+                        self.internals = hd
+                    else:
+                        self.internals = [hd]
 
     def __eq__(self, other: object) -> bool:
         """Eq."""
@@ -152,16 +156,14 @@ class HolidayMars(object):
 
     def __repr__(self) -> str:
         """Representation."""
-        return f"HolidayMars({self.year}, {self.month}, {self.day}, internal={repr(self.internal)})"
+        return f"HolidayMars({self.year}, {self.month}, {self.day}, internal={repr(self.internals)})"
 
     @property
     def is_holiday(self) -> bool:
         """Return the day is a holiday on imdt or not."""
-        return self.internal is not None
+        return len(self.internals) != 0
 
     @property
-    def name(self) -> t.Optional[str]:
+    def names(self) -> t.List[str]:
         """Return the holiday name if the day is a holiday."""
-        if self.internal is None:
-            return None
-        return self.internal.name
+        return [internal.name for internal in self.internals]

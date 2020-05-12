@@ -348,7 +348,7 @@ class CalendarImage(object):
                         "x": f"{x + CalendarImage.FONT_SIZE_SMALL * (0.353 - 0.06) * len(str(day))}mm",
                         "y": y + 0.25,
                     },
-                    str(imdt.holiday.name),
+                    str("・".join(imdt.holiday.names)),
                 )
 
     def __draw_imdt_syukuzitu(self, _e) -> None:
