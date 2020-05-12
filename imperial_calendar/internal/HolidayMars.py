@@ -64,9 +64,8 @@ HOLIDAYS: t.Dict[int, t.Dict[int, t.Dict[int, Internal]]] = {
         18: {2: Internal(name="地久節")},
         22: {1: Internal(name="冬至祭"), 2: Internal(name="振替休日")},
         24: {
-            26: Internal(name="大祓前々日"),
-            27: Internal(name="大祓前日"),
-            28: Internal(name="年越大祓"),
+            26: Internal(name="大祓前日"),
+            27: Internal(name="年越大祓"),
         },
     },
 }
