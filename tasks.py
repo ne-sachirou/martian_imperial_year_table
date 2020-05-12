@@ -144,7 +144,7 @@ def within_wsl() -> bool:
 
 @task
 def build():
-    """Build."""
+    """Build stuffs."""
     os.makedirs("static/css", exist_ok=True)
     os.makedirs("static/js", exist_ok=True)
     if not within_docker():
@@ -279,14 +279,14 @@ def resync():
 
 @task
 def sh():
-    """Run shell in docker."""
+    """Run shell in a Docker container."""
     with docker() as _run:
         _run("sh")
 
 
 @task
 def start():
-    """Start dev server."""
+    """Start a development server."""
     run(f"{docker_compose_exe()} up")
 
 

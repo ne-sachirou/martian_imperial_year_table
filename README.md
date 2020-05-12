@@ -21,7 +21,7 @@ https://martian-imperial-year-table.c4se.jp/
 Requirements :
 
 - Python 3
-- Docker
+- [Docker](https://www.docker.com/products/docker-desktop)
 - gcloud (only for deploy)
 
 See `./tasks.py help`.
@@ -29,8 +29,8 @@ See `./tasks.py help`.
 Start development.
 
 ```sh
-./tasks.py build start
-./tasks.py sh
+./tasks.py clean build sh
+./tasks.py start
 ```
 
 Dev server : http://localhost:5000/
