@@ -343,41 +343,41 @@ class CalendarImage(object):
                 day_width = (
                     CalendarImage.FONT_SIZE_SMALL * (0.353 - 0.06) * len(str(day))
                 )
-                # self.__draw_text(
-                #     _e,
-                #     {
-                #         "fill": color,
-                #         "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
-                #         "style": f"""
-                #         inline-size: {CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm;
-                #         """.strip(),
-                #         "x": f"{x + day_width}mm",
-                #         "y": y + 0.2,
-                #     },
-                #     str("・".join(imdt.holiday.names)),
-                # )
-                with _e(
-                    "foreignObject",
+                self.__draw_text(
+                    _e,
                     {
-                        "height": f"{CalendarImage.SIZE_DAY_SQUARE}mm",
-                        "requiredExtensions": "http://www.w3.org/1999/xhtml",
-                        "width": f"{CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm",
+                        "fill": color,
+                        "font-size": CalendarImage.FONT_SIZE_ANNOTATION,
+                        "style": f"""
+                        inline-size: {CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm;
+                        """.strip(),
                         "x": f"{x + day_width}mm",
-                        "y": f"{y + 0.2}mm",
+                        "y": y + 0.2,
                     },
-                ) as _e1:
-                    with _e1(
-                        "div",
-                        {
-                            "style": f"""
-                            color: {color};
-                            font-size: {CalendarImage.FONT_SIZE_ANNOTATION}pt;
-                            """.strip(),
-                            "xmlns": "http://www.w3.org/1999/xhtml",
-                        },
-                        str("・".join(imdt.holiday.names)),
-                    ):
-                        pass
+                    str("・".join(imdt.holiday.names)),
+                )
+                # with _e(
+                #     "foreignObject",
+                #     {
+                #         "height": f"{CalendarImage.SIZE_DAY_SQUARE}mm",
+                #         "requiredExtensions": "http://www.w3.org/1999/xhtml",
+                #         "width": f"{CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm",
+                #         "x": f"{x + day_width}mm",
+                #         "y": f"{y + 0.2}mm",
+                #     },
+                # ) as _e1:
+                #     with _e1(
+                #         "div",
+                #         {
+                #             "style": f"""
+                #             color: {color};
+                #             font-size: {CalendarImage.FONT_SIZE_ANNOTATION}pt;
+                #             """.strip(),
+                #             "xmlns": "http://www.w3.org/1999/xhtml",
+                #         },
+                #         str("・".join(imdt.holiday.names)),
+                #     ):
+                #         pass
 
     def __draw_imdt_syukuzitu(self, _e) -> None:
         pass
