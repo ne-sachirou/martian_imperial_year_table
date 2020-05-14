@@ -89,8 +89,8 @@ class CalendarImage(object):
 
     BLACK: str = "#3b3b3b"
     BLUE: str = "#40a1cc"
-    FONT_FAMILY_BOLD: str = """TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-B", sans-serif"""
-    FONT_FAMILY_REGULAR: str = """TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", "UD デジタル 教科書体 NK-R", sans-serif"""
+    FONT_FAMILY_BOLD: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
+    FONT_FAMILY_REGULAR: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
     FONT_SIZE_ANNOTATION: float = 8.0
     FONT_SIZE_BOLD_LARGE: float = 32.0
     FONT_SIZE_LARGE: float = 20.0
@@ -143,7 +143,7 @@ class CalendarImage(object):
             self.__draw_imdt_days(_e)
             self.__draw_imdt_syukuzitu(_e)
             self.__draw_grdt_days(_e)
-        return ET.tostring(svg, encoding="utf-8")
+        return ET.tostring(svg, encoding="utf-8", xml_declaration=True)
 
     def __draw_grdt_day(self, _e, grdt: GregorianDateTime) -> None:
         imdt = grdt_to_imdt(grdt, self.imdt.timezone)
@@ -352,7 +352,7 @@ class CalendarImage(object):
                 #         inline-size: {CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm;
                 #         """.strip(),
                 #         "x": f"{x + day_width}mm",
-                #         "y": y + 0.25,
+                #         "y": y + 0.2,
                 #     },
                 #     str("・".join(imdt.holiday.names)),
                 # )
@@ -360,9 +360,10 @@ class CalendarImage(object):
                     "foreignObject",
                     {
                         "height": f"{CalendarImage.SIZE_DAY_SQUARE}mm",
+                        "requiredExtensions": "http://www.w3.org/1999/xhtml",
                         "width": f"{CalendarImage.SIZE_DAY_SQUARE - day_width - 1}mm",
                         "x": f"{x + day_width}mm",
-                        "y": f"{y + 0.65}mm",
+                        "y": f"{y + 0.2}mm",
                     },
                 ) as _e1:
                     with _e1(
