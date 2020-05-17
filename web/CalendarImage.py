@@ -89,8 +89,8 @@ class CalendarImage(object):
 
     BLACK: str = "#3b3b3b"
     BLUE: str = "#40a1cc"
-    FONT_FAMILY_BOLD: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
-    FONT_FAMILY_REGULAR: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
+    FONT_FAMILY_BOLD: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", "FOT-筑紫B丸ゴシック Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
+    FONT_FAMILY_REGULAR: str = """fot-tsukubrdgothic-std, "FOT-TsukuBRdGothic Std B", "FOT-筑紫B丸ゴシック Std B", TsukuBRdGothic-Bold, "筑紫B丸ゴシック ボールド", sans-serif"""  # noqa: E501
     FONT_SIZE_ANNOTATION: float = 8.0
     FONT_SIZE_BOLD_LARGE: float = 32.0
     FONT_SIZE_LARGE: float = 20.0

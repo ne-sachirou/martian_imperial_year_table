@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""
-Tasks.
-
-cf. Welcome to Invoke! — Invoke documentation https://www.pyinvoke.org/
-"""
+"""Tasks."""
 from contextlib import contextmanager
 from shlex import quote
 import os
@@ -73,6 +69,7 @@ def run(command: str, capture_output=False, text=None) -> subprocess.CompletedPr
     command = command.strip()
     print("+ ", command)
     env = os.environ.copy()
+    env["COMPOSE_DOCKER_CLI_BUILD"] = "1"
     env["DOCKER_BUILDKIT"] = "1"
     return subprocess.run(
         command,

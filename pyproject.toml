@@ -3,6 +3,7 @@ name = "martian_imperial_year_table"
 version = "1.0.0"
 description = "帝國火星曆テーブル"
 authors = ["ne-sachirou <ne-sachirou@hatena.ne.jp>"]
+license = "Unlicense"
 
 [tool.poetry.dependencies]
 flasgger = "^0.9.4"
@@ -18,7 +19,6 @@ black = "^19.10b0"
 flake8 = "^3.8.1"
 flake8-docstrings = "^1.5.0"
 mypy = "^0.770"
-pydocstyle = "^5.0.2"
 transcrypt = "^3.7.16"
 yamllint = "^1.22.1"
 coverage = "^5.1"
