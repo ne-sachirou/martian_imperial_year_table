@@ -73,9 +73,9 @@ def top_k8s(k8s_ns)
     sh_loop("#{KUBECTL_EXE} get no && #{KUBECTL_EXE} top no"),
     sh_loop("#{KUBECTL_EXE} -n #{escp(k8s_ns)} get all,cm,ing,secret && #{KUBECTL_EXE} -n #{escp(k8s_ns)} top po"),
     sh_stream("#{STERN_EXE} -n #{escp(k8s_ns)} --tail 1 martian-imperial-year-table"),
-    sh_stream("#{KUBECTL_EXE} -n #{escp(k8s_ns)} get ev -o wide -w | tail -f"),
-    sh_stream("#{STERN_EXE} -n cert-manager --tail 1 cert-manager"),
-    sh_stream("#{STERN_EXE} -n ingress-nginx --tail 1 ingress-nginx")
+    sh_stream("#{KUBECTL_EXE} -n #{escp(k8s_ns)} get ev -o wide -w | tail -f")
+    # sh_stream("#{STERN_EXE} -n cert-manager --tail 1 cert-manager"),
+    # sh_stream("#{STERN_EXE} -n ingress-nginx --tail 1 ingress-nginx")
   ]
   Signal.trap('INT') { threads.each(&:kill) }
   threads.each(&:join)
@@ -83,6 +83,20 @@ end
 
 desc 'Format me'
 task(:format) { sh 'rubocop -a Rakefile || true' }
+
+desc 'Recreate all nodes'
+task :renodes do
+  nodes = `#{KUBECTL_EXE} get no --no-headers`.each_line.map { |l| l.split(/\s+/).first }
+  nodes.each { |node| sh "#{KUBECTL_EXE} cordon #{node}" }
+  threads = nodes.map do |node|
+    Thread.new do
+      sh "#{KUBECTL_EXE} drain --force --ignore-daemonsets --delete-local-data --grace-period=10 #{node}"
+      sh "#{KUBECTL_EXE} delete no #{node}"
+    end
+  end
+  Signal.trap('INT') { threads.each(&:kill) }
+  threads.each(&:join)
+end
 
 namespace :production do
   desc 'Inspect about staging'
