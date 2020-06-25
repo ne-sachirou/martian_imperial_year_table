@@ -184,7 +184,7 @@ def deploy_staging():
     run("git tag -f staging")
     run("git push -f origin staging")
     with powershell() as _run:
-        time.sleep(10)
+        time.sleep(20)
         builds_filter = """
         source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
         source.repoSource.tagName = staging
@@ -217,7 +217,7 @@ def deploy_production():
     run("git tag -f production")
     run("git push -f origin production")
     with powershell() as _run:
-        time.sleep(10)
+        time.sleep(20)
         builds_filter = """
         source.repoSource.repoName = github_ne-sachirou_martian_imperial_year_table AND
         source.repoSource.tagName = production
