@@ -14,7 +14,7 @@ end
 # @param [String] cmd
 # @param [Integer] interval_sec
 # @return Thread
-def sh_loop(cmd, interval_sec = 30)
+def sh_loop(cmd, interval_sec = 20)
   Thread.new do
     loop do
       begin
@@ -37,7 +37,7 @@ def sh_stream(cmd)
       rescue StandardError => e
         pp e
       end
-      sleep 30
+      sleep 20
     end
   end
 end
@@ -88,14 +88,9 @@ desc 'Recreate all nodes'
 task :renodes do
   nodes = `#{KUBECTL_EXE} get no --no-headers`.each_line.map { |l| l.split(/\s+/).first }
   nodes.each { |node| sh "#{KUBECTL_EXE} cordon #{node}" }
-  threads = nodes.map do |node|
-    Thread.new do
-      sh "#{KUBECTL_EXE} drain --force --ignore-daemonsets --delete-local-data --grace-period=10 #{node}"
-      sh "#{KUBECTL_EXE} delete no #{node}"
-    end
-  end
-  Signal.trap('INT') { threads.each(&:kill) }
-  threads.each(&:join)
+  nodes.each { |node| sh "#{KUBECTL_EXE} drain --force --ignore-daemonsets --delete-local-data --grace-period=300 #{node}" }
+  sleep 300
+  nodes.each { |node| sh "#{KUBECTL_EXE} delete no #{node}" }
 end
 
 namespace :production do

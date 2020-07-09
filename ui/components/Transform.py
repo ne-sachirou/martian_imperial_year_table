@@ -94,15 +94,15 @@ async def sync_by_grdt(form):
     values = form.getValues()
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
             "grdt": {
-                "year": int(values["grdt.year"]),
-                "month": int(values["grdt.month"]),
-                "day": int(values["grdt.day"]),
-                "hour": int(values["grdt.hour"]),
-                "minute": int(values["grdt.minute"]),
-                "second": int(values["grdt.second"]),
+                "year": int(values["grdt"]["year"]),
+                "month": int(values["grdt"]["month"]),
+                "day": int(values["grdt"]["day"]),
+                "hour": int(values["grdt"]["hour"]),
+                "minute": int(values["grdt"]["minute"]),
+                "second": int(values["grdt"]["second"]),
             },
         },
     )
@@ -118,11 +118,11 @@ async def sync_by_grdt(form):
 async def sync_by_juld(form):
     """Sync a datetime by the juld."""
     values = form.getValues()
-    juld = JulianDay(float(values["juld.julian_day"]))
+    juld = JulianDay(float(values["juld"]["julian_day"]))
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
             "juld": {"day": juld.day, "second": juld.second},
         },
     )
@@ -140,9 +140,9 @@ async def sync_by_tert(form):
     values = form.getValues()
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
-            "tert": {"terrestrial_time": float(values["tert.terrestrial_time"])},
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
+            "tert": {"terrestrial_time": float(values["tert"]["terrestrial_time"])},
         },
     )
     set_grdt(form, response.grdt)
@@ -159,9 +159,9 @@ async def sync_by_mrsd(form):
     values = form.getValues()
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
-            "mrsd": {"mars_sol_date": float(values["mrsd.mars_sol_date"])},
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
+            "mrsd": {"mars_sol_date": float(values["mrsd"]["mars_sol_date"])},
         },
     )
     set_grdt(form, response.grdt)
@@ -176,11 +176,11 @@ async def sync_by_mrsd(form):
 async def sync_by_imsn(form):
     """Sync a datetime by the imsn."""
     values = form.getValues()
-    imsn = ImperialSolNumber(float(values["imsn.imperial_sol_number"]))
+    imsn = ImperialSolNumber(float(values["imsn"]["imperial_sol_number"]))
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
             "imsn": {"day": imsn.day, "second": imsn.second},
         },
     )
@@ -198,15 +198,15 @@ async def sync_by_imdt(form):
     values = form.getValues()
     response = await Api().get_datetimes(
         {
-            "grdt_timezone": values["grdt.timezone"],
-            "imdt_timezone": values["imdt.timezone"],
+            "grdt_timezone": values["grdt"]["timezone"],
+            "imdt_timezone": values["imdt"]["timezone"],
             "imdt": {
-                "year": int(values["imdt.year"]),
-                "month": int(values["imdt.month"]),
-                "day": int(values["imdt.day"]),
-                "hour": int(values["imdt.hour"]),
-                "minute": int(values["imdt.minute"]),
-                "second": int(values["imdt.second"]),
+                "year": int(values["imdt"]["year"]),
+                "month": int(values["imdt"]["month"]),
+                "day": int(values["imdt"]["day"]),
+                "hour": int(values["imdt"]["hour"]),
+                "minute": int(values["imdt"]["minute"]),
+                "second": int(values["imdt"]["second"]),
             },
         },
     )
