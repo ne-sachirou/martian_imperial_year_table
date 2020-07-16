@@ -386,14 +386,14 @@ description = "A linter for YAML files."
 name = "yamllint"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
-version = "1.23.0"
+version = "1.24.1"
 
 [package.dependencies]
 pathspec = ">=0.5.3"
 pyyaml = "*"
 
 [metadata]
-content-hash = "47b27456e6b76c112267d27d4aca72901e373586f391329929e46e3435b55db3"
+content-hash = "a572d6a520dfe6d62e5c91e5acacdf32471ce9a4c4964bc46453ee615d153aac"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -658,6 +658,6 @@ werkzeug = [
     {file = "Werkzeug-1.0.1.tar.gz", hash = "sha256:6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c"},
 ]
 yamllint = [
-    {file = "yamllint-1.23.0-py2.py3-none-any.whl", hash = "sha256:0fa69bf8a86182b7fe14918bdd3a30354c869966bbc7cbfff176af71bda9c806"},
-    {file = "yamllint-1.23.0.tar.gz", hash = "sha256:59f3ff77f44e7f46be6aecdb985830f73a1c51e290b7082a7d38c2ae1940f4a9"},
+    {file = "yamllint-1.24.1-py2.py3-none-any.whl", hash = "sha256:8f92d0c1770369fea467d6c278a4556aca36f753c62b3bf95664e311227e7ebe"},
+    {file = "yamllint-1.24.1.tar.gz", hash = "sha256:c104ff5c29511ea59236cb06a68e34a9663724a35f1fdee736657d90fcb56162"},
 ]
