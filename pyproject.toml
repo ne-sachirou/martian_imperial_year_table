@@ -6,7 +6,7 @@ authors = ["ne-sachirou <ne-sachirou@hatena.ne.jp>"]
 license = "Unlicense"
 
 [tool.poetry.dependencies]
-flasgger = "^0.9.4"
+flasgger = "^0.9.5"
 Flask = "^1.1.2"
 holiday-jp = "^19.10.14"
 Markdown = "^3.2.2"

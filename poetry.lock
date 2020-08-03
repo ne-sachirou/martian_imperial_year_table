@@ -90,7 +90,7 @@ description = "Extract swagger specs from your flask project"
 name = "flasgger"
 optional = false
 python-versions = "*"
-version = "0.9.4"
+version = "0.9.5"
 
 [package.dependencies]
 Flask = ">=0.10"
@@ -393,7 +393,7 @@ pathspec = ">=0.5.3"
 pyyaml = "*"
 
 [metadata]
-content-hash = "47b27456e6b76c112267d27d4aca72901e373586f391329929e46e3435b55db3"
+content-hash = "c145211d604b46f173f2312d2614e9565032a39c53bea1b61e88c2e15badb832"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -455,8 +455,8 @@ flake8-docstrings = [
     {file = "flake8_docstrings-1.5.0-py2.py3-none-any.whl", hash = "sha256:a256ba91bc52307bef1de59e2a009c3cf61c3d0952dbe035d6ff7208940c2edc"},
 ]
 flasgger = [
-    {file = "flasgger-0.9.4-py2.py3-none-any.whl", hash = "sha256:7c187f7a7caeb42645f7de652335b794375925467407e40322620fb9d401b38c"},
-    {file = "flasgger-0.9.4.tar.gz", hash = "sha256:37137b3292738580c42e03662bfb8731656a11d636e76f76d30e572c1fa5bd0d"},
+    {file = "flasgger-0.9.5-py2.py3-none-any.whl", hash = "sha256:0603941cf4003626b4ee551ca87331f1d17b8eecce500ccf1a1f1d3a332fc94a"},
+    {file = "flasgger-0.9.5.tar.gz", hash = "sha256:6ebea406b5beecd77e8da42550f380d4d05a6107bc90b69ce9e77aee7612e2d0"},
 ]
 flask = [
     {file = "Flask-1.1.2-py2.py3-none-any.whl", hash = "sha256:8a4fdd8936eba2512e9c85df320a37e694c93945b33ef33c89946a340a238557"},
