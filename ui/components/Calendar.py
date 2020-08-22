@@ -37,7 +37,10 @@ async def draw(form, ref) -> None:
     values = form.getValues()
     params = {
         "grdt_timezone": grdt.timezone,
-        "imdt": {"year": int(values["imdt.year"]), "month": int(values["imdt.month"])},
+        "imdt": {
+            "year": int(values["imdt"]["year"]),
+            "month": int(values["imdt"]["month"]),
+        },
     }
     svg = await Api().get_calendar_svg(params)
     html = '<a href="/api/calendar.svg?params={}">{}</a>'.format(
@@ -73,7 +76,7 @@ async def turn_to_next(form, ref) -> None:
     """Turn the calendar to the next month."""
     values = form.getValues()
     next_month = ImperialYearMonth(
-        int(values["imdt.year"]), int(values["imdt.month"])
+        int(values["imdt"]["year"]), int(values["imdt"]["month"])
     ).next_month()
     form.setValue("imdt.year", next_month.year)
     form.setValue("imdt.month", next_month.month)
@@ -84,7 +87,7 @@ async def turn_to_previous(form, ref) -> None:
     """Turn the calendar to the previous month."""
     values = form.getValues()
     prev_month = ImperialYearMonth(
-        int(values["imdt.year"]), int(values["imdt.month"])
+        int(values["imdt"]["year"]), int(values["imdt"]["month"])
     ).prev_month()
     form.setValue("imdt.year", prev_month.year)
     form.setValue("imdt.month", prev_month.month)
