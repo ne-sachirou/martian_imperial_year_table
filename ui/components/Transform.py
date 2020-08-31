@@ -623,7 +623,9 @@ def Transform(props: dict):
         React.Fragment,
         {},
         React.createElement(
-            ReactHelmet.Helmet, {}, React.createElement("title", {}, "變換 | 帝國火星曆"),
+            ReactHelmet.Helmet,
+            {},
+            React.createElement("title", {}, "變換 | 帝國火星曆"),
         ),
         React.createElement(
             "form",
