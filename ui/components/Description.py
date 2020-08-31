@@ -47,7 +47,9 @@ def Description(props: dict):
         React.Fragment,
         {},
         React.createElement(
-            ReactHelmet.Helmet, {}, React.createElement("title", {}, "解説 | 帝國火星曆"),
+            ReactHelmet.Helmet,
+            {},
+            React.createElement("title", {}, "解説 | 帝國火星曆"),
         ),
         React.createElement("div", {"className": "content section", "ref": ref}),
     )

@@ -15,7 +15,9 @@ def current_grdt() -> GregorianDateTime:
     else:
         sign = "-"
     grdt_timezone = "{0}{1}:{2}".format(
-        sign, "0{}".format(abs(offset) // 60)[-2:], "0{}".format(abs(offset) % 60)[-2:],
+        sign,
+        "0{}".format(abs(offset) // 60)[-2:],
+        "0{}".format(abs(offset) % 60)[-2:],
     )
     return GregorianDateTime(
         now.getFullYear(),

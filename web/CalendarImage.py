@@ -135,7 +135,9 @@ class CalendarImage(object):
         with e("title", {}, f"帝國火星曆{self.imdt.year}年{self.imdt.month}月", parent=svg):
             pass
         with e(
-            "g", {"font-family": CalendarImage.FONT_FAMILY_REGULAR}, parent=svg,
+            "g",
+            {"font-family": CalendarImage.FONT_FAMILY_REGULAR},
+            parent=svg,
         ) as _e:
             self.__draw_title(_e)
             self.__draw_joubi(_e)

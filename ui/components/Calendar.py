@@ -44,7 +44,8 @@ async def draw(form, ref) -> None:
     }
     svg = await Api().get_calendar_svg(params)
     html = '<a href="/api/calendar.svg?params={}">{}</a>'.format(
-        encodeURIComponent(JSON.stringify(params)), svg,
+        encodeURIComponent(JSON.stringify(params)),
+        svg,
     )
     ref.current.innerHTML = html
 
@@ -103,7 +104,9 @@ def Calendar(props: dict):
         React.Fragment,
         {},
         React.createElement(
-            ReactHelmet.Helmet, {}, React.createElement("title", {}, "七曜表 | 帝國火星曆"),
+            ReactHelmet.Helmet,
+            {},
+            React.createElement("title", {}, "七曜表 | 帝國火星曆"),
         ),
         React.createElement(
             "div",
