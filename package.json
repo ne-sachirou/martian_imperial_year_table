@@ -26,11 +26,11 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^6.7.0",
+    "react-hook-form": "^6.7.2",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "npm-check-updates": "^8.0.1",
+    "npm-check-updates": "^8.1.1",
     "prettier": "^2.1.1",
     "transcrypt-loader": "^1.0.2",
     "webpack": "^4.44.1",
