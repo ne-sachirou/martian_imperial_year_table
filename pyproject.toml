@@ -20,7 +20,7 @@ flake8 = "^3.8.3"
 flake8-docstrings = "^1.5.0"
 mypy = "^0.782"
 transcrypt = "^3.7.16"
-yamllint = "^1.22.1"
+yamllint = "^1.25.0"
 coverage = "^5.1"
 
 [build-system]
