@@ -21,16 +21,16 @@
   },
   "homepage": "https://github.com/ne-sachirou/martian_imperial_year_table#readme",
   "dependencies": {
-    "bulma": "^0.9.0",
+    "bulma": "^0.9.1",
     "create-react-class": "^15.6.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^6.8.4",
+    "react-hook-form": "^6.8.6",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "npm-check-updates": "^9.0.2",
+    "npm-check-updates": "^9.0.3",
     "prettier": "^2.1.2",
     "transcrypt-loader": "^1.0.2",
     "webpack": "^4.44.2",
