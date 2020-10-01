@@ -2,7 +2,7 @@
 
 set -eux
 
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -eux
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash -ex
 mv kustomize /usr/local/bin
 
 cd deployments/production || exit 1
