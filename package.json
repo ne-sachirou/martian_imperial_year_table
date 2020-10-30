@@ -35,6 +35,6 @@
     "transcrypt-loader": "^1.0.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "webpack-merge": "^5.1.4"
+    "webpack-merge": "^5.3.0"
   }
 }
