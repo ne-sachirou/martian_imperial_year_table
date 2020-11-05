@@ -6,10 +6,11 @@ authors = ["ne-sachirou <ne-sachirou@hatena.ne.jp>"]
 license = "Unlicense"
 
 [tool.poetry.dependencies]
-flasgger = "^0.9.4"
 Flask = "^1.1.2"
-holiday-jp = "^19.10.14"
 Markdown = "^3.2.2"
+flasgger = "^0.9.4"
+holiday-jp = "^19.10.14"
+jsonschema = "3.1.1"  # TODO: Remove this after upgrading Python.
 python = "^3.7"
 pytz = "^2020.1"
 uwsgi = "^2.0.19"
