@@ -26,15 +26,15 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
-    "react-hook-form": "^6.10.1",
+    "react-hook-form": "^6.11.3",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
-    "npm-check-updates": "^9.2.4",
+    "npm-check-updates": "^10.2.1",
     "prettier": "^2.1.2",
     "transcrypt-loader": "^1.0.2",
-    "webpack": "^5.4.0",
+    "webpack": "^5.5.1",
     "webpack-cli": "^4.2.0",
-    "webpack-merge": "^5.3.0"
+    "webpack-merge": "^5.4.0"
   }
 }
